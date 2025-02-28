@@ -1,6 +1,8 @@
-import { Box, Tooltip, Typography, Button } from "@mui/material";
+import { Box, Tooltip, Typography } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
-import "../../App.css";
+import { TradeBtn } from "../Buttons/Trade";
+import { EditBtn } from "../Buttons/Edit";
+import { CancelBtn } from "../Buttons/Cancel";
 
 export function BookingCounter() {
     return (
@@ -16,27 +18,10 @@ export function BookingCounter() {
                 <Typography>Reservations left: 3</Typography>
             </Box>
             <Box className="booking-counter-edit-cancel-btn">
-                <Button color="primary" size="small" variant="contained">
-                    Edit
-                </Button>
-                <Button color="secondary" size="small" variant="outlined">
-                    Cancel
-                </Button>
+                <EditBtn />
+                <CancelBtn />
             </Box>
-            <Box
-                className='booking-counter-trade-btn'
-            >
-                <Tooltip
-                    title="Here you can trade your time slot with another tenants"
-                    placement="top"
-                    color="info"
-                >
-                    <InfoIcon />
-                </Tooltip>
-                <Button color="success" size="small" variant="contained">
-                    Trade
-                </Button>
-            </Box>
+            <TradeBtn />
         </Box>
     );
 }
