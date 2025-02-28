@@ -7,3 +7,27 @@ body {
   margin: 0px;
   padding: 0px;
 }
+.booking-counter-mainBox {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 50px;
+  width: 100vw;
+  margin: 20px 0;
+}
+.booking-counter-resesrvation {
+  display: flex;
+  align-items: "center";
+  gap: 1;
+}
+.booking-counter-edit-cancel-btn {
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  width: 150px;
+}
+.booking-counter-trade-btn {
+  padding: 10px;
+  display: flex;
+  width: 150px;
+}
