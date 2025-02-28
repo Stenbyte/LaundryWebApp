@@ -4,7 +4,7 @@ import InfoIcon from "@mui/icons-material/Info";
 export function TradeBtn() {
     return (
         <Box
-            className='booking-counter-trade-btn'
+            className='booking-counter-trade-box'
         >
             <Tooltip
                 title="Here you can trade your time slot with another tenants"
@@ -13,7 +13,7 @@ export function TradeBtn() {
             >
                 <InfoIcon />
             </Tooltip>
-            <Button color="success" size="small" variant="contained">
+            <Button size="small" className="tradeBtn">
                 Trade
             </Button>
         </Box>

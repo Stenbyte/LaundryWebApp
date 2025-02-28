@@ -1,8 +1,10 @@
 import { Box, Tooltip, Typography } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
-import { TradeBtn } from "../Buttons/Trade";
-import { EditBtn } from "../Buttons/Edit";
-import { CancelBtn } from "../Buttons/Cancel";
+import { TradeBtn } from "../buttons/Trade";
+import { EditBtn } from "../buttons/Edit";
+import { CancelBtn } from "../buttons/Cancel";
+import { ReportBtn } from "../buttons/Report";
+import '../../App.css'
 
 export function BookingCounter() {
     return (
@@ -20,6 +22,7 @@ export function BookingCounter() {
             <Box className="booking-counter-edit-cancel-btn">
                 <EditBtn />
                 <CancelBtn />
+                <ReportBtn />
             </Box>
             <TradeBtn />
         </Box>

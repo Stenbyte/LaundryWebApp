@@ -55,7 +55,7 @@ export function BookingTable() {
                             {weekDays.map((day) => (
                                 <TableCell key={day} align="center">
                                     {isReserved(day, slot) ? (<Typography color="info">Booked</Typography>) : (
-                                        <Button variant="outlined" size="small" onClick={() => { }}>
+                                        <Button className="reserveBtn" size="small" onClick={() => { }}>
                                             Reserve
                                         </Button>
                                     )}

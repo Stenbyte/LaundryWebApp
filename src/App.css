@@ -24,10 +24,23 @@ body {
   padding: 10px;
   display: flex;
   justify-content: space-between;
-  width: 150px;
+  width: 250px;
 }
-.booking-counter-trade-btn {
+.booking-counter-trade-box {
   padding: 10px;
   display: flex;
   width: 150px;
+}
+.report-btn {
+  color: black;
+  background-color: grey;
+  padding: 20px;
+}
+.tradeBtn {
+  background-color: green !important;
+}
+.reserveBtn {
+  outline: solid !important;
+  color: rgb(118, 118, 175) !important;
+  background-color: whitesmoke !important;
 }
