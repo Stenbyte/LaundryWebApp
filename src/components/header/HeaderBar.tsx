@@ -2,6 +2,7 @@ import { Toolbar, Typography, IconButton, Badge, Button } from "@mui/material";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { JSX } from "react";
 import { MetaDataType } from "./Header";
+import { GenericButton } from "../buttons/GenericButton";
 
 export function HeaderBar({
   data,
@@ -23,14 +24,12 @@ export function HeaderBar({
           <NotificationsIcon />
         </Badge>
       </IconButton>
-
-      <Button
+      <GenericButton
         color="inherit"
         variant="outlined"
         onClick={() => setIsLoginOpen(true)}
-      >
-        Login
-      </Button>
+        children="Login"
+      />
     </Toolbar>
   );
 }
