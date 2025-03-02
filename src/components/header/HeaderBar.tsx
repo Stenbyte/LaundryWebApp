@@ -1,18 +1,18 @@
-import { Toolbar, Typography, IconButton, Badge, Button } from "@mui/material";
+import { Toolbar, Typography, IconButton, Badge } from "@mui/material";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { JSX } from "react";
 import { MetaDataType } from "./Header";
-import { GenericButton } from "../buttons/GenericButton";
+import { UserMenu } from "../user/ProfilePage";
 
 export function HeaderBar({
   data,
 }: {
   data: Pick<
     MetaDataType,
-    "notifications" | "setIsSidebarOpen" | "setIsLoginOpen"
+    "notifications" | "setIsSidebarOpen" | "setIsLogedIn"
   >;
 }): JSX.Element {
-  const { notifications, setIsSidebarOpen, setIsLoginOpen } = data;
+  const { notifications, setIsSidebarOpen } = data;
   return (
     <Toolbar>
       <Typography variant="h6" sx={{ flexGrow: 1 }}>
@@ -24,12 +24,7 @@ export function HeaderBar({
           <NotificationsIcon />
         </Badge>
       </IconButton>
-      <GenericButton
-        color="inherit"
-        variant="outlined"
-        onClick={() => setIsLoginOpen(true)}
-        children="Login"
-      />
+      <UserMenu />
     </Toolbar>
   );
 }
