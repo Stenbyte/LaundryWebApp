@@ -44,3 +44,7 @@ body {
   color: rgb(118, 118, 175) !important;
   background-color: whitesmoke !important;
 }
+.headerLoginBtn {
+  outline: solid !important;
+  margin-left: 10px !important;
+}
