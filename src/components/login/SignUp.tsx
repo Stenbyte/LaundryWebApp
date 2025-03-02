@@ -15,7 +15,11 @@ export function SignUp({
 }) {
   const { setIsSignupOpen, isSignupOpen } = data;
   return (
-    <Dialog open={isSignupOpen} onClose={() => setIsSignupOpen(false)}>
+    <Dialog
+      open={isSignupOpen}
+      onClose={() => setIsSignupOpen(false)}
+      hideBackdrop={true}
+    >
       <DialogTitle>Sign Up</DialogTitle>
       <DialogContent>
         <TextField fullWidth label="Email" margin="dense" />
@@ -27,7 +31,13 @@ export function SignUp({
         <Button onClick={() => setIsSignupOpen(false)} color="secondary">
           Cancel
         </Button>
-        <Button color="primary" variant="contained">
+        <Button
+          color="primary"
+          variant="contained"
+          onClick={() => {
+            setIsSignupOpen(false);
+          }}
+        >
           Sign Up
         </Button>
       </DialogActions>
