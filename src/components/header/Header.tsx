@@ -14,9 +14,17 @@ export type MetaDataType = {
   isSignupOpen: boolean;
   setIsLoginOpen: (open: boolean) => void;
   setIsSignupOpen: (open: boolean) => void;
+  setIsLogedIn: (val: boolean) => void;
+  isLogedIn: boolean;
 };
 
-export function Header() {
+export function Header({
+  setIsLogedIn,
+  isLogedIn,
+}: {
+  setIsLogedIn: (val: boolean) => void;
+  isLogedIn: boolean;
+}) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isSignupOpen, setIsSignupOpen] = useState(false);
@@ -34,6 +42,8 @@ export function Header() {
     isSignupOpen,
     setIsLoginOpen,
     setIsSignupOpen,
+    setIsLogedIn,
+    isLogedIn,
   };
 
   return (
