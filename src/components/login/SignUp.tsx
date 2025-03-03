@@ -29,17 +29,17 @@ const SubmitSchema = object().shape({
     )
     .required("Email is required"),
   password: string()
-    .matches(
-      /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-      "Password must be at least 8 characters long, include one uppercase letter, one lowercase letter, one number, and one special character"
-    )
+    // .matches(
+    //   /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+    //   "Password must be at least 8 characters long, include one uppercase letter, one lowercase letter, one number, and one special character"
+    // )
     .required("Password is required"),
   phone: string()
     .matches(/^\d{8,15}$/, "Invalid phone number")
     .required("Phone is required"),
-  streetAddress: string()
+  streetAdress: string()
     .min(5, "Address must be at least 5 characters")
-    .required("Street Address is required"),
+    .required("Street Adress is required"),
 });
 
 export function SignUp({ data }: SignUpProps) {
@@ -57,7 +57,7 @@ export function SignUp({ data }: SignUpProps) {
   const mutation = useMutation({
     mutationFn: async (formData: SignUpType) => {
       setIsLoading(true);
-      return axios.post("http://localhost:5063/signup", formData);
+      return axios.post("http://localhost:5063/api/signup", formData);
     },
     onSuccess: () => {
       alert("Sign-up successful!");
@@ -126,16 +126,16 @@ export function SignUp({ data }: SignUpProps) {
             )}
           />
           <Controller
-            name="streetAddress"
+            name="streetAdress"
             control={control}
             render={({ field }) => (
               <TextField
                 {...field}
-                label="Street Address"
+                label="Street Adress"
                 fullWidth
                 margin="dense"
-                error={!!errors.streetAddress}
-                helperText={errors.streetAddress?.message}
+                error={!!errors.streetAdress}
+                helperText={errors.streetAdress?.message}
               />
             )}
           />
