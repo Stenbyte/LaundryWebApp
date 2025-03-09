@@ -13,6 +13,7 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
+import { Config } from "../../../config";
 
 interface SignUpProps {
   data: {
@@ -91,7 +92,7 @@ export function SignUp({ data }: SignUpProps) {
   const mutation = useMutation({
     mutationFn: async (formData: SignUpType) => {
       setIsLoading(true);
-      return axios.post("http://localhost:5063/api/signup", formData);
+      return axios.post(`${Config.API_BASE_URL}/signup`, formData);
     },
     onSuccess: () => {
       toast("Sign-up successful!");
