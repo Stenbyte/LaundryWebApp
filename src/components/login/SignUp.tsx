@@ -87,6 +87,20 @@ export function SignUp({ data }: SignUpProps) {
     reset,
   } = useForm({
     resolver: yupResolver(SubmitSchema),
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      password: "",
+      adress: {
+        streetName: "",
+        houseNumber: "",
+      },
+      phoneNumber: {
+        countryCode: "",
+        number: "",
+      },
+      email: "",
+    },
   });
 
   const mutation = useMutation({
@@ -115,6 +129,7 @@ export function SignUp({ data }: SignUpProps) {
     <>
       <ToastContainer />
       <Dialog
+        disableEnforceFocus
         open={isSignupOpen}
         onClose={() => {
           reset(defaultSignUpValues);
