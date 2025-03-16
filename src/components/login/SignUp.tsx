@@ -26,7 +26,6 @@ const SubmitSchema = object().shape({
   firstName: string().required("First name is required"),
   lastName: string().required("Last name is required"),
   email: string()
-    .email("Invalid email")
     .matches(
       /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
       "Invalid email format"
@@ -127,7 +126,7 @@ export function SignUp({ data }: SignUpProps) {
 
   return (
     <>
-      <ToastContainer />
+      <ToastContainer closeOnClick={true} />
       <Dialog
         disableEnforceFocus
         open={isSignupOpen}
