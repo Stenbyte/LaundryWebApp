@@ -1,21 +1,20 @@
 import "./App.css";
 import { BookingTable } from "./components/bookingTable/BookingTable";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Header } from "./components/header/Header";
 import { ThemeProvider } from "@mui/material";
 import { theme } from "./theme";
 import { useState } from "react";
-
-const queryClient = new QueryClient();
+import { useAuth } from "./hooks/useAuth";
 
 function App() {
+  const { data: user, error } = useAuth();
+  // console.log(user, "USER data");
+  // console.log(error, "Here error");
   const [isLogedIn, setIsLogedIn] = useState(false);
   return (
     <ThemeProvider theme={theme}>
-      <QueryClientProvider client={queryClient}>
-        <Header setIsLogedIn={setIsLogedIn} isLogedIn={isLogedIn} />
-        {isLogedIn && <BookingTable />}
-      </QueryClientProvider>
+      <Header setIsLogedIn={setIsLogedIn} isLogedIn={isLogedIn} />
+      {user && <BookingTable />}
     </ThemeProvider>
   );
 }
