@@ -41,7 +41,7 @@ export const setupAxiosInterceptors = (
     async (error) => {
       const originalRequest = error.config;
 
-      if (error.response?.status === 401 && !originalRequest._retry) {
+      if (error.response?.status === 401 && !originalRequest?._retry) {
         originalRequest._retry = true;
         if (isRefreshing) {
           return new Promise((resolve) => {
@@ -57,13 +57,13 @@ export const setupAxiosInterceptors = (
         try {
           const response = await refreshMutation.mutateAsync();
           const accessToken = response.accessToken;
+          console.log("HEree");
           sessionStorage.setItem("access_token", accessToken);
           api.defaults.headers.Authorization = `Bearer ${accessToken}`;
           onRefreshed(accessToken);
           isRefreshing = false;
           return api(originalRequest);
         } catch (refreshError) {
-          console.error("Token refresh failed:", refreshError);
           queryClient.setQueryData(["auth"], null);
           isRefreshing = false;
           return Promise.reject(refreshError);
