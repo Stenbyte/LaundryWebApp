@@ -5,7 +5,10 @@ interface LoginPayload {
   email: string;
   password: string;
 }
-
+type LogOutPayload = Pick<LoginPayload, "email">;
+type LogOutResponse = {
+  message: string;
+}
 interface LoginResponse {
   token: string;
 }
@@ -14,6 +17,15 @@ const loginUser = async (payload: LoginPayload): Promise<LoginResponse> => {
   const response = await api.post<LoginResponse>("/auth/login", payload);
   return response.data;
 };
+
+const logOutUser = async (payload: LogOutPayload): Promise<LogOutResponse> => {
+  const response = await api.post<LogOutResponse>("/auth/logout", payload, {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  });
+  return response.data;
+}
 export const useLogin = () => {
   const queryClient = useQueryClient();
 
@@ -26,6 +38,18 @@ export const useLogin = () => {
   });
 };
 
+export const useLogOut = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation<LogOutResponse, Error, LogOutPayload>({
+    mutationFn: logOutUser,
+    onSuccess: () => {
+      sessionStorage.clear()
+      queryClient.setQueryData(["auth"], null);
+    },
+  });
+}
+
 export const useAuth = () => {
   return useQuery({
     queryKey: ["auth"],
@@ -33,7 +57,7 @@ export const useAuth = () => {
       const response = await api.get("/auth/userInfo");
       return response.data;
     },
-    retry: false,
+    retry: true,
     staleTime: 1000 * 60 * 5,
   });
 };
