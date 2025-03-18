@@ -1,11 +1,5 @@
 import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { Config } from "../../config";
-
-const api = axios.create({
-  baseURL: Config.API_BASE_URL,
-  withCredentials: true,
-});
+import api from "../services/AxiosConfig";
 
 interface LoginPayload {
   email: string;
@@ -27,9 +21,7 @@ export const useLogin = () => {
     mutationFn: loginUser,
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["auth"] });
-      console.log(data, "HERE data");
-      localStorage.setItem("accessToken", data.token);
-      api.defaults.headers.Authorization = `Bearer ${data.token}`;
+      sessionStorage.setItem("access_token", data.token);
     },
   });
 };
@@ -42,24 +34,29 @@ export const useAuth = () => {
       return response.data;
     },
     retry: false,
-    staleTime: 1000 * 60 * 5
+    staleTime: 1000 * 60 * 5,
   });
 };
+
+interface RefreshTokenResponse {
+  accessToken: string;
+}
 
 export const useRefreshToken = () => {
   const queryClient = useQueryClient();
 
-  return useMutation({
-    mutationFn: async () => {
-      const response = await api.post("/auth/refresh");
+  return useMutation<RefreshTokenResponse, Error>({
+    mutationFn: async (): Promise<RefreshTokenResponse> => {
+      const response = await api.post<RefreshTokenResponse>("/auth/refresh");
       return response.data;
     },
 
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["auth"] });
     },
-    onError: () => {
+    onError: (err) => {
       queryClient.setQueryData(["auth"], null);
+      return Promise.reject(err);
     },
   });
 };
