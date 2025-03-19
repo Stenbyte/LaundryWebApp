@@ -18,8 +18,10 @@ const loginUser = async (payload: LoginPayload): Promise<LoginResponse> => {
   return response.data;
 };
 
-const logOutUser = async (payload: LogOutPayload): Promise<LogOutResponse> => {
-  const response = await api.post<LogOutResponse>("/auth/logout", payload, {
+const logOutUser = async (email: LogOutPayload): Promise<LogOutResponse> => {
+  const response = await api.post<LogOutResponse>("/auth/logout", {
+    email
+  }, {
     headers: {
       "Content-Type": "application/json"
     }

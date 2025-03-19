@@ -14,7 +14,6 @@ export function UserMenu() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
   const { mutate } = useLogOut();
   const { data: user } = useAuth();
   return (
@@ -34,7 +33,12 @@ export function UserMenu() {
         }}
       >
         <MenuItem onClick={handleClose}>Profile</MenuItem>
-        <MenuItem onClick={async () => await mutate(user?.email)}>
+        <MenuItem
+          onClick={async () => {
+            await mutate(user?.email);
+            handleClose();
+          }}
+        >
           Logout
         </MenuItem>
       </Menu>
