@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Menu, MenuItem, IconButton, Box } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { useAuth, useLogOut } from "../../hooks/useAuth";
+import { useLogOut, UserData } from "../../hooks/useAuth";
 
-export function UserMenu() {
+export function UserMenu(user: UserData) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -15,10 +15,7 @@ export function UserMenu() {
     setAnchorEl(null);
   };
   const { mutate } = useLogOut();
-  const { data: user } = useAuth();
-  if (!user) {
-    return;
-  }
+
   return (
     <Box>
       <IconButton onClick={handleClick} color="inherit">
@@ -38,7 +35,7 @@ export function UserMenu() {
         <MenuItem onClick={handleClose}>Profile</MenuItem>
         <MenuItem
           onClick={async () => {
-            await mutate(user?.email);
+            await mutate(user);
             handleClose();
           }}
         >
