@@ -16,6 +16,9 @@ export function UserMenu() {
   };
   const { mutate } = useLogOut();
   const { data: user } = useAuth();
+  if (!user) {
+    return;
+  }
   return (
     <Box>
       <IconButton onClick={handleClick} color="inherit">
