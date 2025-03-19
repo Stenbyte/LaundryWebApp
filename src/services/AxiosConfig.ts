@@ -57,7 +57,6 @@ export const setupAxiosInterceptors = (
         try {
           const response = await refreshMutation.mutateAsync();
           const accessToken = response.accessToken;
-          console.log("HEree");
           sessionStorage.setItem("access_token", accessToken);
           api.defaults.headers.Authorization = `Bearer ${accessToken}`;
           onRefreshed(accessToken);
