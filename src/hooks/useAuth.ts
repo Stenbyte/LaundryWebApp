@@ -5,8 +5,14 @@ interface LoginPayload {
   email: string;
   password: string;
 }
-type LogOutPayload = Pick<LoginPayload, "email">;
-type LogOutResponse = {
+export interface UserData {
+  email: string,
+  userId: string
+}
+type LogOutPayload = Pick<LoginPayload, "email"> & {
+  userId?: string
+};
+interface LogOutResponse {
   message: string;
 }
 interface LoginResponse {
@@ -18,7 +24,8 @@ const loginUser = async (payload: LoginPayload): Promise<LoginResponse> => {
   return response.data;
 };
 
-const logOutUser = async (email: LogOutPayload): Promise<LogOutResponse> => {
+const logOutUser = async (data: LogOutPayload): Promise<LogOutResponse> => {
+  const email = data.email;
   const response = await api.post<LogOutResponse>("/auth/logout", {
     email
   }, {
@@ -55,7 +62,7 @@ export const useLogOut = () => {
 export const useAuth = () => {
   return useQuery({
     queryKey: ["auth"],
-    queryFn: async () => {
+    queryFn: async (): Promise<UserData> => {
       const response = await api.get("/auth/userInfo");
       return response.data;
     },
