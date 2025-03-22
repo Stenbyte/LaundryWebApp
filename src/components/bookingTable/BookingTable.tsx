@@ -8,9 +8,9 @@ import { toast, ToastContainer } from "react-toastify";
 
 const TIME_SLOTS = ["08:00-11:00", "11:00-14:00", "14:00-17:00", "17:00-20:00"];
 
-export interface ReserveSlot {
+export interface BookingSlot {
   day: string;
-  time: string;
+  timeSlots: string[];
 }
 
 export function BookingTable() {
@@ -31,16 +31,12 @@ export function BookingTable() {
     retry: 0,
   });
 
-  // need to check this loading
-  if (isLoading) {
-    toast("Fetching reservations");
+  if (isError) {
+    toast("Failed to fetch reservations");
   }
-  //   if (isError) {
-  //     // toast("Failed to fetch reservations");
-  //   }
 
   const mutation = useMutation({
-    mutationFn: ({ day, time }: ReserveSlot) => reserveSlot({ day, time }),
+    mutationFn: (slot: BookingSlot) => reserveSlot(slot),
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["bookings"] });
       console.log("Data", data);
@@ -50,11 +46,25 @@ export function BookingTable() {
     },
   });
 
-  const isReserved = ({ day, time }: ReserveSlot) => {
-    return bookings.some(
-      (booking: ReserveSlot) => booking.day === day && booking.time === time
-    );
+  const reserve = async (slot: BookingSlot) => {
+    try {
+      await mutation.mutateAsync(slot);
+    } catch (error) {
+      throw new Error(error as string);
+    }
   };
+
+  const isReserved = () => {
+    return false;
+    // return bookings.some(
+    //   (booking: BookingSlot) => booking.day === day && booking.time === time
+    // );
+  };
+
+  if (isLoading) {
+    // toast("Fetching reservations");
+    return <>Loading....</>;
+  }
   return (
     <div>
       <ToastContainer />
@@ -73,20 +83,19 @@ export function BookingTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {TIME_SLOTS.map((time) => (
-              <TableRow key={time}>
-                <TableCell>{time}</TableCell>
+            {TIME_SLOTS.map((timeSlots) => (
+              <TableRow key={timeSlots}>
+                <TableCell>{timeSlots}</TableCell>
                 {weekDays.map((day) => (
                   <TableCell key={day} align="center">
-                    {isReserved({ day, time }) ? (
+                    {isReserved() ? (
                       <Typography color="info">Booked</Typography>
                     ) : (
                       <Button
                         className="reserveBtn"
                         size="small"
                         onClick={() => {
-                          console.log("Reserving:", { day, time });
-                          mutation.mutate({ day, time } as ReserveSlot);
+                          reserve({ day, timeSlots: [timeSlots] });
                         }}
                       >
                         Reserve
