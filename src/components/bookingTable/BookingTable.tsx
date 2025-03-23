@@ -91,13 +91,11 @@ export function BookingTable() {
 
   const reserve = async (slot: BookingSlot) => {
     try {
-      // Before sending, check if it's already booked
-
       await mutation.mutateAsync(slot);
       toast.success("Booking successful!");
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
-      //   toast.error("Failed to reserve slot. Please try again.");
+      /* empty */
     }
   };
 
