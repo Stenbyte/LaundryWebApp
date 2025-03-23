@@ -9,7 +9,7 @@ export const fetchBookings = async (): Promise<Booking[]> => {
 };
 
 export const reserveSlot = async (slot: BookingSlot) => {
-
+  try {
   const { data } = await api.post(`${Config.API_BASE_URL}/booking/create`, {
     ...slot
   },
@@ -20,4 +20,12 @@ export const reserveSlot = async (slot: BookingSlot) => {
     }
   );
   return data;
+  } catch (error) {
+    if (error?.response?.data?.message === "You can not add new reservation") {
+      throw new Error("You can not add new reservation")
+    } else {
+      throw new Error("Failed to reserve slot. Please try again")
+    }
+  }
+
 };
