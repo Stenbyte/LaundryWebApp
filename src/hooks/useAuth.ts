@@ -62,14 +62,20 @@ export const useLogOut = () => {
 export const useAuth = () => {
   return useQuery({
     queryKey: ["auth"],
-    queryFn: async (): Promise<UserData> => {
-      const response = await api.get("/auth/userInfo");
-      return response.data;
+    queryFn: async (): Promise<UserData | null> => {
+      try {
+        const response = await api.get("/auth/userInfo");
+        return response.data;
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (err) {
+        throw new Error("User is not authenticated. Please log in");
+      }
     },
-    retry: true,
+    retry: 0,
     staleTime: 1000 * 60 * 5,
   });
 };
+
 
 interface RefreshTokenResponse {
   accessToken: string;
