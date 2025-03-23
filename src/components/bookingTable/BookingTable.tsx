@@ -1,17 +1,30 @@
-
-import { Button, Divider, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import {
+  Button,
+  Divider,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+} from "@mui/material";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
 import { fetchBookings, reserveSlot } from "../../services/BookingService";
 import { BookingCounter } from "./BookingCounter";
 import { toast, ToastContainer } from "react-toastify";
 
 const TIME_SLOTS = ["08:00-11:00", "11:00-14:00", "14:00-17:00", "17:00-20:00"];
 dayjs.extend(utc);
+dayjs.extend(timezone);
 export interface BookingSlot {
   day: string;
   timeSlots: string[];
+  booked?: boolean;
 }
 export interface Booking {
   userId: string;
@@ -27,23 +40,23 @@ export function BookingTable() {
   );
 
   const isTimeSlotInPast = (selectedDateUtc: string, timeSlot: string) => {
-    const [start, end] = timeSlot.split("-");
-    const [startHour, startMinute] = start.split(":").map(Number);
+    const nowLocal = dayjs();
+    const todayLocal = nowLocal.startOf("day");
+
+    const [, end] = timeSlot.split("-");
     const [endHour, endMinute] = end.split(":").map(Number);
 
-    const slotStart = dayjs
-      .utc(selectedDateUtc)
-      .hour(startHour)
-      .minute(startMinute)
-      .second(0);
+    const slotDateLocal = dayjs.utc(selectedDateUtc).local().startOf("day");
 
-    const slotEnd = dayjs
-      .utc(selectedDateUtc)
+    const slotEndLocal = slotDateLocal
       .hour(endHour)
       .minute(endMinute)
       .second(0);
 
-    return slotStart.isBefore(dayjs()) && slotEnd.isBefore(dayjs());
+    return (
+      slotDateLocal.isBefore(todayLocal) ||
+      (slotDateLocal.isSame(todayLocal) && slotEndLocal.isBefore(nowLocal))
+    );
   };
 
   const queryClient = useQueryClient();
@@ -64,34 +77,42 @@ export function BookingTable() {
 
   const mutation = useMutation({
     mutationFn: (slot: BookingSlot) => reserveSlot(slot),
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["bookings"] });
-      console.log("Data", data);
     },
     onError: (error) => {
-      console.log("Mutation failed", error);
+      if (error.message === "You can not add new reservation") {
+        toast.error(error.message);
+      } else {
+        toast.error(error.message);
+      }
     },
   });
 
   const reserve = async (slot: BookingSlot) => {
     try {
+      // Before sending, check if it's already booked
+
       await mutation.mutateAsync(slot);
+      toast.success("Booking successful!");
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
-      throw new Error(error as string);
+      //   toast.error("Failed to reserve slot. Please try again.");
     }
   };
 
   const isReserved = (day: string, time: string) => {
-    if (bookings) {
-      return bookings.some((booking) => {
-        return booking.slots.some((b) => {
-          return (
+    return (
+      bookings?.some((booking) =>
+        booking.slots.some(
+          (b) =>
             dayjs(b.day).format("YYYY-MM-DD") ===
-              dayjs(day).format("YYYY-MM-DD") && b.timeSlots[0] === time
-          );
-        });
-      });
-    }
+              dayjs(day).format("YYYY-MM-DD") &&
+            b.timeSlots.includes(time) &&
+            b.booked === true
+        )
+      ) ?? false
+    );
   };
 
   if (isLoading) {
