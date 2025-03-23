@@ -8,6 +8,7 @@ import { useAuth, useRefreshToken } from "./hooks/useAuth";
 import { setupAxiosInterceptors } from "./services/AxiosConfig";
 import { useQueryClient } from "@tanstack/react-query";
 
+
 function App() {
   const refreshMutation = useRefreshToken();
   const queryClient = useQueryClient();
@@ -15,9 +16,7 @@ function App() {
   useEffect(() => {
     setupAxiosInterceptors(queryClient, refreshMutation);
   }, [refreshMutation, queryClient]);
-  const { data: user, error } = useAuth();
-  // console.log(user, "USER data");
-  // console.log(error, "Here error");
+  const { data: user } = useAuth();
   const [isLogedIn, setIsLogedIn] = useState(false);
   return (
     <ThemeProvider theme={theme}>
