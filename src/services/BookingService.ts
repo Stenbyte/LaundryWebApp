@@ -1,9 +1,9 @@
 
 import { Config } from "../../config";
-import { BookingSlot } from "../components/bookingTable/BookingTable";
+import { Booking, BookingSlot } from "../components/bookingTable/BookingTable";
 import api from '../services/AxiosConfig';
 
-export const fetchBookings = async () => {
+export const fetchBookings = async (): Promise<Booking[]> => {
   const { data } = await api.get(`${Config.API_BASE_URL}/booking/getAll`);
   return data;
 };

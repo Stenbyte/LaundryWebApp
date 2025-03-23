@@ -2,27 +2,54 @@
 import { Button, Divider, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
 import { fetchBookings, reserveSlot } from "../../services/BookingService";
 import { BookingCounter } from "./BookingCounter";
 import { toast, ToastContainer } from "react-toastify";
 
 const TIME_SLOTS = ["08:00-11:00", "11:00-14:00", "14:00-17:00", "17:00-20:00"];
-
+dayjs.extend(utc);
 export interface BookingSlot {
   day: string;
   timeSlots: string[];
+}
+export interface Booking {
+  userId: string;
+  machineId: string;
+  slots: BookingSlot[];
+  reservationsLeft: number;
 }
 
 export function BookingTable() {
   const today = dayjs();
   const weekDays = Array.from({ length: 7 }, (_, i) =>
-    today.add(i, "day").format("YYYY-MM-DD")
+    today.add(i, "day").toISOString()
   );
+
+  const isTimeSlotInPast = (selectedDateUtc: string, timeSlot: string) => {
+    const [start, end] = timeSlot.split("-");
+    const [startHour, startMinute] = start.split(":").map(Number);
+    const [endHour, endMinute] = end.split(":").map(Number);
+
+    const slotStart = dayjs
+      .utc(selectedDateUtc)
+      .hour(startHour)
+      .minute(startMinute)
+      .second(0);
+
+    const slotEnd = dayjs
+      .utc(selectedDateUtc)
+      .hour(endHour)
+      .minute(endMinute)
+      .second(0);
+
+    return slotStart.isBefore(dayjs()) && slotEnd.isBefore(dayjs());
+  };
 
   const queryClient = useQueryClient();
 
   const {
-    data: bookings = [],
+    data: bookings,
     isLoading,
     isError,
   } = useQuery({
@@ -54,11 +81,17 @@ export function BookingTable() {
     }
   };
 
-  const isReserved = () => {
-    return false;
-    // return bookings.some(
-    //   (booking: BookingSlot) => booking.day === day && booking.time === time
-    // );
+  const isReserved = (day: string, time: string) => {
+    if (bookings) {
+      return bookings.some((booking) => {
+        return booking.slots.some((b) => {
+          return (
+            dayjs(b.day).format("YYYY-MM-DD") ===
+              dayjs(day).format("YYYY-MM-DD") && b.timeSlots[0] === time
+          );
+        });
+      });
+    }
   };
 
   if (isLoading) {
@@ -88,7 +121,9 @@ export function BookingTable() {
                 <TableCell>{timeSlots}</TableCell>
                 {weekDays.map((day) => (
                   <TableCell key={day} align="center">
-                    {isReserved() ? (
+                    {isTimeSlotInPast(day, timeSlots) ? (
+                      <Typography color="textSecondary">Expired</Typography>
+                    ) : isReserved(day, timeSlots) ? (
                       <Typography color="info">Booked</Typography>
                     ) : (
                       <Button
