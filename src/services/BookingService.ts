@@ -29,3 +29,26 @@ export const reserveSlot = async (slot: BookingSlot) => {
   }
 
 };
+
+export const editSlot = async (slot: BookingSlot) => {
+  console.log('hre')
+  try {
+    const { data } = await api.post(`${Config.API_BASE_URL}/booking/edit`, {
+      ...slot
+    },
+      {
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }
+    );
+    return data;
+  } catch (error) {
+    if (error?.response?.data?.message === "You can not add new reservation") {
+      throw new Error("You can not add new reservation")
+    } else {
+      throw new Error("Failed to remove slot.")
+    }
+  }
+
+};
