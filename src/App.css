@@ -48,3 +48,24 @@ body {
   outline: solid !important;
   margin-left: 10px !important;
 }
+.bookedSlot{
+  background-color: lightblue !important;
+  padding: 10px;
+  border-radius: 5px;
+  color: rgba(0, 0, 0, 0.35) !important;
+}
+.bookedEditSlot{
+  background-color: lightblue !important;
+  padding: 10px;
+  border-radius: 5px;
+  color: rgb(0, 0, 0) !important;
+}
+.expiredSlot{
+  background-color: lightgray;
+  width: 50%;
+  padding: 10px;
+  border-radius: 5px;
+}
+.bookingTable{ 
+  margin-top: 80px;
+}
