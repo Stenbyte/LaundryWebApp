@@ -19,7 +19,7 @@ import {
   fetchBookings,
   reserveSlot,
 } from "../../services/BookingService";
-import { BookingHeader } from "./BookingCounter";
+import { BookingHeader } from "./BookingHeader";
 import { toast, ToastContainer } from "react-toastify";
 import { useState } from "react";
 
