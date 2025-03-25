@@ -14,9 +14,14 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
-import { fetchBookings, reserveSlot } from "../../services/BookingService";
-import { BookingCounter } from "./BookingCounter";
+import {
+  editSlot,
+  fetchBookings,
+  reserveSlot,
+} from "../../services/BookingService";
+import { BookingHeader } from "./BookingCounter";
 import { toast, ToastContainer } from "react-toastify";
+import { useState } from "react";
 
 const TIME_SLOTS = ["08:00-11:00", "11:00-14:00", "14:00-17:00", "17:00-20:00"];
 dayjs.extend(utc);
@@ -34,6 +39,8 @@ export interface Booking {
 }
 
 export function BookingTable() {
+  const [disabledBtn, setDisabledBtn] = useState(true);
+  const [isEditSlot, setIsEditSlot] = useState(false);
   const today = dayjs();
   const weekDays = Array.from({ length: 7 }, (_, i) =>
     today.add(i, "day").toISOString()
@@ -75,8 +82,12 @@ export function BookingTable() {
     toast("Failed to fetch reservations");
   }
 
+  const mutationFunction = (slot: BookingSlot) => {
+    return isEditSlot ? editSlot(slot) : reserveSlot(slot);
+  };
+
   const mutation = useMutation({
-    mutationFn: (slot: BookingSlot) => reserveSlot(slot),
+    mutationFn: mutationFunction,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["bookings"] });
     },
@@ -92,7 +103,10 @@ export function BookingTable() {
   const reserve = async (slot: BookingSlot) => {
     try {
       await mutation.mutateAsync(slot);
-      toast.success("Booking successful!");
+      toast.success(
+        `${isEditSlot ? "Edit successful!" : "Booking successful!"}`
+      );
+      setDisabledBtn(true);
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       /* empty */
@@ -114,13 +128,12 @@ export function BookingTable() {
   };
 
   if (isLoading) {
-    // toast("Fetching reservations");
     return <>Loading....</>;
   }
   return (
-    <div>
+    <div className="bookingTable">
       <ToastContainer />
-      <BookingCounter />
+      <BookingHeader data={{ setDisabledBtn, setIsEditSlot }} />
       <Divider />
       <TableContainer component={Paper}>
         <Table>
@@ -141,9 +154,17 @@ export function BookingTable() {
                 {weekDays.map((day) => (
                   <TableCell key={day} align="center">
                     {isTimeSlotInPast(day, timeSlots) ? (
-                      <Typography color="textSecondary">Expired</Typography>
+                      <Typography className="expiredSlot">Expired</Typography>
                     ) : isReserved(day, timeSlots) ? (
-                      <Typography color="info">Booked</Typography>
+                      <Button
+                        className={`${
+                          disabledBtn ? "bookedSlot" : "bookedEditSlot"
+                        }`}
+                        disabled={disabledBtn}
+                        onClick={() => reserve({ day, timeSlots: [timeSlots] })}
+                      >
+                        Booked
+                      </Button>
                     ) : (
                       <Button
                         className="reserveBtn"
