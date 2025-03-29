@@ -1,6 +1,6 @@
 
 import { Config } from "../../config";
-import { Booking, BookingSlot } from "../components/bookingTable/BookingTable";
+import { Booking, BookingSlot, EditSlotId } from "../components/bookingTable/BookingTable";
 import api from '../services/AxiosConfig';
 
 export const fetchBookings = async (): Promise<Booking[]> => {
@@ -8,10 +8,10 @@ export const fetchBookings = async (): Promise<Booking[]> => {
   return data;
 };
 
-export const reserveSlot = async (slot: BookingSlot) => {
+export const reserveSlot = async (args: BookingSlot | EditSlotId) => {
   try {
   const { data } = await api.post(`${Config.API_BASE_URL}/booking/create`, {
-    ...slot
+    ...args
   },
     {
       headers: {
@@ -30,11 +30,10 @@ export const reserveSlot = async (slot: BookingSlot) => {
 
 };
 
-export const editSlot = async (slot: BookingSlot) => {
-  console.log('hre')
+export const editSlot = async (args: BookingSlot | EditSlotId) => { 
   try {
     const { data } = await api.post(`${Config.API_BASE_URL}/booking/edit`, {
-      ...slot
+      ...args
     },
       {
         headers: {

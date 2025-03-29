@@ -30,12 +30,17 @@ export interface BookingSlot {
   day: string;
   timeSlots: string[];
   booked?: boolean;
+  id?: string;
 }
 export interface Booking {
   userId: string;
   machineId: string;
   slots: BookingSlot[];
   reservationsLeft: number;
+  id?: string;
+}
+export interface EditSlotId {
+  id: string | undefined;
 }
 
 export function BookingTable() {
@@ -82,8 +87,8 @@ export function BookingTable() {
     toast("Failed to fetch reservations");
   }
 
-  const mutationFunction = (slot: BookingSlot) => {
-    return isEditSlot ? editSlot(slot) : reserveSlot(slot);
+  const mutationFunction = (args: BookingSlot | EditSlotId) => {
+    return isEditSlot ? editSlot(args) : reserveSlot(args);
   };
 
   const mutation = useMutation({
@@ -100,9 +105,9 @@ export function BookingTable() {
     },
   });
 
-  const reserve = async (slot: BookingSlot) => {
+  const reserve = async (args: BookingSlot | EditSlotId) => {
     try {
-      await mutation.mutateAsync(slot);
+      await mutation.mutateAsync(args);
       toast.success(
         `${isEditSlot ? "Edit successful!" : "Booking successful!"}`
       );
@@ -113,18 +118,20 @@ export function BookingTable() {
     }
   };
 
-  const isReserved = (day: string, time: string) => {
-    return (
-      bookings?.some((booking) =>
-        booking.slots.some(
-          (b) =>
-            dayjs(b.day).format("YYYY-MM-DD") ===
-              dayjs(day).format("YYYY-MM-DD") &&
-            b.timeSlots.includes(time) &&
-            b.booked === true
-        )
-      ) ?? false
-    );
+  const getReservedSlot = (day: string, time: string) => {
+    for (const booking of bookings || []) {
+      for (const slot of booking.slots) {
+        if (
+          dayjs(slot.day).format("YYYY-MM-DD") ===
+            dayjs(day).format("YYYY-MM-DD") &&
+          slot.timeSlots.includes(time) &&
+          slot.booked
+        ) {
+          return { isBooked: slot.booked, slotId: slot.id };
+        }
+      }
+    }
+    return { isBooked: false, slotId: undefined };
   };
 
   if (isLoading) {
@@ -151,33 +158,38 @@ export function BookingTable() {
             {TIME_SLOTS.map((timeSlots) => (
               <TableRow key={timeSlots}>
                 <TableCell>{timeSlots}</TableCell>
-                {weekDays.map((day) => (
-                  <TableCell key={day} align="center">
-                    {isTimeSlotInPast(day, timeSlots) ? (
-                      <Typography className="expiredSlot">Expired</Typography>
-                    ) : isReserved(day, timeSlots) ? (
-                      <Button
-                        className={`${
-                          disabledBtn ? "bookedSlot" : "bookedEditSlot"
-                        }`}
-                        disabled={disabledBtn}
-                        onClick={() => reserve({ day, timeSlots: [timeSlots] })}
-                      >
-                        Booked
-                      </Button>
-                    ) : (
-                      <Button
-                        className="reserveBtn"
-                        size="small"
-                        onClick={() => {
-                          reserve({ day, timeSlots: [timeSlots] });
-                        }}
-                      >
-                        Reserve
-                      </Button>
-                    )}
-                  </TableCell>
-                ))}
+                {weekDays.map((day) => {
+                  const { isBooked, slotId } = getReservedSlot(day, timeSlots);
+                  return (
+                    <TableCell key={day} align="center">
+                      {isTimeSlotInPast(day, timeSlots) ? (
+                        <Typography className="expiredSlot">Expired</Typography>
+                      ) : isBooked ? (
+                        <Button
+                          className={`${
+                            disabledBtn ? "bookedSlot" : "bookedEditSlot"
+                          }`}
+                          disabled={disabledBtn}
+                          onClick={() => {
+                            reserve({ id: slotId });
+                          }}
+                        >
+                          Booked
+                        </Button>
+                      ) : (
+                        <Button
+                          className="reserveBtn"
+                          size="small"
+                          onClick={() => {
+                            reserve({ day, timeSlots: [timeSlots] });
+                          }}
+                        >
+                          Reserve
+                        </Button>
+                      )}
+                    </TableCell>
+                  );
+                })}
               </TableRow>
             ))}
           </TableBody>
