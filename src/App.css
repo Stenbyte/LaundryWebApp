@@ -62,7 +62,6 @@ body {
 }
 .expiredSlot{
   background-color: lightgray;
-  width: 50%;
   padding: 10px;
   border-radius: 5px;
 }
