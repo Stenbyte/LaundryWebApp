@@ -5,6 +5,7 @@ import { EditBtn } from "../buttons/Edit";
 import { CancelBtn } from "../buttons/Cancel";
 import { ReportBtn } from "../buttons/Report";
 import "../../App.css";
+import { Booking } from "./BookingTable";
 
 export function BookingHeader({
   data,
@@ -12,6 +13,8 @@ export function BookingHeader({
   data: {
     setDisabledBtn: React.Dispatch<React.SetStateAction<boolean>>;
     setIsEditSlot: React.Dispatch<React.SetStateAction<boolean>>;
+    isEditSlot: boolean;
+    bookings: Booking[] | undefined;
   };
 }) {
   return (
