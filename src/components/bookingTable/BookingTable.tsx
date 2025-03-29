@@ -111,7 +111,9 @@ export function BookingTable() {
       toast.success(
         `${isEditSlot ? "Edit successful!" : "Booking successful!"}`
       );
-      setDisabledBtn(true);
+      if (!isEditSlot) {
+        setDisabledBtn(true);
+      }
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       /* empty */
@@ -140,7 +142,9 @@ export function BookingTable() {
   return (
     <div className="bookingTable">
       <ToastContainer />
-      <BookingHeader data={{ setDisabledBtn, setIsEditSlot }} />
+      <BookingHeader
+        data={{ setDisabledBtn, setIsEditSlot, isEditSlot, bookings }}
+      />
       <Divider />
       <TableContainer component={Paper}>
         <Table>
