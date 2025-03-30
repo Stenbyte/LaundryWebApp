@@ -185,7 +185,10 @@ export function BookingTable() {
                           className="reserveBtn"
                           size="small"
                           onClick={() => {
-                            reserve({ day, timeSlots: [timeSlots] });
+                            if (!isBooked) {
+                              setIsEditSlot(false);
+                              reserve({ day, timeSlots: [timeSlots] });
+                            }
                           }}
                         >
                           Reserve
