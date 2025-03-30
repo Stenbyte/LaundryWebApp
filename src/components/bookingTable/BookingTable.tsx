@@ -87,12 +87,29 @@ export function BookingTable() {
     toast("Failed to fetch reservations");
   }
 
-  const mutationFunction = (args: BookingSlot | EditSlotId) => {
-    return isEditSlot ? editSlot(args) : reserveSlot(args);
+  const mutationFunction = (args: BookingSlot) => {
+    return reserveSlot(args);
+  };
+  const editMutationFunction = (args: EditSlotId) => {
+    return editSlot(args);
   };
 
   const mutation = useMutation({
     mutationFn: mutationFunction,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["bookings"] });
+      setDisabledBtn(true);
+    },
+    onError: (error) => {
+      if (error.message === "You can not add new reservation") {
+        toast.error(error.message);
+      } else {
+        toast.error(error.message);
+      }
+    },
+  });
+  const editMutation = useMutation({
+    mutationFn: editMutationFunction,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["bookings"] });
     },
@@ -105,15 +122,22 @@ export function BookingTable() {
     },
   });
 
-  const reserve = async (args: BookingSlot | EditSlotId) => {
+  const reserve = async (args: BookingSlot) => {
     try {
       await mutation.mutateAsync(args);
-      toast.success(
-        `${isEditSlot ? "Edit successful!" : "Booking successful!"}`
-      );
-      if (!isEditSlot) {
-        setDisabledBtn(true);
-      }
+      toast.success("Booking successful!");
+
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+      /* empty */
+    }
+  };
+
+  const edit = async (args: EditSlotId) => {
+    try {
+      await editMutation.mutateAsync(args);
+      toast.success("Edit successful!");
+
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       /* empty */
@@ -175,7 +199,7 @@ export function BookingTable() {
                           }`}
                           disabled={disabledBtn}
                           onClick={() => {
-                            reserve({ id: slotId });
+                            edit({ id: slotId });
                           }}
                         >
                           Booked
