@@ -15,6 +15,7 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import {
+  cancelAllBookings,
   editSlot,
   fetchBookings,
   reserveSlot,
@@ -47,6 +48,7 @@ export interface EditSlotId {
 export function BookingTable({ user }: { user: UserData | null | undefined }) {
   const [disabledBtn, setDisabledBtn] = useState(true);
   const [isEditSlot, setIsEditSlot] = useState(false);
+
   const today = dayjs();
   const weekDays = Array.from({ length: 7 }, (_, i) =>
     today.add(i, "day").toISOString()
@@ -95,6 +97,10 @@ export function BookingTable({ user }: { user: UserData | null | undefined }) {
     return editSlot(args);
   };
 
+  const cancelMutationFunction = () => {
+    return cancelAllBookings();
+  };
+
   const mutation = useMutation({
     mutationFn: mutationFunction,
     onSuccess: () => {
@@ -111,6 +117,19 @@ export function BookingTable({ user }: { user: UserData | null | undefined }) {
   });
   const editMutation = useMutation({
     mutationFn: editMutationFunction,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["bookings"] });
+    },
+    onError: (error) => {
+      if (error.message === "You can not edit reservation") {
+        toast.error(error.message);
+      } else {
+        toast.error(error.message);
+      }
+    },
+  });
+  const cancelMutation = useMutation({
+    mutationFn: cancelMutationFunction,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["bookings"] });
     },
@@ -144,6 +163,15 @@ export function BookingTable({ user }: { user: UserData | null | undefined }) {
       /* empty */
     }
   };
+  const cancelBookings = async () => {
+    try {
+      await cancelMutation.mutateAsync();
+      toast.success("Canceled bookings successfully!");
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+      /* empty */
+    }
+  };
 
   const getReservedSlot = (day: string, time: string) => {
     for (const booking of bookings || []) {
@@ -168,7 +196,14 @@ export function BookingTable({ user }: { user: UserData | null | undefined }) {
     <div className="bookingTable">
       <ToastContainer />
       <BookingHeader
-        data={{ setDisabledBtn, setIsEditSlot, isEditSlot, bookings, user }}
+        data={{
+          setDisabledBtn,
+          setIsEditSlot,
+          isEditSlot,
+          bookings,
+          user,
+          cancelBookings,
+        }}
       />
       <Divider />
       <TableContainer component={Paper}>

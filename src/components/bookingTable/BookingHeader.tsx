@@ -14,6 +14,7 @@ export function BookingHeader({
   data: {
     setDisabledBtn: React.Dispatch<React.SetStateAction<boolean>>;
     setIsEditSlot: React.Dispatch<React.SetStateAction<boolean>>;
+    cancelBookings: () => Promise<void>;
     isEditSlot: boolean;
     bookings: Booking[] | undefined;
     user: UserData | null | undefined;
@@ -23,6 +24,15 @@ export function BookingHeader({
     (booking) => booking.userId === data.user?.userId
   )?.reservationsLeft;
 
+  const disabledBtnIfNoBookings =
+    data.bookings?.some((booking) =>
+      booking.slots.some((slot) => slot.booked === true)
+    ) ?? false;
+
+  const extendedData = {
+    ...data,
+    disabledBtnIfNoBookings,
+  };
   return (
     <Box className="booking-counter-mainBox">
       <Box className="booking-counter-resesrvation">
@@ -36,8 +46,8 @@ export function BookingHeader({
         <Typography>Reservations left: {reservationCount}</Typography>
       </Box>
       <Box className="booking-counter-edit-cancel-btn">
-        <EditBtn props={data} />
-        <CancelBtn />
+        <EditBtn {...extendedData} />
+        <CancelBtn {...extendedData} />
         <ReportBtn />
       </Box>
       <TradeBtn />
