@@ -194,7 +194,7 @@ export function BookingTable({ user }: { user: UserData | null | undefined }) {
   }
   return (
     <div className="bookingTable">
-      <ToastContainer />
+      <ToastContainer limit={2} newestOnTop={true} autoClose={300} />
       <BookingHeader
         data={{
           setDisabledBtn,
