@@ -6,6 +6,7 @@ import { CancelBtn } from "../buttons/Cancel";
 import { ReportBtn } from "../buttons/Report";
 import "../../App.css";
 import { Booking } from "./BookingTable";
+import { UserData } from "../../hooks/useAuth";
 
 export function BookingHeader({
   data,
@@ -15,8 +16,13 @@ export function BookingHeader({
     setIsEditSlot: React.Dispatch<React.SetStateAction<boolean>>;
     isEditSlot: boolean;
     bookings: Booking[] | undefined;
+    user: UserData | null | undefined;
   };
 }) {
+  const reservationCount = data.bookings?.find(
+    (booking) => booking.userId === data.user?.userId
+  )?.reservationsLeft;
+
   return (
     <Box className="booking-counter-mainBox">
       <Box className="booking-counter-resesrvation">
@@ -27,7 +33,7 @@ export function BookingHeader({
         >
           <InfoIcon />
         </Tooltip>
-        <Typography>Reservations left: 3</Typography>
+        <Typography>Reservations left: {reservationCount}</Typography>
       </Box>
       <Box className="booking-counter-edit-cancel-btn">
         <EditBtn props={data} />

@@ -5,7 +5,7 @@ import { HeaderBar } from "./HeaderBar";
 import { NotificationsDrawer } from "./NotificationsDrawer";
 import { Login } from "../login/Login";
 import { SignUp } from "../login/SignUp";
-import { useAuth } from "../../hooks/useAuth";
+import { UserData } from "../../hooks/useAuth";
 
 export type MetaDataType = {
   notifications: string[];
@@ -22,11 +22,12 @@ export type MetaDataType = {
 export function Header({
   setIsLogedIn,
   isLogedIn,
+  user,
 }: {
   setIsLogedIn: (val: boolean) => void;
   isLogedIn: boolean;
+  user: UserData | null | undefined;
 }) {
-  const { data: user } = useAuth();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isSignupOpen, setIsSignupOpen] = useState(false);

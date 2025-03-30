@@ -20,8 +20,8 @@ function App() {
   const [isLogedIn, setIsLogedIn] = useState(false);
   return (
     <ThemeProvider theme={theme}>
-      <Header setIsLogedIn={setIsLogedIn} isLogedIn={isLogedIn} />
-      {user && <BookingTable />}
+      <Header setIsLogedIn={setIsLogedIn} isLogedIn={isLogedIn} user={user} />
+      {user && <BookingTable user={user} />}
     </ThemeProvider>
   );
 }

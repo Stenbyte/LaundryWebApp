@@ -22,6 +22,7 @@ import {
 import { BookingHeader } from "./BookingHeader";
 import { toast, ToastContainer } from "react-toastify";
 import { useState } from "react";
+import { UserData } from "../../hooks/useAuth";
 
 const TIME_SLOTS = ["08:00-11:00", "11:00-14:00", "14:00-17:00", "17:00-20:00"];
 dayjs.extend(utc);
@@ -43,7 +44,7 @@ export interface EditSlotId {
   id: string | undefined;
 }
 
-export function BookingTable() {
+export function BookingTable({ user }: { user: UserData | null | undefined }) {
   const [disabledBtn, setDisabledBtn] = useState(true);
   const [isEditSlot, setIsEditSlot] = useState(false);
   const today = dayjs();
@@ -167,7 +168,7 @@ export function BookingTable() {
     <div className="bookingTable">
       <ToastContainer />
       <BookingHeader
-        data={{ setDisabledBtn, setIsEditSlot, isEditSlot, bookings }}
+        data={{ setDisabledBtn, setIsEditSlot, isEditSlot, bookings, user }}
       />
       <Divider />
       <TableContainer component={Paper}>
