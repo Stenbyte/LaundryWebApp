@@ -10,16 +10,16 @@ export const fetchBookings = async (): Promise<Booking[]> => {
 
 export const reserveSlot = async (args: BookingSlot | EditSlotId) => {
   try {
-  const { data } = await api.post(`${Config.API_BASE_URL}/booking/create`, {
-    ...args
-  },
-    {
-      headers: {
-        "Content-Type": "application/json"
+    const { data } = await api.post(`${Config.API_BASE_URL}/booking/create`, {
+      ...args
+    },
+      {
+        headers: {
+          "Content-Type": "application/json"
+        }
       }
-    }
-  );
-  return data;
+    );
+    return data;
   } catch (error) {
     if (error?.response?.data?.message === "You can not add new reservation") {
       throw new Error("You can not add new reservation")
@@ -27,10 +27,9 @@ export const reserveSlot = async (args: BookingSlot | EditSlotId) => {
       throw new Error("Failed to reserve slot. Please try again")
     }
   }
-
 };
 
-export const editSlot = async (args: BookingSlot | EditSlotId) => { 
+export const editSlot = async (args: BookingSlot | EditSlotId) => {
   try {
     const { data } = await api.post(`${Config.API_BASE_URL}/booking/edit`, {
       ...args
@@ -49,5 +48,23 @@ export const editSlot = async (args: BookingSlot | EditSlotId) => {
       throw new Error("Failed to remove slot.")
     }
   }
+};
 
+export const cancelAllBookings = async () => {
+  try {
+    const { data } = await api.post(`${Config.API_BASE_URL}/booking/cancel`,
+      {
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }
+    );
+    return data;
+  } catch (error) {
+    if (error?.response?.data?.message === "You can not add new reservation") {
+      throw new Error("You can not add new reservation")
+    } else {
+      throw new Error("Failed to remove slot.")
+    }
+  }
 };
