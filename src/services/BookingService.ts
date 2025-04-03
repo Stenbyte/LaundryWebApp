@@ -1,4 +1,5 @@
 
+import { AxiosError } from "axios";
 import { Config } from "../../config";
 import { Booking, BookingSlot, EditSlotId } from "../components/bookingTable/BookingTable";
 import api from '../services/AxiosConfig';
@@ -20,12 +21,16 @@ export const reserveSlot = async (args: BookingSlot | EditSlotId) => {
       }
     );
     return data;
-  } catch (error) {
-    if (error?.response?.data?.message === "You can not add new reservation") {
-      throw new Error("You can not add new reservation")
-    } else {
-      throw new Error("Failed to reserve slot. Please try again")
+  } catch (error: unknown) {
+    if (error instanceof AxiosError) {
+      const errorMessage = error.response?.data?.message;
+
+      if (errorMessage === "You can not add new reservation") {
+        throw new Error("You can not add new reservation");
+      }
     }
+
+    throw new Error("Failed to reserve slot. Please try again");
   }
 };
 
@@ -41,12 +46,15 @@ export const editSlot = async (args: BookingSlot | EditSlotId) => {
       }
     );
     return data;
-  } catch (error) {
-    if (error?.response?.data?.message === "You can not add new reservation") {
-      throw new Error("You can not add new reservation")
-    } else {
-      throw new Error("Failed to remove slot.")
+  } catch (error: unknown) {
+    if (error instanceof AxiosError) {
+      const errorMessage = error.response?.data?.message;
+
+      if (errorMessage === "You can not add new reservation") {
+        throw new Error("You can not add new reservation")
+      }
     }
+    throw new Error("Failed to remove slot.")
   }
 };
 
@@ -61,10 +69,12 @@ export const cancelAllBookings = async () => {
     );
     return data;
   } catch (error) {
-    if (error?.response?.data?.message === "You can not add new reservation") {
-      throw new Error("You can not add new reservation")
-    } else {
-      throw new Error("Failed to remove slot.")
+    if (error instanceof AxiosError) {
+      const errorMessage = error.response?.data?.message;
+      if (errorMessage === "You can not add new reservation") {
+        throw new Error("You can not add new reservation")
+      }
     }
+    throw new Error("Failed to remove slot.")
   }
 };
