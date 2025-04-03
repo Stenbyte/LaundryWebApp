@@ -1,9 +1,9 @@
 import { Box, Tooltip, Typography } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
-import { TradeBtn } from "../buttons/Trade";
-import { EditBtn } from "../buttons/Edit";
-import { CancelBtn } from "../buttons/Cancel";
-import { ReportBtn } from "../buttons/Report";
+import { TradeBtn } from "../buttons/Trade.tsx";
+import { EditBtn } from "../buttons/Edit.tsx";
+import { CancelBtn } from "../buttons/Cancel.tsx";
+import { ReportBtn } from "../buttons/Report.tsx";
 import "../../App.css";
 import { Booking } from "./BookingTable";
 import { UserData } from "../../hooks/useAuth";
