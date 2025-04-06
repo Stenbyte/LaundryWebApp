@@ -1,34 +1,21 @@
 {
   "compilerOptions": {
-    "sourceMap": true,
-    "outDir": "dist",
-    "strict": true,
-    "lib": [
-      "esnext",
-      "DOM"
-    ],            // All compiled .js files go here
-    "rootDir": ".", 
-    "esModuleInterop": true,
     "target": "es5",
-    "allowJs": true,
+    "module": "esnext",
+    "lib": ["esnext", "DOM"],
+    "jsx": "preserve",
+    "strict": true,
+    "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
-    "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
+    "allowJs": true,
+    "allowImportingTsExtensions": true,
     "isolatedModules": true,
-    "jsx": "preserve",
-    "incremental": true
+    "incremental": true,
+    "noEmit": true
   },
-  "include": [
-    "vite.config.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "**/**/*.ts",
-    "**/**/*.tsx"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["vite.config.ts", "src"],
+  "exclude": ["node_modules"]
 }

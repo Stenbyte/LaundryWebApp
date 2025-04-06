@@ -1,3 +1,4 @@
+/// <reference types="react" />
 import { Box, Tooltip, Typography } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
 import { TradeBtn } from "../buttons/Trade";
