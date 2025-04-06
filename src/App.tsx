@@ -9,7 +9,7 @@ import { setupAxiosInterceptors } from "./services/AxiosConfig";
 import { useQueryClient } from "@tanstack/react-query";
 
 
-function App() {
+export function App() {
   const refreshMutation = useRefreshToken();
   const queryClient = useQueryClient();
 
@@ -26,4 +26,3 @@ function App() {
   );
 }
 
-export default App;
