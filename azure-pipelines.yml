@@ -10,11 +10,50 @@ steps:
 - task: NodeTool@0
   inputs:
     versionSpec: '18.x'
+  displayName: 'Install Node.js'
+
+
+- script: |
+    echo "Node version:"
+    node --version
+    echo "NPM version:"
+    npm --version
+  displayName: 'Check Node and NPM versions'
+
+
+- script: |
+    echo "Project Directory Structure:"
+    ls -R .
+  displayName: 'List project files'
+
 
 - script: |
     npm install
-    npm run build
-  displayName: 'Install dependencies and build the project'
+  displayName: 'Install dependencies'
+
+
+- script: |
+    echo "Installed node_modules:"
+    ls node_modules
+  displayName: 'List Installed Dependencies'
+
+
+- script: |
+    echo "Running TypeScript Compilation (No Emit)"
+    npx tsc --noEmit --pretty --diagnostics
+  displayName: 'Run TypeScript diagnostics'
+
+
+- script: |
+    npm run build -- --verbose
+  displayName: 'Build the project with verbose logging'
+
+
+- script: |
+    echo "Checking build output in dist/ folder:"
+    ls -R dist
+  displayName: 'List build output directory'
+
 
 - task: AzureStaticWebApp@0
   inputs:
