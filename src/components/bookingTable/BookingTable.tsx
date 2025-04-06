@@ -46,6 +46,7 @@ export interface EditSlotId {
 }
 
 export function BookingTable({ user }: { user: UserData | null | undefined }) {
+  // build failing check
   const [disabledBtn, setDisabledBtn] = useState(true);
   const [isEditSlot, setIsEditSlot] = useState(false);
 
