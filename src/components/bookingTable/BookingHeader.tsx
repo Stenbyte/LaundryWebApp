@@ -1,10 +1,10 @@
 /// <reference types="react" />
 import { Box, Tooltip, Typography } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
-import { TradeBtn } from "../buttons/Trade";
-import { EditBtn } from "../buttons/Edit";
-import { CancelBtn } from "../buttons/Cancel";
-import { ReportBtn } from "../buttons/Report";
+import { TradeBtn } from "../Buttons/Trade";
+import { EditBtn } from "../Buttons/Edit";
+import { CancelBtn } from "../Buttons/Cancel";
+import { ReportBtn } from "../Buttons/Report";
 import "../../App.css";
 import { Booking } from "./BookingTable";
 import { UserData } from "../../hooks/useAuth";

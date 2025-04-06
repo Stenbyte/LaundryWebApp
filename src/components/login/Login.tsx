@@ -8,7 +8,7 @@ import {
   DialogActions,
 } from "@mui/material";
 import { MetaDataType } from "../header/Header";
-import { GenericButton } from "../buttons/GenericButton";
+import { GenericButton } from "../Buttons/GenericButton";
 import { useState } from "react";
 import { useLogin } from "../../hooks/useAuth";
 import { ToastContainer, toast } from "react-toastify";
