@@ -57,7 +57,7 @@ steps:
 
 - task: AzureStaticWebApp@0
   inputs:
-    azure_static_web_apps_api_token: "60bd1c3bde3eb009f0cd3ea674a42b7b8438b623c219d8e2b5a485f9671cfd4606-d47ba54f-6a68-4c37-a282-e313c675cea701021300ba878c10"
+    azure_static_web_apps_api_token: $(AZURE_STATIC_WEB_APPS_API_TOKEN)
     app_location: '/'
     output_location: 'dist'
     api_location: ''
