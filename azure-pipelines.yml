@@ -45,8 +45,8 @@ steps:
 
 
 - script: |
-    npm run build -- --verbose
-  displayName: 'Build the project with verbose logging'
+    npm run build
+  displayName: 'Build the project'
 
 
 - script: |
