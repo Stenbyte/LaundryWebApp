@@ -54,6 +54,9 @@ steps:
     ls -R dist
   displayName: 'List build output directory'
 
+- script: |
+    echo "Token: $(AZURE_STATIC_WEB_APPS_API_TOKEN)"
+  displayName: 'Debug Token Access'
 
 - task: AzureStaticWebApp@0
   inputs:
