@@ -21,6 +21,7 @@ export function BookingHeader({
     user: UserData | null | undefined;
   };
 }) {
+  // empty comment
   const reservationCount = data.bookings?.find(
     (booking) => booking.userId === data.user?.userId
   )?.reservationsLeft;
