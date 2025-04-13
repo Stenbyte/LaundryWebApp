@@ -8,7 +8,7 @@ import {
 import { Config } from "../../config";
 
 const api = axios.create({
-  baseURL: Config.API_BASE_URL,
+  baseURL: Config.API_BASE_URL + '/api',
   withCredentials: true,
 });
 

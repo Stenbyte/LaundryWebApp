@@ -105,7 +105,7 @@ export function SignUp({ data }: SignUpProps) {
   const mutation = useMutation({
     mutationFn: async (formData: SignUpType) => {
       setIsLoading(true);
-      return axios.post(`${Config.API_BASE_URL}/signup`, formData);
+      return axios.post(`${Config.API_BASE_URL}/api/signup`, formData);
     },
     onSuccess: () => {
       toast("Sign-up successful!");

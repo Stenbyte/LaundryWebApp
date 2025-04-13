@@ -5,13 +5,13 @@ import { Booking, BookingSlot, EditSlotId } from "../components/bookingTable/Boo
 import api from '../services/AxiosConfig';
 
 export const fetchBookings = async (): Promise<Booking[]> => {
-  const { data } = await api.get(`${Config.API_BASE_URL}/booking/getAll`);
+  const { data } = await api.get(`${Config.API_BASE_URL}/api/booking/getAll`);
   return data;
 };
 
 export const reserveSlot = async (args: BookingSlot | EditSlotId) => {
   try {
-    const { data } = await api.post(`${Config.API_BASE_URL}/booking/create`, {
+    const { data } = await api.post(`${Config.API_BASE_URL}/api/booking/create`, {
       ...args
     },
       {
@@ -36,7 +36,7 @@ export const reserveSlot = async (args: BookingSlot | EditSlotId) => {
 
 export const editSlot = async (args: BookingSlot | EditSlotId) => {
   try {
-    const { data } = await api.post(`${Config.API_BASE_URL}/booking/edit`, {
+    const { data } = await api.post(`${Config.API_BASE_URL}/api/booking/edit`, {
       ...args
     },
       {
@@ -60,7 +60,7 @@ export const editSlot = async (args: BookingSlot | EditSlotId) => {
 
 export const cancelAllBookings = async () => {
   try {
-    const { data } = await api.post(`${Config.API_BASE_URL}/booking/cancel`,
+    const { data } = await api.post(`${Config.API_BASE_URL}/api/booking/cancel`,
       {
         headers: {
           "Content-Type": "application/json"
