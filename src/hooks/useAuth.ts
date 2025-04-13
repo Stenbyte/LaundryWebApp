@@ -64,6 +64,7 @@ export const useAuth = () => {
     queryKey: ["auth"],
     queryFn: async (): Promise<UserData | null> => {
       try {
+        console.log(api, 'checking')
         const response = await api.get("/auth/userInfo");
         return response.data;
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
