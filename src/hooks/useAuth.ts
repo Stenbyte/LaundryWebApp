@@ -49,6 +49,7 @@ export const useLogin = () => {
 
 export const useLogOut = () => {
   const queryClient = useQueryClient();
+  // check rule
 
   return useMutation<LogOutResponse, Error, LogOutPayload>({
     mutationFn: logOutUser,
