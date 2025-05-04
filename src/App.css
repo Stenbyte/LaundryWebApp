@@ -75,7 +75,13 @@ body {
 }
 
 .loginBtn {
-  outline: solid !important;
   margin-left: 10px !important;
   background-color: #4A5899 !important;
+}
+
+.signUpSubmit {
+  background-color: #4A5899 !important;
+}
+.cancelBtn {
+  background-color: #EE4266 !important;
 }

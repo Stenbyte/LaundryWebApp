@@ -5,6 +5,7 @@ interface GenericButtonProps {
   className?: string;
   children: React.ReactNode;
   type?: "button" | "submit" | "reset" | undefined;
+  disabled?: boolean;
 }
 
 export function GenericButton({
@@ -12,9 +13,15 @@ export function GenericButton({
   children,
   className,
   type,
+  disabled,
 }: GenericButtonProps) {
   return (
-    <Button className={className} onClick={onClick} type={type}>
+    <Button
+      className={className}
+      onClick={onClick}
+      type={type}
+      disabled={disabled}
+    >
       {children}
     </Button>
   );

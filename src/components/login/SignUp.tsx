@@ -4,7 +4,6 @@ import {
   DialogContent,
   TextField,
   DialogActions,
-  Button,
 } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -14,6 +13,7 @@ import axios from "axios";
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { Config } from "../../../config";
+import { GenericButton } from "../Buttons/GenericButton";
 
 interface SignUpProps {
   data: {
@@ -144,7 +144,7 @@ export function SignUp({ data }: SignUpProps) {
               render={({ field }) => (
                 <TextField
                   {...field}
-                  label="firstName"
+                  label="First Name"
                   fullWidth
                   margin="normal"
                   error={!!errors.firstName}
@@ -158,7 +158,7 @@ export function SignUp({ data }: SignUpProps) {
               render={({ field }) => (
                 <TextField
                   {...field}
-                  label="lastName"
+                  label="Last Name"
                   fullWidth
                   margin="normal"
                   error={!!errors.lastName}
@@ -201,7 +201,7 @@ export function SignUp({ data }: SignUpProps) {
               render={({ field }) => (
                 <TextField
                   {...field}
-                  label="number"
+                  label="Number"
                   fullWidth
                   margin="normal"
                   error={!!errors.phoneNumber?.number}
@@ -215,7 +215,7 @@ export function SignUp({ data }: SignUpProps) {
               render={({ field }) => (
                 <TextField
                   {...field}
-                  label="country code"
+                  label="Country code"
                   fullWidth
                   margin="normal"
                   error={!!errors.phoneNumber?.countryCode}
@@ -229,7 +229,7 @@ export function SignUp({ data }: SignUpProps) {
               render={({ field }) => (
                 <TextField
                   {...field}
-                  label="street name"
+                  label="Street Name"
                   fullWidth
                   margin="normal"
                   error={!!errors.adress?.streetName}
@@ -243,7 +243,7 @@ export function SignUp({ data }: SignUpProps) {
               render={({ field }) => (
                 <TextField
                   {...field}
-                  label="house number"
+                  label="House Number"
                   fullWidth
                   margin="normal"
                   error={!!errors.adress?.houseNumber}
@@ -252,23 +252,20 @@ export function SignUp({ data }: SignUpProps) {
               )}
             />
             <DialogActions>
-              <Button
+              <GenericButton
                 onClick={() => {
                   reset(defaultSignUpValues);
                   setIsSignupOpen(false);
                 }}
-                color="secondary"
-              >
-                Cancel
-              </Button>
-              <Button
+                children="Cancel"
+                className="cancelBtn"
+              />
+              <GenericButton
                 type="submit"
-                color="primary"
-                variant="contained"
+                className="signUpSubmit"
                 disabled={isLoading}
-              >
-                {isLoading ? "Signing Up..." : "Sign Up"}
-              </Button>
+                children={isLoading ? "Signing Up..." : "Sign Up"}
+              />
             </DialogActions>
           </form>
         </DialogContent>
