@@ -16,7 +16,7 @@ export function HeaderBar({
   const { data: user } = useAuth();
 
   return (
-    <Toolbar>
+    <Toolbar style={{ background: "#5E503F" }}>
       <Typography variant="h6" sx={{ flexGrow: 1 }}>
         LB
       </Typography>

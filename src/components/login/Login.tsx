@@ -4,7 +4,6 @@ import {
   DialogContent,
   TextField,
   Typography,
-  Button,
   DialogActions,
 } from "@mui/material";
 import { MetaDataType } from "../header/Header";
@@ -112,18 +111,21 @@ export function Login({
             />
             <ToastContainer />
             <Typography variant="body2" sx={{ mt: 2 }}>
-              Don't have an account?
+              Don't have an account ?
               <GenericButton
                 children="Sign up"
+                className="signUpBtn"
                 onClick={() => {
                   setIsSignupOpen(true);
                 }}
               />
             </Typography>
             <DialogActions>
-              <Button type="submit" color="primary" variant="contained">
-                {isLoading ? "Logging in..." : "Login"}
-              </Button>
+              <GenericButton
+                className="loginBtn"
+                children={isLoading ? "Logging in..." : "Login"}
+                type="submit"
+              />
             </DialogActions>
           </form>
         </DialogContent>

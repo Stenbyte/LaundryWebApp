@@ -44,10 +44,6 @@ body {
   color: rgb(118, 118, 175) !important;
   background-color: whitesmoke !important;
 }
-.headerLoginBtn {
-  outline: solid !important;
-  margin-left: 10px !important;
-}
 .bookedSlot{
   background-color: lightblue !important;
   padding: 10px;
@@ -67,4 +63,19 @@ body {
 }
 .bookingTable{ 
   margin-top: 80px;
+}
+
+.signUpBtn {
+  background-color: transparent !important;
+  font-weight: 100;
+  margin-left: 5px !important;
+  font-size: 9px !important;
+  color: #4A5899 !important;
+  text-underline-offset: 8px !important;
+}
+
+.loginBtn {
+  outline: solid !important;
+  margin-left: 10px !important;
+  background-color: #4A5899 !important;
 }

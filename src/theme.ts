@@ -6,6 +6,8 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           backgroundColor: "#007bff",
+          padding: 0,
+          margin: 0,
           color: "white",
           fontWeight: "bold",
           "&:hover": {
