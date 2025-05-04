@@ -46,7 +46,6 @@ export interface EditSlotId {
 }
 
 export function BookingTable({ user }: { user: UserData | null | undefined }) {
-  // build failing check
   const [disabledBtn, setDisabledBtn] = useState(true);
   const [isEditSlot, setIsEditSlot] = useState(false);
 
@@ -211,9 +210,9 @@ export function BookingTable({ user }: { user: UserData | null | undefined }) {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Time Slot</TableCell>
+              <TableCell className="tableBorders">Time Slot</TableCell>
               {weekDays.map((day) => (
-                <TableCell key={day} align="center">
+                <TableCell key={day} align="center" className="tableBorders">
                   {dayjs(day).format("D ddd, MMM")}
                 </TableCell>
               ))}
@@ -222,11 +221,15 @@ export function BookingTable({ user }: { user: UserData | null | undefined }) {
           <TableBody>
             {TIME_SLOTS.map((timeSlots) => (
               <TableRow key={timeSlots}>
-                <TableCell>{timeSlots}</TableCell>
+                <TableCell className="tableBorders">{timeSlots}</TableCell>
                 {weekDays.map((day) => {
                   const { isBooked, slotId } = getReservedSlot(day, timeSlots);
                   return (
-                    <TableCell key={day} align="center">
+                    <TableCell
+                      key={day}
+                      align="center"
+                      className="tableBorders"
+                    >
                       {isTimeSlotInPast(day, timeSlots) ? (
                         <Typography className="expiredSlot">Expired</Typography>
                       ) : isBooked ? (

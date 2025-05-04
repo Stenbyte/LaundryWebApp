@@ -32,12 +32,10 @@ body {
   width: 150px;
 }
 .report-btn {
-  color: black;
-  background-color: grey;
-  padding: 20px;
+  background-color: #F7717D !important;
 }
 .tradeBtn {
-  background-color: green !important;
+  background-color: #709775 !important;
 }
 .reserveBtn {
   outline: solid !important;
@@ -45,13 +43,13 @@ body {
   background-color: whitesmoke !important;
 }
 .bookedSlot{
-  background-color: lightblue !important;
+  background-color: #D1D2F9 !important;
   padding: 10px;
   border-radius: 5px;
   color: rgba(0, 0, 0, 0.35) !important;
 }
 .bookedEditSlot{
-  background-color: lightblue !important;
+  background-color: #D1D2F9 !important;
   padding: 10px;
   border-radius: 5px;
   color: rgb(0, 0, 0) !important;
@@ -85,4 +83,23 @@ body {
 }
 .cancelBtn {
   background-color: #EE4266 !important;
+}
+.infoIcon {
+  color: #60AFFF !important;
+}
+
+.disabledBtn {
+  background-color: #B4B8C5 !important;
+}
+.enabledBtn {
+  background-color: #4A5899 !important;
+}
+.enabledCancelBtn {
+  background-color: #4A5899 !important;
+}
+
+.tableBorders {
+  border-right-style: dashed;
+  border-right-width: 0.5px;
+  border-right-color: rgba(128, 128, 128, 0.628);
 }

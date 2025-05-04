@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { GenericButton } from "./GenericButton";
 
 export function CancelBtn({
   disabledBtnIfNoBookings,
@@ -8,14 +8,12 @@ export function CancelBtn({
   cancelBookings: ()=> Promise<void>;
 }) {
   return (
-    <Button
-      color="secondary"
-      size="small"
-      variant="outlined"
+    <GenericButton
+     className={!disabledBtnIfNoBookings ? "disabledBtn" : "enabledCancelBtn"}
       disabled={!disabledBtnIfNoBookings}
       onClick={()=> cancelBookings()}
     >
       Cancel
-    </Button>
+    </GenericButton>
   );
 }

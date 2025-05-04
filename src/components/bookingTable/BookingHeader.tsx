@@ -21,7 +21,6 @@ export function BookingHeader({
     user: UserData | null | undefined;
   };
 }) {
-  // empty comment
   const reservationCount = data.bookings?.find(
     (booking) => booking.userId === data.user?.userId
   )?.reservationsLeft;
@@ -40,7 +39,7 @@ export function BookingHeader({
       <Box className="booking-counter-resesrvation">
         <Tooltip
           title="Number of reservations that can be used per week"
-          color="info"
+          className="infoIcon"
           placement="top-start"
         >
           <InfoIcon />

@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { GenericButton } from "./GenericButton";
 
 export function EditBtn({
   setDisabledBtn,
@@ -12,18 +12,14 @@ export function EditBtn({
   disabledBtnIfNoBookings: boolean;
 }) {
   return (
-    <Button
-      color="primary"
-      size="small"
-      variant="contained"
+    <GenericButton
+      className={!disabledBtnIfNoBookings ? "disabledBtn" : "enabledBtn"}
       disabled={!disabledBtnIfNoBookings}
       onClick={() => {
-        return (
-          setIsEditSlot(!isEditSlot), setDisabledBtn(!true)
-        );
+        return setIsEditSlot(!isEditSlot), setDisabledBtn(!true);
       }}
     >
       Edit
-    </Button>
+    </GenericButton>
   );
 }

@@ -1,9 +1,5 @@
-import { Button } from "@mui/material";
+import { GenericButton } from "./GenericButton";
 
 export function ReportBtn() {
-    return (
-        <Button className="report-btn">
-            Report
-        </Button>
-    )
+  return <GenericButton className="report-btn">Report</GenericButton>;
 }
