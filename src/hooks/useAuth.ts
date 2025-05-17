@@ -3,13 +3,13 @@ import api from "../services/AxiosConfig";
 
 interface LoginPayload {
   email: string;
-  password: string;
+  // password: string;
 }
 export interface UserData {
   email: string,
   userId: string
 }
-type LogOutPayload = Pick<LoginPayload, "email"> & {
+type LogOutPayload = LoginPayload & {
   userId?: string
 };
 interface LogOutResponse {

@@ -31,20 +31,20 @@ const SubmitSchema = object().shape({
       "Invalid email format"
     )
     .required("Email is required"),
-  password: string()
-    .matches(
-      /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-      "Password must be at least 8 characters long, include one uppercase letter, one lowercase letter, one number, and one special character"
-    )
-    .required("Password is required"),
-  phoneNumber: object({
-    number: string()
-      .matches(/^\d{8,15}$/, "Invalid phone number")
-      .required("Phone is required"),
-    countryCode: string()
-      .matches(/^\+\d{1,4}$/, "Invalid country code")
-      .required("Country Code is required"),
-  }),
+  // password: string()
+  //   .matches(
+  //     /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+  //     "Password must be at least 8 characters long, include one uppercase letter, one lowercase letter, one number, and one special character"
+  //   )
+  //   .required("Password is required"),
+  // phoneNumber: object({
+  //   number: string()
+  //     .matches(/^\d{8,15}$/, "Invalid phone number")
+  //     .required("Phone is required"),
+  //   countryCode: string()
+  //     .matches(/^\+\d{1,4}$/, "Invalid country code")
+  //     .required("Country Code is required"),
+  // }),
   adress: object({
     streetName: string()
       .min(5, "Address must be at least 5 characters")
@@ -66,11 +66,11 @@ const defaultSignUpValues: SignUpType = {
     streetName: "",
     houseNumber: "",
   },
-  phoneNumber: {
-    number: "",
-    countryCode: "",
-  },
-  password: "",
+  // phoneNumber: {
+  //   number: "",
+  //   countryCode: "",
+  // },
+  // password: "",
 };
 
 type SignUpType = InferType<typeof SubmitSchema>;
@@ -89,15 +89,15 @@ export function SignUp({ data }: SignUpProps) {
     defaultValues: {
       firstName: "",
       lastName: "",
-      password: "",
+      // password: "",
       adress: {
         streetName: "",
         houseNumber: "",
       },
-      phoneNumber: {
-        countryCode: "",
-        number: "",
-      },
+      // phoneNumber: {
+      //   countryCode: "",
+      //   number: "",
+      // },
       email: "",
     },
   });
@@ -180,7 +180,7 @@ export function SignUp({ data }: SignUpProps) {
                 />
               )}
             />
-            <Controller
+            {/* <Controller
               name="password"
               control={control}
               render={({ field }) => (
@@ -194,8 +194,8 @@ export function SignUp({ data }: SignUpProps) {
                   helperText={errors.password?.message}
                 />
               )}
-            />
-            <Controller
+            /> */}
+            {/* <Controller
               name="phoneNumber.number"
               control={control}
               render={({ field }) => (
@@ -208,8 +208,8 @@ export function SignUp({ data }: SignUpProps) {
                   helperText={errors.phoneNumber?.number?.message}
                 />
               )}
-            />
-            <Controller
+            /> */}
+            {/* <Controller
               name="phoneNumber.countryCode"
               control={control}
               render={({ field }) => (
@@ -222,7 +222,7 @@ export function SignUp({ data }: SignUpProps) {
                   helperText={errors.phoneNumber?.countryCode?.message}
                 />
               )}
-            />
+            /> */}
             <Controller
               name="adress.streetName"
               control={control}

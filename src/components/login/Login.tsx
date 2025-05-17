@@ -22,19 +22,19 @@ const LoginSchema = object().shape({
       "Invalid email format"
     )
     .required("Email is required"),
-  password: string()
-    .matches(
-      /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-      "Password must be at least 8 characters long, include one uppercase letter, one lowercase letter, one number, and one special character"
-    )
-    .required("Password is required"),
+  // password: string()
+  //   .matches(
+  //     /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+  //     "Password must be at least 8 characters long, include one uppercase letter, one lowercase letter, one number, and one special character"
+  //   )
+  //   .required("Password is required"),
 });
 
 type LoginType = InferType<typeof LoginSchema>;
 
 const defaultLoginValues: LoginType = {
   email: "",
-  password: "",
+  // password: "",
 };
 
 export function Login({
@@ -55,7 +55,7 @@ export function Login({
   } = useForm({
     resolver: yupResolver(LoginSchema),
     defaultValues: {
-      password: "",
+      // password: "",
       email: "",
     },
   });
@@ -96,7 +96,7 @@ export function Login({
                 );
               }}
             />
-            <Controller
+            {/* <Controller
               name="password"
               control={control}
               render={({ field }) => (
@@ -108,8 +108,15 @@ export function Login({
                   margin="dense"
                 />
               )}
-            />
+            /> */}
             <ToastContainer />
+            <DialogActions>
+              <GenericButton
+                className="loginBtn"
+                children={isLoading ? "Logging in..." : "Login"}
+                type="submit"
+              />
+            </DialogActions>
             <Typography variant="body2" sx={{ mt: 2 }}>
               Don't have an account ?
               <GenericButton
@@ -120,13 +127,6 @@ export function Login({
                 }}
               />
             </Typography>
-            <DialogActions>
-              <GenericButton
-                className="loginBtn"
-                children={isLoading ? "Logging in..." : "Login"}
-                type="submit"
-              />
-            </DialogActions>
           </form>
         </DialogContent>
       </Dialog>
