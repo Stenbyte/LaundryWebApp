@@ -10,7 +10,7 @@ import { MetaDataType } from "../header/Header";
 import { GenericButton } from "../Buttons/GenericButton";
 import { useState } from "react";
 import { useLogin } from "../../hooks/useAuth";
-import { ToastContainer, toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { InferType, object, string } from "yup";
@@ -45,7 +45,7 @@ export function Login({
   const { setIsSignupOpen, isLogedIn } = data;
   const [isLoading, setLoading] = useState(false);
 
-  const { mutate: login, error } = useLogin();
+  const login = useLogin();
 
   const {
     control,
@@ -62,21 +62,19 @@ export function Login({
   const onSubmit = async (data: LoginType) => {
     setLoading(true);
     try {
-      await login(data);
+      await login.mutateAsync(data);
+      toast.success("oki");
       reset(defaultLoginValues);
     } catch (err) {
-      console.log(err);
-      if (error) {
-        toast(`Login failed: ${error.message}`);
-      }
+      toast.error(`Login failed ${err}`);
     }
     setLoading(false);
   };
 
   return (
-    <>
-      <ToastContainer closeOnClick={true} />
-      <Dialog open={!isLogedIn} hideBackdrop={true}>
+    <div>
+      <ToastContainer autoClose={2000} closeOnClick={true} />
+      <Dialog open={!isLogedIn} hideBackdrop={false}>
         <DialogTitle>Login</DialogTitle>
         <DialogContent>
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -109,7 +107,6 @@ export function Login({
                 />
               )}
             /> */}
-            <ToastContainer />
             <DialogActions>
               <GenericButton
                 className="loginBtn"
@@ -130,6 +127,6 @@ export function Login({
           </form>
         </DialogContent>
       </Dialog>
-    </>
+    </div>
   );
 }

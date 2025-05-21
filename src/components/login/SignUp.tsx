@@ -126,7 +126,7 @@ export function SignUp({ data }: SignUpProps) {
 
   return (
     <>
-      <ToastContainer closeOnClick={true} />
+      <ToastContainer closeOnClick={true} autoClose={300}/>
       <Dialog
         disableEnforceFocus
         open={isSignupOpen}

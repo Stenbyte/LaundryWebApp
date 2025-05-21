@@ -43,13 +43,12 @@ export const useLogin = () => {
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["auth"] });
       sessionStorage.setItem("access_token", data.token);
-    },
+    }
   });
 };
 
 export const useLogOut = () => {
   const queryClient = useQueryClient();
-  // check rule
 
   return useMutation<LogOutResponse, Error, LogOutPayload>({
     mutationFn: logOutUser,
@@ -65,8 +64,6 @@ export const useAuth = () => {
     queryKey: ["auth"],
     queryFn: async (): Promise<UserData | null> => {
       try {
-        console.log("API_BASE_URL from env:", import.meta.env.VITE_API_BASE_URL);
-
         const response = await api.get("/auth/userInfo");
         return response.data;
         // eslint-disable-next-line @typescript-eslint/no-unused-vars

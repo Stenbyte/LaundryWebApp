@@ -146,10 +146,8 @@ export function BookingTable({ user }: { user: UserData | null | undefined }) {
     try {
       await mutation.mutateAsync(args);
       toast.success("Booking successful!");
-
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
-      /* empty */
+      toast.error(`${error}`);
     }
   };
 
@@ -157,19 +155,16 @@ export function BookingTable({ user }: { user: UserData | null | undefined }) {
     try {
       await editMutation.mutateAsync(args);
       toast.success("Edit successful!");
-
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
-      /* empty */
+      toast.error(`${error}`);
     }
   };
   const cancelBookings = async () => {
     try {
       await cancelMutation.mutateAsync();
       toast.success("Canceled bookings successfully!");
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
-      /* empty */
+      toast.error(`${error}`);
     }
   };
 
