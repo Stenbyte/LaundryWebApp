@@ -143,12 +143,8 @@ export function BookingTable({ user }: { user: UserData | null | undefined }) {
   });
 
   const reserve = async (args: BookingSlot) => {
-    try {
-      await mutation.mutateAsync(args);
-      toast.success("Booking successful!");
-    } catch (error) {
-      toast.error(`${error}`);
-    }
+    await mutation.mutateAsync(args);
+    toast.success("Booking successful!");
   };
 
   const edit = async (args: EditSlotId) => {

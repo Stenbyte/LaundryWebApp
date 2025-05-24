@@ -24,13 +24,13 @@ export const reserveSlot = async (args: BookingSlot | EditSlotId) => {
   } catch (error: unknown) {
     if (error instanceof AxiosError) {
       const errorMessage = error.response?.data?.message;
-
       if (errorMessage === "You can not add new reservation") {
         throw new Error("You can not add new reservation");
       }
+    } else {
+      throw new Error("Failed to reserve slot. Please try again");
     }
 
-    throw new Error("Failed to reserve slot. Please try again");
   }
 };
 
