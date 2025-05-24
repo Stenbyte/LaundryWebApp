@@ -10,7 +10,7 @@ import { MetaDataType } from "../header/Header";
 import { GenericButton } from "../Buttons/GenericButton";
 import { useState } from "react";
 import { useLogin } from "../../hooks/useAuth";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { InferType, object, string } from "yup";
@@ -73,7 +73,6 @@ export function Login({
 
   return (
     <div>
-      <ToastContainer autoClose={2000} closeOnClick={true} />
       <Dialog open={!isLogedIn} hideBackdrop={false}>
         <DialogTitle>Login</DialogTitle>
         <DialogContent>

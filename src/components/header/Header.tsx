@@ -6,6 +6,7 @@ import { NotificationsDrawer } from "./NotificationsDrawer";
 import { Login } from "../login/Login";
 import { SignUp } from "../login/SignUp";
 import { UserData } from "../../hooks/useAuth";
+import { ToastContainer } from "react-toastify";
 
 export type MetaDataType = {
   notifications: string[];
@@ -51,6 +52,7 @@ export function Header({
 
   return (
     <AppBar position="static" color="primary">
+      <ToastContainer autoClose={2000} closeOnClick={true} />
       <HeaderBar data={metaData} />
       <NotificationsDrawer data={metaData} />
       {!user?.userId && <Login data={metaData} />}

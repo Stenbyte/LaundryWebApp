@@ -21,7 +21,7 @@ import {
   reserveSlot,
 } from "../../services/BookingService";
 import { BookingHeader } from "./BookingHeader";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { useState } from "react";
 import { UserData } from "../../hooks/useAuth";
 
@@ -189,7 +189,6 @@ export function BookingTable({ user }: { user: UserData | null | undefined }) {
   }
   return (
     <div className="bookingTable">
-      <ToastContainer limit={2} newestOnTop={true} autoClose={300} />
       <BookingHeader
         data={{
           setDisabledBtn,

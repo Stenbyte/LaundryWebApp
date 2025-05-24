@@ -11,7 +11,7 @@ import { object, string, InferType } from "yup";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { Config } from "../../../config";
 import { GenericButton } from "../Buttons/GenericButton";
 
@@ -126,7 +126,6 @@ export function SignUp({ data }: SignUpProps) {
 
   return (
     <>
-      <ToastContainer closeOnClick={true} autoClose={300}/>
       <Dialog
         disableEnforceFocus
         open={isSignupOpen}
