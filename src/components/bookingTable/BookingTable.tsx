@@ -23,6 +23,7 @@ import {
 import { BookingHeader } from "./BookingHeader";
 import { toast } from "react-toastify";
 import { useState } from "react";
+import { useGlobalContext } from "../../context/UseGlobalContext";
 
 const TIME_SLOTS = ["08:00-11:00", "11:00-14:00", "14:00-17:00", "17:00-20:00"];
 dayjs.extend(utc);
@@ -45,6 +46,8 @@ export interface EditSlotId {
 }
 
 export function BookingTable() {
+  const { user } = useGlobalContext();
+
   const [disabledBtn, setDisabledBtn] = useState(true);
   const [isEditSlot, setIsEditSlot] = useState(false);
 
@@ -178,6 +181,9 @@ export function BookingTable() {
     }
     return { isBooked: false, slotId: undefined };
   };
+  if (!user) {
+    return null;
+  }
 
   if (isLoading) {
     return <>Loading....</>;
