@@ -63,7 +63,7 @@ export function Login({
     setLoading(true);
     try {
       await login.mutateAsync(data);
-      toast.success("oki");
+      toast.success("Ola");
       reset(defaultLoginValues);
     } catch (err) {
       toast.error(`Login failed ${err}`);
