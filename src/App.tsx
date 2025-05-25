@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { useAuth, useRefreshToken } from "./hooks/useAuth";
 import { setupAxiosInterceptors } from "./services/AxiosConfig";
 import { useQueryClient } from "@tanstack/react-query";
-
+import { GlobalProvider } from "./context/ContextProvider";
 
 export function App() {
   const refreshMutation = useRefreshToken();
@@ -16,13 +16,15 @@ export function App() {
   useEffect(() => {
     setupAxiosInterceptors(queryClient, refreshMutation);
   }, [refreshMutation, queryClient]);
+
   const { data: user } = useAuth();
   const [isLogedIn, setIsLogedIn] = useState(false);
   return (
-    <ThemeProvider theme={theme}>
-      <Header setIsLogedIn={setIsLogedIn} isLogedIn={isLogedIn} user={user} />
-      {user && <BookingTable user={user} />}
-    </ThemeProvider>
+    <GlobalProvider>
+      <ThemeProvider theme={theme}>
+        <Header setIsLogedIn={setIsLogedIn} isLogedIn={isLogedIn} user={user} />
+        {user && <BookingTable user={user} />}
+      </ThemeProvider>
+    </GlobalProvider>
   );
 }
-
