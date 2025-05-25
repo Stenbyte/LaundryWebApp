@@ -1,4 +1,6 @@
 import { createContext } from "react";
-import { GlobalStatType } from "./ContextProvider";
+import { GlobalStateType } from "./ContextProvider";
 
-export const GlobalContext = createContext<GlobalStatType | undefined>(undefined);
+export const GlobalContext = createContext<GlobalStateType | undefined>(
+  undefined
+);
