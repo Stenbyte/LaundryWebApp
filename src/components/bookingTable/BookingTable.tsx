@@ -86,10 +86,11 @@ export function BookingTable() {
     queryKey: ["bookings"],
     queryFn: fetchBookings,
     retry: 0,
+    enabled: !!user,
   });
 
   if (isError) {
-    toast("Failed to fetch reservations");
+    toast(`Failed to fetch reservations`);
   }
 
   const mutationFunction = (args: BookingSlot) => {
