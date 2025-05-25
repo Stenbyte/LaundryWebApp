@@ -6,7 +6,6 @@ import {
   Typography,
   DialogActions,
 } from "@mui/material";
-import { MetaDataType } from "../header/Header";
 import { GenericButton } from "../Buttons/GenericButton";
 import { useState } from "react";
 import { useLogin } from "../../hooks/useAuth";
@@ -38,13 +37,12 @@ const defaultLoginValues: LoginType = {
   // password: "",
 };
 
-export function Login({ data }: { data: Pick<MetaDataType, "setIsSignupOpen"> }) {
-  const { setIsSignupOpen } = data;
+export function Login() {
   const [isLoading, setLoading] = useState(false);
 
   const login = useLogin();
 
-  const context = useGlobalContext();
+  const { dispatch, user } = useGlobalContext();
 
   const {
     control,
@@ -69,9 +67,10 @@ export function Login({ data }: { data: Pick<MetaDataType, "setIsSignupOpen"> })
     }
     setLoading(false);
   };
+
   return (
     <div>
-      <Dialog open={!context.isLogedIn} hideBackdrop={false}>
+      <Dialog open={!user} hideBackdrop={false}>
         <DialogTitle>Login</DialogTitle>
         <DialogContent>
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -117,7 +116,7 @@ export function Login({ data }: { data: Pick<MetaDataType, "setIsSignupOpen"> })
                 children="Sign up"
                 className="signUpBtn"
                 onClick={() => {
-                  setIsSignupOpen(true);
+                  dispatch({ type: "SET_SIGNUP", payload: true });
                 }}
               />
             </Typography>

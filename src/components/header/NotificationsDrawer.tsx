@@ -8,28 +8,29 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { MetaDataType } from "./Header";
+import { useGlobalContext } from "../../context/UseGlobalContext";
 
 export function NotificationsDrawer({
   data,
 }: {
-  data: Pick<
-    MetaDataType,
-    "notifications" | "setIsSidebarOpen" | "isSidebarOpen"
-  >;
+  data: Pick<MetaDataType, "notifications">;
 }) {
-  const { setIsSidebarOpen, isSidebarOpen, notifications } = data;
+  const { notifications } = data;
+  const { dispatch, isSidebarOpen } = useGlobalContext();
   return (
     <Drawer
       anchor="right"
       open={isSidebarOpen}
-      onClose={() => setIsSidebarOpen(false)}
+      onClose={() => dispatch({ type: "SET_SIDEBAR", payload: false })}
     >
       <List sx={{ width: 300 }}>
         <ListItem>
           <Typography variant="h6" sx={{ flexGrow: 1 }}>
             Notifications
           </Typography>
-          <IconButton onClick={() => setIsSidebarOpen(false)}>
+          <IconButton
+            onClick={() => dispatch({ type: "SET_SIDEBAR", payload: false })}
+          >
             <CloseIcon />
           </IconButton>
         </ListItem>

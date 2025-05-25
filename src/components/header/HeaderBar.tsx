@@ -2,16 +2,15 @@ import { Toolbar, Typography, IconButton, Badge } from "@mui/material";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { MetaDataType } from "./Header";
 import { UserMenu } from "../user/UserMenu";
-import { useAuth } from "../../hooks/useAuth";
+import { useGlobalContext } from "../../context/UseGlobalContext";
 
 export function HeaderBar({
   data,
 }: {
-  data: Pick<MetaDataType, "notifications" | "setIsSidebarOpen">;
+  data: Pick<MetaDataType, "notifications">;
 }) {
-  const { notifications, setIsSidebarOpen } = data;
-  const { data: user } = useAuth();
-
+  const { notifications } = data;
+  const { dispatch, user } = useGlobalContext();
   return (
     <Toolbar style={{ background: "#5E503F" }}>
       <Typography variant="h6" sx={{ flexGrow: 1 }}>
@@ -19,7 +18,10 @@ export function HeaderBar({
       </Typography>
       {user && (
         <>
-          <IconButton color="inherit" onClick={() => setIsSidebarOpen(true)}>
+          <IconButton
+            color="inherit"
+            onClick={() => dispatch({ type: "SET_SIDEBAR", payload: true })}
+          >
             <Badge badgeContent={notifications.length} color="error">
               <NotificationsIcon />
             </Badge>

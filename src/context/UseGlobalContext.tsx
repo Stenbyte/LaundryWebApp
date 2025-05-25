@@ -1,8 +1,8 @@
 import { useContext } from "react";
 import { GlobalContext } from "./GlobalContext";
-import { GlobalStatType } from "./ContextProvider";
+import { GlobalStateType } from "./ContextProvider";
 
-export const useGlobalContext = (): GlobalStatType => {
+export const useGlobalContext = (): GlobalStateType => {
   const context = useContext(GlobalContext);
   if (!context) throw new Error("Context must be used inside Provider");
 

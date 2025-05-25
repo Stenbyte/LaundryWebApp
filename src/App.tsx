@@ -1,13 +1,12 @@
 import "./App.css";
-import { BookingTable } from "./components/bookingTable/BookingTable";
 import { Header } from "./components/header/Header";
 import { ThemeProvider } from "@mui/material";
 import { theme } from "./theme";
 import { useEffect } from "react";
-import { useAuth, useRefreshToken } from "./hooks/useAuth";
+import { useRefreshToken } from "./hooks/useAuth";
 import { setupAxiosInterceptors } from "./services/AxiosConfig";
 import { useQueryClient } from "@tanstack/react-query";
-import { GlobalProvider } from "./context/ContextProvider";
+import { BookingTable } from "./components/bookingTable/BookingTable";
 
 export function App() {
   const refreshMutation = useRefreshToken();
@@ -17,14 +16,10 @@ export function App() {
     setupAxiosInterceptors(queryClient, refreshMutation);
   }, [refreshMutation, queryClient]);
 
-  const { data: user } = useAuth();
-
   return (
-    <GlobalProvider>
-      <ThemeProvider theme={theme}>
-        <Header user={user} />
-        {user && <BookingTable user={user} />}
-      </ThemeProvider>
-    </GlobalProvider>
+    <ThemeProvider theme={theme}>
+      <Header />
+      {<BookingTable />}
+    </ThemeProvider>
   );
 }

@@ -14,13 +14,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { Config } from "../../../config";
 import { GenericButton } from "../Buttons/GenericButton";
-
-interface SignUpProps {
-  data: {
-    isSignupOpen: boolean;
-    setIsSignupOpen: (open: boolean) => void;
-  };
-}
+import { useGlobalContext } from "../../context/UseGlobalContext";
 
 const SubmitSchema = object().shape({
   firstName: string().required("First name is required"),
@@ -75,8 +69,8 @@ const defaultSignUpValues: SignUpType = {
 
 type SignUpType = InferType<typeof SubmitSchema>;
 
-export function SignUp({ data }: SignUpProps) {
-  const { isSignupOpen, setIsSignupOpen } = data;
+export function SignUp() {
+  const { isSignUpOpen, dispatch } = useGlobalContext();
   const [isLoading, setIsLoading] = useState(false);
 
   const {
@@ -109,14 +103,13 @@ export function SignUp({ data }: SignUpProps) {
     },
     onSuccess: () => {
       toast("Sign-up successful!");
-      setIsSignupOpen(false);
+      dispatch({ type: "SET_SIGNUP", payload: false });
       setIsLoading(false);
       reset(defaultSignUpValues);
     },
     onError: (error) => {
-      toast("Sign-up failed.");
+      toast(`Sign-up failed: ${error?.message}`);
       setIsLoading(false);
-      console.error(error);
     },
   });
 
@@ -128,10 +121,10 @@ export function SignUp({ data }: SignUpProps) {
     <>
       <Dialog
         disableEnforceFocus
-        open={isSignupOpen}
+        open={isSignUpOpen}
         onClose={() => {
           reset(defaultSignUpValues);
-          setIsSignupOpen(false);
+          dispatch({ type: "SET_SIGNUP", payload: false });
         }}
       >
         <DialogTitle>Sign Up</DialogTitle>
@@ -254,7 +247,7 @@ export function SignUp({ data }: SignUpProps) {
               <GenericButton
                 onClick={() => {
                   reset(defaultSignUpValues);
-                  setIsSignupOpen(false);
+                  dispatch({ type: "SET_SIGNUP", payload: false });
                 }}
                 children="Cancel"
                 className="cancelBtn"

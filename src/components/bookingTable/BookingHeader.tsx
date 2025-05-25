@@ -7,7 +7,7 @@ import { CancelBtn } from "../Buttons/Cancel";
 import { ReportBtn } from "../Buttons/Report";
 import "../../App.css";
 import { Booking } from "./BookingTable";
-import { UserData } from "../../hooks/useAuth";
+import { useGlobalContext } from "../../context/UseGlobalContext";
 
 export function BookingHeader({
   data,
@@ -18,11 +18,11 @@ export function BookingHeader({
     cancelBookings: () => Promise<void>;
     isEditSlot: boolean;
     bookings: Booking[] | undefined;
-    user: UserData | null | undefined;
   };
 }) {
+  const { user } = useGlobalContext();
   const reservationCount = data.bookings?.find(
-    (booking) => booking.userId === data.user?.userId
+    (booking) => booking.userId === user?.userId
   )?.reservationsLeft;
 
   const disabledBtnIfNoBookings =
