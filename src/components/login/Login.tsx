@@ -14,6 +14,7 @@ import { toast } from "react-toastify";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { InferType, object, string } from "yup";
+import { useGlobalContext } from "../../context/UseGlobalContext";
 
 const LoginSchema = object().shape({
   email: string()
@@ -37,15 +38,13 @@ const defaultLoginValues: LoginType = {
   // password: "",
 };
 
-export function Login({
-  data,
-}: {
-  data: Pick<MetaDataType, "setIsSignupOpen" | "isLogedIn" | "setIsLogedIn">;
-}) {
-  const { setIsSignupOpen, isLogedIn } = data;
+export function Login({ data }: { data: Pick<MetaDataType, "setIsSignupOpen"> }) {
+  const { setIsSignupOpen } = data;
   const [isLoading, setLoading] = useState(false);
 
   const login = useLogin();
+
+  const context = useGlobalContext();
 
   const {
     control,
@@ -70,10 +69,9 @@ export function Login({
     }
     setLoading(false);
   };
-
   return (
     <div>
-      <Dialog open={!isLogedIn} hideBackdrop={false}>
+      <Dialog open={!context.isLogedIn} hideBackdrop={false}>
         <DialogTitle>Login</DialogTitle>
         <DialogContent>
           <form onSubmit={handleSubmit(onSubmit)}>

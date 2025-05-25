@@ -7,10 +7,7 @@ import { useAuth } from "../../hooks/useAuth";
 export function HeaderBar({
   data,
 }: {
-  data: Pick<
-    MetaDataType,
-    "notifications" | "setIsSidebarOpen" | "setIsLogedIn"
-  >;
+  data: Pick<MetaDataType, "notifications" | "setIsSidebarOpen">;
 }) {
   const { notifications, setIsSidebarOpen } = data;
   const { data: user } = useAuth();
