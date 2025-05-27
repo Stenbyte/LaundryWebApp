@@ -10,7 +10,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { object, string, InferType } from "yup";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import { useState } from "react";
 import { toast } from "react-toastify";
 import { Config } from "../../../config";
 import { GenericButton } from "../Buttons/GenericButton";
@@ -70,8 +69,7 @@ const defaultSignUpValues: SignUpType = {
 type SignUpType = InferType<typeof SubmitSchema>;
 
 export function SignUp() {
-  const { isSignUpOpen, dispatch } = useGlobalContext();
-  const [isLoading, setIsLoading] = useState(false);
+  const { isSignUpOpen, dispatch, isLoading } = useGlobalContext();
 
   const {
     control,
@@ -98,18 +96,18 @@ export function SignUp() {
 
   const mutation = useMutation({
     mutationFn: async (formData: SignUpType) => {
-      setIsLoading(true);
+      dispatch({ type: "SET_LOADING", payload: true });
       return axios.post(`${Config.API_BASE_URL}/api/signup`, formData);
     },
     onSuccess: () => {
       toast("Sign-up successful!");
       dispatch({ type: "SET_SIGNUP", payload: false });
-      setIsLoading(false);
+      dispatch({ type: "SET_LOADING", payload: false });
       reset(defaultSignUpValues);
     },
     onError: (error) => {
       toast(`Sign-up failed: ${error?.message}`);
-      setIsLoading(false);
+      dispatch({ type: "SET_LOADING", payload: false });
     },
   });
 

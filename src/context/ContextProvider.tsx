@@ -8,12 +8,14 @@ export type GlobalStateType = {
   isSignUpOpen: boolean;
   user: UserData | null | undefined;
   dispatch: React.Dispatch<Action>;
+  isLoading: boolean;
 };
 
 type Action =
   | { type: "SET_LOGIN"; payload: boolean }
   | { type: "SET_SIDEBAR"; payload: boolean }
   | { type: "SET_SIGNUP"; payload: boolean }
+  | { type: "SET_LOADING"; payload: boolean }
   | { type: "SET_USER"; payload: UserData | null | undefined };
 
 function reducer(state: GlobalStateType, action: Action): GlobalStateType {
@@ -26,6 +28,8 @@ function reducer(state: GlobalStateType, action: Action): GlobalStateType {
       return { ...state, isSignUpOpen: action.payload };
     case "SET_USER":
       return { ...state, user: action.payload };
+    case "SET_LOADING":
+      return { ...state, isLoading: action.payload };
     default:
       return state;
   }
@@ -36,6 +40,7 @@ const initialState: GlobalStateType = {
   isSidebarOpen: false,
   isSignUpOpen: false,
   user: null,
+  isLoading: false,
   dispatch: () => {},
 };
 
