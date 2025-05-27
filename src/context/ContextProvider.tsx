@@ -9,6 +9,7 @@ export type GlobalStateType = {
   user: UserData | null | undefined;
   dispatch: React.Dispatch<Action>;
   isLoading: boolean;
+  disabledBtn: boolean;
 };
 
 type Action =
@@ -16,6 +17,7 @@ type Action =
   | { type: "SET_SIDEBAR"; payload: boolean }
   | { type: "SET_SIGNUP"; payload: boolean }
   | { type: "SET_LOADING"; payload: boolean }
+  | { type: "SET_DISABLED_BTN"; payload: boolean }
   | { type: "SET_USER"; payload: UserData | null | undefined };
 
 function reducer(state: GlobalStateType, action: Action): GlobalStateType {
@@ -30,6 +32,8 @@ function reducer(state: GlobalStateType, action: Action): GlobalStateType {
       return { ...state, user: action.payload };
     case "SET_LOADING":
       return { ...state, isLoading: action.payload };
+    case "SET_DISABLED_BTN":
+      return { ...state, disabledBtn: action.payload };
     default:
       return state;
   }
@@ -41,6 +45,7 @@ const initialState: GlobalStateType = {
   isSignUpOpen: false,
   user: null,
   isLoading: false,
+  disabledBtn: true,
   dispatch: () => {},
 };
 

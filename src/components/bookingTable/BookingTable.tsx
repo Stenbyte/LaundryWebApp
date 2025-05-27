@@ -15,14 +15,12 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import {
-  cancelAllBookings,
   editSlot,
   fetchBookings,
   reserveSlot,
 } from "../../services/BookingService";
 import { BookingHeader } from "./BookingHeader";
 import { toast } from "react-toastify";
-import { useState } from "react";
 import { useGlobalContext } from "../../context/UseGlobalContext";
 
 const TIME_SLOTS = ["08:00-11:00", "11:00-14:00", "14:00-17:00", "17:00-20:00"];
@@ -46,10 +44,7 @@ export interface EditSlotId {
 }
 
 export function BookingTable() {
-  const { user } = useGlobalContext();
-
-  const [disabledBtn, setDisabledBtn] = useState(true);
-  const [isEditSlot, setIsEditSlot] = useState(false);
+  const { user, disabledBtn, dispatch } = useGlobalContext();
 
   const today = dayjs();
   const weekDays = Array.from({ length: 7 }, (_, i) =>
@@ -100,15 +95,11 @@ export function BookingTable() {
     return editSlot(args);
   };
 
-  const cancelMutationFunction = () => {
-    return cancelAllBookings();
-  };
-
   const mutation = useMutation({
     mutationFn: mutationFunction,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["bookings"] });
-      setDisabledBtn(true);
+      dispatch({ type: "SET_DISABLED_BTN", payload: true });
     },
     onError: (error) => {
       if (error.message === "You can not add new reservation") {
@@ -131,19 +122,6 @@ export function BookingTable() {
       }
     },
   });
-  const cancelMutation = useMutation({
-    mutationFn: cancelMutationFunction,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["bookings"] });
-    },
-    onError: (error) => {
-      if (error.message === "You can not add new reservation") {
-        toast.error(error.message);
-      } else {
-        toast.error(error.message);
-      }
-    },
-  });
 
   const reserve = async (args: BookingSlot) => {
     await mutation.mutateAsync(args);
@@ -154,14 +132,6 @@ export function BookingTable() {
     try {
       await editMutation.mutateAsync(args);
       toast.success("Edit successful!");
-    } catch (error) {
-      toast.error(`${error}`);
-    }
-  };
-  const cancelBookings = async () => {
-    try {
-      await cancelMutation.mutateAsync();
-      toast.success("Canceled bookings successfully!");
     } catch (error) {
       toast.error(`${error}`);
     }
@@ -193,11 +163,7 @@ export function BookingTable() {
     <div className="bookingTable">
       <BookingHeader
         data={{
-          setDisabledBtn,
-          setIsEditSlot,
-          isEditSlot,
           bookings,
-          cancelBookings,
         }}
       />
       <Divider />
@@ -245,7 +211,10 @@ export function BookingTable() {
                           size="small"
                           onClick={() => {
                             if (!isBooked) {
-                              setIsEditSlot(false);
+                              dispatch({
+                                type: "SET_DISABLED_BTN",
+                                payload: false,
+                              });
                               reserve({ day, timeSlots: [timeSlots] });
                             }
                           }}

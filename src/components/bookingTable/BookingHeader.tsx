@@ -1,4 +1,4 @@
-/// <reference types="react" />
+// / <reference types="react" />
 import { Box, Tooltip, Typography } from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
 import { TradeBtn } from "../Buttons/Trade";
@@ -13,10 +13,6 @@ export function BookingHeader({
   data,
 }: {
   data: {
-    setDisabledBtn: React.Dispatch<React.SetStateAction<boolean>>;
-    setIsEditSlot: React.Dispatch<React.SetStateAction<boolean>>;
-    cancelBookings: () => Promise<void>;
-    isEditSlot: boolean;
     bookings: Booking[] | undefined;
   };
 }) {
@@ -30,10 +26,6 @@ export function BookingHeader({
       booking.slots.some((slot) => slot.booked === true)
     ) ?? false;
 
-  const extendedData = {
-    ...data,
-    disabledBtnIfNoBookings,
-  };
   return (
     <Box className="booking-counter-mainBox">
       <Box className="booking-counter-resesrvation">
@@ -47,8 +39,8 @@ export function BookingHeader({
         <Typography>Reservations left: {reservationCount}</Typography>
       </Box>
       <Box className="booking-counter-edit-cancel-btn">
-        <EditBtn {...extendedData} />
-        <CancelBtn {...extendedData} />
+        <EditBtn disabledBtnIfNoBookings={disabledBtnIfNoBookings} />
+        <CancelBtn disabledBtnIfNoBookings={disabledBtnIfNoBookings} />
         <ReportBtn />
       </Box>
       <TradeBtn />

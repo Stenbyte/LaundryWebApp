@@ -19,7 +19,7 @@ export function App() {
   return (
     <ThemeProvider theme={theme}>
       <Header />
-      {<BookingTable />}
+      <BookingTable />
     </ThemeProvider>
   );
 }
