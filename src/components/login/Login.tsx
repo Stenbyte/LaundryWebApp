@@ -13,7 +13,7 @@ import { toast } from "react-toastify";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { InferType, object, string } from "yup";
-import { useGlobalContext } from "../../context/UseGlobalContext";
+import { useUIContext } from "../../context/UseUIContext";
 
 const LoginSchema = object().shape({
   email: string()
@@ -42,7 +42,7 @@ export function Login() {
 
   const login = useLogin();
 
-  const { dispatch, user } = useGlobalContext();
+  const { dispatch, user } = useUIContext();
 
   const {
     control,

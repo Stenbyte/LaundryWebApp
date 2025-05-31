@@ -21,7 +21,7 @@ import {
 } from "../../services/BookingService";
 import { BookingHeader } from "./BookingHeader";
 import { toast } from "react-toastify";
-import { useGlobalContext } from "../../context/UseGlobalContext";
+import { useUIContext } from "../../context/UseUIContext";
 
 const TIME_SLOTS = ["08:00-11:00", "11:00-14:00", "14:00-17:00", "17:00-20:00"];
 dayjs.extend(utc);
@@ -44,13 +44,13 @@ export interface EditSlotId {
 }
 
 export function BookingTable() {
-  const { user, disabledBtn, dispatch } = useGlobalContext();
+  const { user, disabledBtn, dispatch } = useUIContext();
 
   const today = dayjs();
   const weekDays = Array.from({ length: 7 }, (_, i) =>
     today.add(i, "day").toISOString()
   );
-
+  console.log("here");
   const isTimeSlotInPast = (selectedDateUtc: string, timeSlot: string) => {
     const nowLocal = dayjs();
     const todayLocal = nowLocal.startOf("day");

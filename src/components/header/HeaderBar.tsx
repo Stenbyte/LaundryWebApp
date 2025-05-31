@@ -2,7 +2,7 @@ import { Toolbar, Typography, IconButton, Badge } from "@mui/material";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { MetaDataType } from "./Header";
 import { UserMenu } from "../user/UserMenu";
-import { useGlobalContext } from "../../context/UseGlobalContext";
+import { useUIContext } from "../../context/UseUIContext";
 
 export function HeaderBar({
   data,
@@ -10,7 +10,7 @@ export function HeaderBar({
   data: Pick<MetaDataType, "notifications">;
 }) {
   const { notifications } = data;
-  const { dispatch, user } = useGlobalContext();
+  const { dispatch, user } = useUIContext();
   return (
     <Toolbar style={{ background: "#5E503F" }}>
       <Typography variant="h6" sx={{ flexGrow: 1 }}>

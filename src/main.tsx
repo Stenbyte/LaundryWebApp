@@ -2,15 +2,15 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { App } from "./App";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { GlobalProvider } from "./context/ContextProvider";
+import { UIProvider } from "./context/UiProvider";
 
 const queryClient = new QueryClient();
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <GlobalProvider>
+      <UIProvider>
         <App />
-      </GlobalProvider>
+      </UIProvider>
     </QueryClientProvider>
   </StrictMode>
 );

@@ -1,8 +1,8 @@
 import { ReactNode, useReducer } from "react";
-import { GlobalContext } from "./GlobalContext";
+import { UiContext } from "./UiContext";
 import { useAuth, UserData } from "../hooks/useAuth";
 
-export type GlobalStateType = {
+export type UiStateType = {
   isLogedIn: boolean;
   isSidebarOpen: boolean;
   isSignUpOpen: boolean;
@@ -20,7 +20,7 @@ type Action =
   | { type: "SET_DISABLED_BTN"; payload: boolean }
   | { type: "SET_USER"; payload: UserData | null | undefined };
 
-function reducer(state: GlobalStateType, action: Action): GlobalStateType {
+function reducer(state: UiStateType, action: Action): UiStateType {
   switch (action.type) {
     case "SET_LOGIN":
       return { ...state, isLogedIn: action.payload };
@@ -39,7 +39,7 @@ function reducer(state: GlobalStateType, action: Action): GlobalStateType {
   }
 }
 
-const initialState: GlobalStateType = {
+const initialState: UiStateType = {
   isLogedIn: false,
   isSidebarOpen: false,
   isSignUpOpen: false,
@@ -49,12 +49,12 @@ const initialState: GlobalStateType = {
   dispatch: () => {},
 };
 
-export const GlobalProvider = ({ children }: { children: ReactNode }) => {
+export const UIProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { data: user } = useAuth();
   return (
-    <GlobalContext.Provider value={{ ...state, user, dispatch }}>
+    <UiContext.Provider value={{ ...state, user, dispatch }}>
       {children}
-    </GlobalContext.Provider>
+    </UiContext.Provider>
   );
 };

@@ -13,7 +13,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { Config } from "../../../config";
 import { GenericButton } from "../Buttons/GenericButton";
-import { useGlobalContext } from "../../context/UseGlobalContext";
+import { useUIContext } from "../../context/UseUIContext";
 
 const SubmitSchema = object().shape({
   firstName: string().required("First name is required"),
@@ -69,7 +69,7 @@ const defaultSignUpValues: SignUpType = {
 type SignUpType = InferType<typeof SubmitSchema>;
 
 export function SignUp() {
-  const { isSignUpOpen, dispatch, isLoading } = useGlobalContext();
+  const { isSignUpOpen, dispatch, isLoading } = useUIContext();
 
   const {
     control,

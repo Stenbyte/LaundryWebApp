@@ -5,6 +5,7 @@ import { useLogOut, UserData } from "../../hooks/useAuth";
 
 export function UserMenu(user: UserData) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  console.log(anchorEl);
   const open = Boolean(anchorEl);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {

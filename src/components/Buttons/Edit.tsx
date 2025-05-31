@@ -1,4 +1,4 @@
-import { useGlobalContext } from "../../context/UseGlobalContext";
+import { useUIContext } from "../../context/UseUIContext";
 import { GenericButton } from "./GenericButton";
 
 export function EditBtn({
@@ -6,7 +6,7 @@ export function EditBtn({
 }: {
   disabledBtnIfNoBookings: boolean;
 }) {
-  const { dispatch } = useGlobalContext();
+  const { dispatch } = useUIContext();
   return (
     <GenericButton
       className={!disabledBtnIfNoBookings ? "disabledBtn" : "enabledBtn"}
