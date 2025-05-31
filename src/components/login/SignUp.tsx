@@ -14,6 +14,7 @@ import { toast } from "react-toastify";
 import { Config } from "../../../config";
 import { GenericButton } from "../Buttons/GenericButton";
 import { useUIContext } from "../../context/UseUIContext";
+import { useState } from "react";
 
 const SubmitSchema = object().shape({
   firstName: string().required("First name is required"),
@@ -69,7 +70,8 @@ const defaultSignUpValues: SignUpType = {
 type SignUpType = InferType<typeof SubmitSchema>;
 
 export function SignUp() {
-  const { isSignUpOpen, dispatch, isLoading } = useUIContext();
+  const { isSignUpOpen, dispatch } = useUIContext();
+  const [isLoading, setLoading] = useState(false);
 
   const {
     control,
@@ -96,18 +98,18 @@ export function SignUp() {
 
   const mutation = useMutation({
     mutationFn: async (formData: SignUpType) => {
-      dispatch({ type: "SET_LOADING", payload: true });
+      setLoading(true);
       return axios.post(`${Config.API_BASE_URL}/api/signup`, formData);
     },
     onSuccess: () => {
       toast("Sign-up successful!");
       dispatch({ type: "SET_SIGNUP", payload: false });
-      dispatch({ type: "SET_LOADING", payload: false });
+      setLoading(false);
       reset(defaultSignUpValues);
     },
-    onError: (error) => {
-      toast(`Sign-up failed: ${error?.message}`);
-      dispatch({ type: "SET_LOADING", payload: false });
+    onError: () => {
+      setLoading(false);
+      toast(`Something went wrong during sign-up`);
     },
   });
 
