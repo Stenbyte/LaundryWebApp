@@ -22,6 +22,7 @@ import {
 import { BookingHeader } from "./BookingHeader";
 import { toast } from "react-toastify";
 import { useUIContext } from "../../context/UseUIContext";
+import { useAuthContext } from "../../context/UseAuthContext";
 
 const TIME_SLOTS = ["08:00-11:00", "11:00-14:00", "14:00-17:00", "17:00-20:00"];
 dayjs.extend(utc);
@@ -44,7 +45,8 @@ export interface EditSlotId {
 }
 
 export function BookingTable() {
-  const { user, disabledBtn, dispatch } = useUIContext();
+  const { disabledBtn, dispatch } = useUIContext();
+  const { user } = useAuthContext();
 
   const today = dayjs();
   const weekDays = Array.from({ length: 7 }, (_, i) =>

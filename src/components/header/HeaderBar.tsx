@@ -3,6 +3,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import { MetaDataType } from "./Header";
 import { UserMenu } from "../user/UserMenu";
 import { useUIContext } from "../../context/UseUIContext";
+import { useAuthContext } from "../../context/UseAuthContext";
 
 export function HeaderBar({
   data,
@@ -10,7 +11,8 @@ export function HeaderBar({
   data: Pick<MetaDataType, "notifications">;
 }) {
   const { notifications } = data;
-  const { dispatch, user } = useUIContext();
+  const { dispatch } = useUIContext();
+  const { user } = useAuthContext();
   return (
     <Toolbar style={{ background: "#5E503F" }}>
       <Typography variant="h6" sx={{ flexGrow: 1 }}>
@@ -26,7 +28,7 @@ export function HeaderBar({
               <NotificationsIcon />
             </Badge>
           </IconButton>
-          <UserMenu {...user} />
+          <UserMenu />
         </>
       )}
     </Toolbar>

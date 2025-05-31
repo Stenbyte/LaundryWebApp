@@ -14,6 +14,7 @@ import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { InferType, object, string } from "yup";
 import { useUIContext } from "../../context/UseUIContext";
+import { useAuthContext } from "../../context/UseAuthContext";
 
 const LoginSchema = object().shape({
   email: string()
@@ -42,7 +43,8 @@ export function Login() {
 
   const login = useLogin();
 
-  const { dispatch, user } = useUIContext();
+  const { dispatch } = useUIContext();
+  const { user } = useAuthContext();
 
   const {
     control,

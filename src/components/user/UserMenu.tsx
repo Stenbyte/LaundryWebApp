@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { Menu, MenuItem, IconButton, Box } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { useLogOut, UserData } from "../../hooks/useAuth";
+import { useLogOut } from "../../hooks/useAuth";
+import { useAuthContext } from "../../context/UseAuthContext";
 
-export function UserMenu(user: UserData) {
+export function UserMenu() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const { user } = useAuthContext();
   console.log(anchorEl);
   const open = Boolean(anchorEl);
 
@@ -36,7 +38,7 @@ export function UserMenu(user: UserData) {
         <MenuItem onClick={handleClose}>Profile</MenuItem>
         <MenuItem
           onClick={async () => {
-            await logOut.mutateAsync(user);
+            await logOut.mutateAsync(user!);
             handleClose();
           }}
         >
