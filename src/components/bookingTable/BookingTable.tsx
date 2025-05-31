@@ -22,7 +22,7 @@ import {
 import { BookingHeader } from "./BookingHeader";
 import { toast } from "react-toastify";
 import { useUIContext } from "../../context/UseUIContext";
-import { useAuthContext } from "../../context/UseAuthContext";
+import { useAuth } from "../../hooks/useAuth";
 
 const TIME_SLOTS = ["08:00-11:00", "11:00-14:00", "14:00-17:00", "17:00-20:00"];
 dayjs.extend(utc);
@@ -46,13 +46,13 @@ export interface EditSlotId {
 
 export function BookingTable() {
   const { disabledBtn, dispatch } = useUIContext();
-  const { user } = useAuthContext();
+  const { data: user } = useAuth();
 
   const today = dayjs();
   const weekDays = Array.from({ length: 7 }, (_, i) =>
     today.add(i, "day").toISOString()
   );
-  console.log("here");
+
   const isTimeSlotInPast = (selectedDateUtc: string, timeSlot: string) => {
     const nowLocal = dayjs();
     const todayLocal = nowLocal.startOf("day");
@@ -83,7 +83,7 @@ export function BookingTable() {
     queryKey: ["bookings"],
     queryFn: fetchBookings,
     retry: 0,
-    enabled: !!user,
+    enabled: !!user?.userId,
   });
 
   if (isError) {
@@ -154,7 +154,7 @@ export function BookingTable() {
     }
     return { isBooked: false, slotId: undefined };
   };
-  if (!user) {
+  if (!user?.userId) {
     return null;
   }
 

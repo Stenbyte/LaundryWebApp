@@ -1,4 +1,4 @@
-import { ReactNode, useReducer } from "react";
+import { ReactNode, useMemo, useReducer } from "react";
 import { UiContext } from "./UiContext";
 
 export type UiStateType = {
@@ -45,9 +45,11 @@ const initialState: UiStateType = {
 
 export const UIProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  const contextValue = useMemo(() => {
+    return { ...state, dispatch };
+  }, [state]);
   return (
-    <UiContext.Provider value={{ ...state, dispatch }}>
-      {children}
-    </UiContext.Provider>
+    <UiContext.Provider value={contextValue}>{children}</UiContext.Provider>
   );
 };

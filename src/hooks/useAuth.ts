@@ -10,7 +10,7 @@ export interface UserData {
   userId: string
 }
 type LogOutPayload = LoginPayload & {
-  userId?: string
+  userId: string
 };
 interface LogOutResponse {
   message: string;
@@ -62,7 +62,7 @@ export const useLogOut = () => {
 export const useAuth = () => {
   return useQuery({
     queryKey: ["auth"],
-    queryFn: async (): Promise<UserData | null> => {
+    queryFn: async (): Promise<UserData> => {
       try {
         const response = await api.get("/auth/userInfo");
         return response.data;

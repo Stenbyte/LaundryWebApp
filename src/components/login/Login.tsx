@@ -8,13 +8,12 @@ import {
 } from "@mui/material";
 import { GenericButton } from "../Buttons/GenericButton";
 import { useState } from "react";
-import { useLogin } from "../../hooks/useAuth";
+import { useAuth, useLogin } from "../../hooks/useAuth";
 import { toast } from "react-toastify";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { InferType, object, string } from "yup";
 import { useUIContext } from "../../context/UseUIContext";
-import { useAuthContext } from "../../context/UseAuthContext";
 
 const LoginSchema = object().shape({
   email: string()
@@ -43,8 +42,8 @@ export function Login() {
 
   const login = useLogin();
 
+  const { data: user } = useAuth();
   const { dispatch } = useUIContext();
-  const { user } = useAuthContext();
 
   const {
     control,
@@ -72,7 +71,7 @@ export function Login() {
 
   return (
     <div>
-      <Dialog open={!user} hideBackdrop={false}>
+      <Dialog open={!user?.userId} hideBackdrop={false}>
         <DialogTitle>Login</DialogTitle>
         <DialogContent>
           <form onSubmit={handleSubmit(onSubmit)}>

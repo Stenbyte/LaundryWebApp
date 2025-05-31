@@ -7,7 +7,7 @@ import { CancelBtn } from "../Buttons/Cancel";
 import { ReportBtn } from "../Buttons/Report";
 import "../../App.css";
 import { Booking } from "./BookingTable";
-import { useAuthContext } from "../../context/UseAuthContext";
+import { useAuth } from "../../hooks/useAuth";
 
 export function BookingHeader({
   data,
@@ -16,7 +16,7 @@ export function BookingHeader({
     bookings: Booking[] | undefined;
   };
 }) {
-  const { user } = useAuthContext();
+  const { data: user } = useAuth();
   const reservationCount = data.bookings?.find(
     (booking) => booking.userId === user?.userId
   )?.reservationsLeft;

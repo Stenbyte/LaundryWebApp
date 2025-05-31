@@ -3,7 +3,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import { MetaDataType } from "./Header";
 import { UserMenu } from "../user/UserMenu";
 import { useUIContext } from "../../context/UseUIContext";
-import { useAuthContext } from "../../context/UseAuthContext";
+import { useAuth } from "../../hooks/useAuth";
 
 export function HeaderBar({
   data,
@@ -12,13 +12,13 @@ export function HeaderBar({
 }) {
   const { notifications } = data;
   const { dispatch } = useUIContext();
-  const { user } = useAuthContext();
+  const { data: user } = useAuth();
   return (
     <Toolbar style={{ background: "#5E503F" }}>
       <Typography variant="h6" sx={{ flexGrow: 1 }}>
         LB
       </Typography>
-      {user && (
+      {user?.userId && (
         <>
           <IconButton
             color="inherit"

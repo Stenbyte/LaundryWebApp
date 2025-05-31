@@ -1,13 +1,11 @@
 import { useState } from "react";
 import { Menu, MenuItem, IconButton, Box } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { useLogOut } from "../../hooks/useAuth";
-import { useAuthContext } from "../../context/UseAuthContext";
+import { useAuth, useLogOut } from "../../hooks/useAuth";
 
 export function UserMenu() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const { user } = useAuthContext();
-  console.log(anchorEl);
+  const { data: user } = useAuth();
   const open = Boolean(anchorEl);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
