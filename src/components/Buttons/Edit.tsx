@@ -6,13 +6,13 @@ export function EditBtn({
 }: {
   disabledBtnIfNoBookings: boolean;
 }) {
-  const { dispatch } = useUIContext();
+  const { dispatch, disabledBtn } = useUIContext();
   return (
     <GenericButton
       className={!disabledBtnIfNoBookings ? "disabledBtn" : "enabledBtn"}
       disabled={!disabledBtnIfNoBookings}
       onClick={() => {
-        return dispatch({ type: "SET_DISABLED_BTN", payload: !true });
+        return dispatch({ type: "SET_DISABLED_BTN", payload: !disabledBtn });
       }}
     >
       Edit

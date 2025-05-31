@@ -139,7 +139,7 @@ export function BookingTable() {
     }
   };
 
-  const getReservedSlot = (day: string, time: string) => {
+  const getReservedSlotData = (day: string, time: string) => {
     for (const booking of bookings || []) {
       for (const slot of booking.slots) {
         if (
@@ -148,11 +148,15 @@ export function BookingTable() {
           slot.timeSlots.includes(time) &&
           slot.booked
         ) {
-          return { isBooked: slot.booked, slotId: slot.id };
+          return {
+            isBooked: slot.booked,
+            slotId: slot.id,
+            bookingUserId: booking.userId,
+          };
         }
       }
     }
-    return { isBooked: false, slotId: undefined };
+    return { isBooked: false, slotId: undefined, bookingUserId: undefined };
   };
   if (!user?.userId) {
     return null;
@@ -186,7 +190,8 @@ export function BookingTable() {
               <TableRow key={timeSlots}>
                 <TableCell className="tableBorders">{timeSlots}</TableCell>
                 {weekDays.map((day) => {
-                  const { isBooked, slotId } = getReservedSlot(day, timeSlots);
+                  const { isBooked, slotId, bookingUserId } =
+                    getReservedSlotData(day, timeSlots);
                   return (
                     <TableCell
                       key={day}
@@ -198,9 +203,18 @@ export function BookingTable() {
                       ) : isBooked ? (
                         <Button
                           className={`${
-                            disabledBtn ? "bookedSlot" : "bookedEditSlot"
+                            bookingUserId?.toString() !== user.userId.toString()
+                              ? "bookedSlot"
+                              : !disabledBtn
+                              ? "bookedEditSlot"
+                              : "bookedSlot"
                           }`}
-                          disabled={disabledBtn}
+                          disabled={
+                            bookingUserId?.toString() === user.userId.toString()
+                              ? disabledBtn
+                              : true
+                          }
+                          key={slotId}
                           onClick={() => {
                             edit({ id: slotId });
                           }}
