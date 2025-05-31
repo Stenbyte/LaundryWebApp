@@ -6,7 +6,6 @@ export type UiStateType = {
   isSidebarOpen: boolean;
   isSignUpOpen: boolean;
   dispatch: React.Dispatch<Action>;
-  isLoading: boolean;
   disabledBtn: boolean;
 };
 
@@ -25,8 +24,6 @@ function reducer(state: UiStateType, action: Action): UiStateType {
       return { ...state, isSidebarOpen: action.payload };
     case "SET_SIGNUP":
       return { ...state, isSignUpOpen: action.payload };
-    case "SET_LOADING":
-      return { ...state, isLoading: action.payload };
     case "SET_DISABLED_BTN":
       return { ...state, disabledBtn: action.payload };
     default:
@@ -38,7 +35,6 @@ const initialState: UiStateType = {
   isLogedIn: false,
   isSidebarOpen: false,
   isSignUpOpen: false,
-  isLoading: false,
   disabledBtn: true,
   dispatch: () => {},
 };
