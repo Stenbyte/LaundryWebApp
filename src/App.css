@@ -48,6 +48,12 @@ body {
   border-radius: 5px;
   color: rgba(0, 0, 0, 0.35) !important;
 }
+.bookedUserSlot{
+  background-color: #8a8cf7 !important;
+  padding: 10px;
+  border-radius: 5px;
+  color: rgba(0, 0, 0, 0.35) !important;
+}
 .bookedEditSlot{
   background-color: #D1D2F9 !important;
   padding: 10px;

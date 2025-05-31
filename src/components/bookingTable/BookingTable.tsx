@@ -207,7 +207,7 @@ export function BookingTable() {
                               ? "bookedSlot"
                               : !disabledBtn
                               ? "bookedEditSlot"
-                              : "bookedSlot"
+                              : "bookedUserSlot"
                           }`}
                           disabled={
                             bookingUserId?.toString() === user.userId.toString()
