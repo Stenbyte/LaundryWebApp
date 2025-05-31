@@ -22,8 +22,10 @@ export function BookingHeader({
   )?.reservationsLeft;
 
   const disabledBtnIfNoBookings =
-    data.bookings?.some((booking) =>
-      booking.slots.some((slot) => slot.booked === true)
+    data.bookings?.some(
+      (booking) =>
+        booking.userId.toString() === user?.userId.toString() &&
+        booking.slots.some((slot) => slot.booked === true)
     ) ?? false;
 
   return (
