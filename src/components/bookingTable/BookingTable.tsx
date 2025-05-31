@@ -212,13 +212,7 @@ export function BookingTable() {
                           className="reserveBtn"
                           size="small"
                           onClick={() => {
-                            if (!isBooked) {
-                              dispatch({
-                                type: "SET_DISABLED_BTN",
-                                payload: false,
-                              });
-                              reserve({ day, timeSlots: [timeSlots] });
-                            }
+                            reserve({ day, timeSlots: [timeSlots] });
                           }}
                         >
                           Reserve
