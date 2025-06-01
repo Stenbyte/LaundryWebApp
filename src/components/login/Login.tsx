@@ -72,7 +72,7 @@ export function Login() {
   return (
     <div>
       <Dialog open={!user?.userId} hideBackdrop={false}>
-        <DialogTitle>Login</DialogTitle>
+        <DialogTitle data-test="login-title">Login</DialogTitle>
         <DialogContent>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Controller
@@ -83,6 +83,7 @@ export function Login() {
                   <TextField
                     {...field}
                     fullWidth
+                    data-test="email"
                     label="Email"
                     margin="dense"
                     error={!!errors.email}
@@ -107,6 +108,7 @@ export function Login() {
             <DialogActions>
               <GenericButton
                 className="loginBtn"
+                data-test="login-btn"
                 children={isLoading ? "Logging in..." : "Login"}
                 type="submit"
               />
@@ -115,6 +117,7 @@ export function Login() {
               Don't have an account ?
               <GenericButton
                 children="Sign up"
+                data-test="signup-btn"
                 className="signUpBtn"
                 onClick={() => {
                   dispatch({ type: "SET_SIGNUP", payload: true });
