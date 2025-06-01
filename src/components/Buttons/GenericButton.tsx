@@ -6,6 +6,7 @@ interface GenericButtonProps {
   children: React.ReactNode;
   type?: "button" | "submit" | "reset" | undefined;
   disabled?: boolean;
+  testid?: string;
 }
 
 export function GenericButton({
@@ -14,6 +15,7 @@ export function GenericButton({
   className,
   type,
   disabled,
+  testid,
 }: GenericButtonProps) {
   return (
     <Button
@@ -21,6 +23,7 @@ export function GenericButton({
       onClick={onClick}
       type={type}
       disabled={disabled}
+      data-testid={testid}
     >
       {children}
     </Button>
