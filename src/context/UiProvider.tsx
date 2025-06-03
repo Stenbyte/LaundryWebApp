@@ -2,7 +2,6 @@ import { ReactNode, useMemo, useReducer } from "react";
 import { UiContext } from "./UiContext";
 
 export type UiStateType = {
-  isLogedIn: boolean;
   isSidebarOpen: boolean;
   isSignUpOpen: boolean;
   dispatch: React.Dispatch<Action>;
@@ -18,8 +17,6 @@ type Action =
 
 function reducer(state: UiStateType, action: Action): UiStateType {
   switch (action.type) {
-    case "SET_LOGIN":
-      return { ...state, isLogedIn: action.payload };
     case "SET_SIDEBAR":
       return { ...state, isSidebarOpen: action.payload };
     case "SET_SIGNUP":
@@ -33,7 +30,6 @@ function reducer(state: UiStateType, action: Action): UiStateType {
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const initialState: UiStateType = {
-  isLogedIn: false,
   isSidebarOpen: false,
   isSignUpOpen: false,
   disabledBtn: true,
