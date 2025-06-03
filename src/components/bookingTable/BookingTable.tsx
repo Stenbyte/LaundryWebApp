@@ -166,7 +166,7 @@ export function BookingTable() {
     return <>Loading....</>;
   }
   return (
-    <div className="bookingTable">
+    <div className="bookingTable" data-testid="booking-skeleton">
       <BookingHeader
         data={{
           bookings,
