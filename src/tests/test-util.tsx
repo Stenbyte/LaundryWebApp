@@ -6,19 +6,16 @@ import { initialState, UiStateType } from "../context/UiProvider";
 import { vi } from "vitest";
 import { UiContext } from "../context/UiContext";
 
-const createQueryClient = () => {
-  return new QueryClient({
+
+
+export const renderWithProvider = ({ children }: { children: ReactNode }) => {
+  const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
         retry: false,
       },
     },
   });
-};
-
-
-export const renderWithProvider = ({ children }: { children: ReactNode }) => {
-  const queryClient = createQueryClient();
   const mockState: UiStateType = {
     ...initialState,
     dispatch: vi.fn(),
