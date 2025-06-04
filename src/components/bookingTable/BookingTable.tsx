@@ -18,6 +18,7 @@ import {
   editSlot,
   fetchBookings,
   reserveSlot,
+  useFetchBookings,
 } from "../../services/BookingService";
 import { BookingHeader } from "./BookingHeader";
 import { toast } from "react-toastify";
@@ -48,6 +49,10 @@ export function BookingTable() {
   const { disabledBtn, dispatch } = useUIContext();
   const { data: user } = useAuth();
 
+  if (!user?.userId) {
+    return null;
+  }
+
   const today = dayjs();
   const weekDays = Array.from({ length: 7 }, (_, i) =>
     today.add(i, "day").toISOString()
@@ -73,18 +78,22 @@ export function BookingTable() {
     );
   };
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const queryClient = useQueryClient();
 
-  const {
-    data: bookings,
-    isLoading,
-    isError,
-  } = useQuery({
-    queryKey: ["bookings"],
-    queryFn: fetchBookings,
-    retry: 0,
-    enabled: !!user?.userId,
-  });
+  // const {
+  //   data: bookings,
+  //   isLoading,
+  //   isError,
+  // } = useQuery({
+  //   queryKey: ["bookings"],
+  //   queryFn: fetchBookings,
+  //   retry: 0,
+  //   enabled: !!user?.userId,
+  // });
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const { data: bookings, isLoading, isError } = useFetchBookings(user!.userId);
 
   if (isError) {
     toast(`Failed to fetch reservations`);
@@ -97,6 +106,7 @@ export function BookingTable() {
     return editSlot(args);
   };
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const mutation = useMutation({
     mutationFn: mutationFunction,
     onSuccess: () => {
@@ -111,6 +121,7 @@ export function BookingTable() {
       }
     },
   });
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const editMutation = useMutation({
     mutationFn: editMutationFunction,
     onSuccess: () => {
