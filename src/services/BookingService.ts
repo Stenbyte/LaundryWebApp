@@ -6,7 +6,7 @@ import api from '../services/AxiosConfig';
 import { useQuery } from "@tanstack/react-query";
 
 
-export const useFetchBookings = (userId: string) => {
+export const useFetchBookings = (userId?: string) => {
   return useQuery({
     queryKey: ["bookings"],
     queryFn: async (): Promise<Booking[]> => {
@@ -22,8 +22,6 @@ export const useFetchBookings = (userId: string) => {
     retry: 0,
     enabled: !!userId,
   });
-  // const { data } = await api.get(`${Config.API_BASE_URL}/api/booking/getAll`);
-  // return data;
 };
 
 export const reserveSlot = async (args: BookingSlot | EditSlotId) => {
