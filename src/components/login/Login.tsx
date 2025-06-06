@@ -117,7 +117,7 @@ export function Login() {
               Don't have an account ?
               <GenericButton
                 children="Sign up"
-                data-testid="signup-btn"
+                testid="signup-btn"
                 className="signUpBtn"
                 onClick={() => {
                   dispatch({ type: "SET_SIGNUP", payload: true });
