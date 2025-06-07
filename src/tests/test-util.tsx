@@ -1,12 +1,23 @@
 import { ReactNode } from "react";
 import React from "react";
 import { render, RenderOptions } from "@testing-library/react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import {
+  QueryClient,
+  QueryClientProvider,
+  UseQueryResult,
+} from "@tanstack/react-query";
 import { initialState, UiStateType } from "../context/UiProvider";
 import { vi } from "vitest";
 import { UiContext } from "../context/UiContext";
 
-
+export function createMockUseQueryResult<T>(
+  data: T
+): Partial<UseQueryResult<T, Error>> {
+  return {
+    data,
+    isLoading: false,
+  };
+}
 
 export const renderWithProvider = ({ children }: { children: ReactNode }) => {
   const queryClient = new QueryClient({

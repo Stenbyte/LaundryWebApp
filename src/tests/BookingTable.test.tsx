@@ -1,10 +1,9 @@
 /* @vitest-environment jsdom */
 import { describe, it, expect, vi, afterEach } from "vitest";
-import { render, screen } from "./test-util";
+import { createMockUseQueryResult, render, screen } from "./test-util";
 import { BookingTable } from "../components/bookingTable/BookingTable";
 import * as auth from "../hooks/useAuth";
 import * as bookingService from "../services/BookingService";
-import { UseQueryResult } from "@tanstack/react-query";
 import dayjs from "dayjs";
 
 afterEach(() => {
@@ -13,15 +12,6 @@ afterEach(() => {
 });
 
 describe("BookingTable", () => {
-  function createMockUseQueryResult<T>(
-    data: T
-  ): Partial<UseQueryResult<T, Error>> {
-    return {
-      data,
-      isLoading: false,
-    };
-  }
-
   it("should render booking table component", async () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     vi.spyOn(auth, "useAuth").mockImplementation((): any => {
