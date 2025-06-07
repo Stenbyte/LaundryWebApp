@@ -169,19 +169,28 @@ export function BookingTable() {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell className="tableBorders">Time Slot</TableCell>
+              <TableCell className="tableBorders" data-testid="time-slot">
+                Time Slot
+              </TableCell>
               {weekDays.map((day) => (
-                <TableCell key={day} align="center" className="tableBorders">
+                <TableCell
+                  key={day}
+                  align="center"
+                  className="tableBorders"
+                  data-testid="day-time"
+                >
                   {dayjs(day).format("D ddd, MMM")}
                 </TableCell>
               ))}
             </TableRow>
           </TableHead>
           <TableBody>
-            {TIME_SLOTS.map((timeSlots) => (
+            {TIME_SLOTS.map((timeSlots, slotIndex) => (
               <TableRow key={timeSlots}>
-                <TableCell className="tableBorders">{timeSlots}</TableCell>
-                {weekDays.map((day) => {
+                <TableCell className="tableBorders" data-testid="time-slot-row">
+                  {timeSlots}
+                </TableCell>
+                {weekDays.map((day, dayIndex) => {
                   const { isBooked, slotId, bookingUserId } =
                     getReservedSlotData(day, timeSlots);
                   return (
@@ -189,9 +198,15 @@ export function BookingTable() {
                       key={day}
                       align="center"
                       className="tableBorders"
+                      data-testid={`reservation-slot-${slotIndex}-${dayIndex}`}
                     >
                       {isTimeSlotInPast(day, timeSlots) ? (
-                        <Typography className="expiredSlot">Expired</Typography>
+                        <Typography
+                          className="expiredSlot"
+                          data-testid={`expired-slot-${slotIndex}-${dayIndex}`}
+                        >
+                          Expired
+                        </Typography>
                       ) : isBooked ? (
                         <Button
                           className={`${
@@ -201,6 +216,7 @@ export function BookingTable() {
                               ? "bookedEditSlot"
                               : "bookedUserSlot"
                           }`}
+                          data-testid={`booked-slot-${slotIndex}-${dayIndex}`}
                           disabled={
                             bookingUserId?.toString() === user.userId.toString()
                               ? disabledBtn
@@ -217,6 +233,7 @@ export function BookingTable() {
                         <Button
                           className="reserveBtn"
                           size="small"
+                          data-testid={`reserve-slot-${slotIndex}-${dayIndex}`}
                           onClick={() => {
                             reserve({ day, timeSlots: [timeSlots] });
                           }}
