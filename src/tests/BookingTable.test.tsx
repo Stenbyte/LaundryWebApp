@@ -1,18 +1,24 @@
 /* @vitest-environment jsdom */
-import { describe, it, expect, vi, afterEach } from "vitest";
-import { createMockUseQueryResult, render, screen } from "./test-util";
+import {
+  createMockUseQueryResult,
+  render,
+  screen,
+  describe,
+  it,
+  expect,
+  vi,
+  afterEach,
+  beforeEach,
+} from "./test-util";
 import { BookingTable } from "../components/bookingTable/BookingTable";
 import * as auth from "../hooks/useAuth";
 import * as bookingService from "../services/BookingService";
 import dayjs from "dayjs";
-
-afterEach(() => {
-  vi.resetModules();
-  vi.clearAllMocks();
-});
+import { useEffect } from "react";
+import { useUIContext } from "../context/UseUIContext";
 
 describe("BookingTable", () => {
-  it("should render booking table component", async () => {
+  beforeEach(() => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     vi.spyOn(auth, "useAuth").mockImplementation((): any => {
       return createMockUseQueryResult({
@@ -20,30 +26,13 @@ describe("BookingTable", () => {
         email: "test@tes.com",
       });
     });
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    vi.spyOn(bookingService, "useFetchBookings").mockImplementation((): any => {
-      return [];
-    });
-    render(<BookingTable />);
-    expect(screen.getByTestId("booking-skeleton")).toBeDefined();
-    expect(screen.getByTestId("time-slot")).toBeDefined();
-    expect(screen.getAllByTestId("day-time")).to.have.length(7);
-    expect(screen.getAllByTestId("time-slot-row")).to.have.length(4);
-
-    expect(screen.getAllByTestId("reservation-slot-2-2")).toBeDefined();
-
-    expect(screen.getAllByTestId("expired-slot-0-0")).toBeDefined();
-    expect(screen.getAllByTestId("reserve-slot-3-6")).toBeDefined();
   });
-
-  it("should render booking table booked component", async () => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    vi.spyOn(auth, "useAuth").mockImplementation((): any => {
-      return createMockUseQueryResult({
-        userId: "user",
-        email: "test@tes.com",
-      });
-    });
+  afterEach(() => {
+    vi.resetModules();
+    vi.clearAllMocks();
+    vi.resetAllMocks();
+  });
+  it("should render booking table component", async () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     vi.spyOn(bookingService, "useFetchBookings").mockImplementation((): any => {
       return createMockUseQueryResult([
@@ -62,6 +51,96 @@ describe("BookingTable", () => {
       ]);
     });
     render(<BookingTable />);
-    expect(screen.getAllByTestId("booked-slot-0-1")).toBeDefined();
+    expect(screen.getByTestId("booking-skeleton")).toBeDefined();
+    expect(screen.getByTestId("time-slot")).toBeDefined();
+    expect(screen.getAllByTestId("day-time")).to.have.length(7);
+    expect(screen.getAllByTestId("time-slot-row")).to.have.length(4);
+
+    expect(screen.getAllByTestId("reservation-slot-2-2")).toBeDefined();
+
+    expect(screen.getAllByTestId("reserve-slot-3-6")).toBeDefined();
+  });
+
+  it("should render expired components", () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    vi.spyOn(bookingService, "isTimeSlotInPast").mockImplementation((): any => {
+      return true;
+    });
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    vi.spyOn(bookingService, "useFetchBookings").mockImplementation((): any => {
+      return createMockUseQueryResult([]);
+    });
+    render(<BookingTable />);
+
+    expect(screen.getAllByTestId("expired-slot-0-0")[0]).toBeDefined();
+  });
+
+  it("should render booking table booked component", async () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    vi.spyOn(bookingService, "useFetchBookings").mockImplementation((): any => {
+      return createMockUseQueryResult([
+        {
+          userId: "user",
+          slots: [
+            {
+              day: dayjs().add(1, "day"),
+              timeSlots: ["08:00-11:00"],
+              booked: true,
+              id: "slotId",
+            },
+          ],
+          id: "bookingId",
+        },
+      ]);
+    });
+    render(<BookingTable />);
+
+    expect(screen.getAllByTestId("booked-slot-0-1")[0]).toBeDefined();
+  });
+
+  it("should edit booked component", async () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    vi.spyOn(bookingService, "useFetchBookings").mockImplementation((): any => {
+      return createMockUseQueryResult([
+        {
+          userId: "user",
+          slots: [
+            {
+              day: dayjs().add(1, "day"),
+              timeSlots: ["08:00-11:00"],
+              booked: true,
+              id: "slotId",
+            },
+            {
+              day: dayjs().add(1, "day"),
+              timeSlots: ["11:00-14:00"],
+              booked: true,
+              id: "slotId2",
+            },
+          ],
+          id: "user",
+        },
+      ]);
+    });
+
+    const Wrapper = () => {
+      const { disabledBtn, dispatch } = useUIContext();
+      // disabledBtn =  /
+      useEffect(() => {
+        dispatch({ type: "SET_DISABLED_BTN", payload: !disabledBtn });
+      }, [disabledBtn, dispatch]);
+
+      return <BookingTable />;
+    };
+    render(<Wrapper />);
+    expect(screen.getAllByTestId("edit-btn")[0]).to.have.toHaveClass(
+      "enabledBtn"
+    );
+    expect(screen.getAllByTestId("booked-slot-0-1")[0]).to.have.toHaveClass(
+      "bookedUserSlot"
+    );
+
+    expect(screen.getAllByTestId("booked-slot-0-1")[0]).toBeDefined();
   });
 });
