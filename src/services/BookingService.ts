@@ -4,6 +4,7 @@ import { Config } from "../../config";
 import { Booking, BookingSlot, EditSlotId } from "../components/bookingTable/BookingTable";
 import api from '../services/AxiosConfig';
 import { useQuery } from "@tanstack/react-query";
+import dayjs from "dayjs";
 
 
 export const useFetchBookings = (userId?: string) => {
@@ -92,4 +93,24 @@ export const cancelAllBookings = async () => {
     }
     throw new Error("Failed to remove slot.")
   }
+};
+
+export const isTimeSlotInPast = (selectedDateUtc: string, timeSlot: string) => {
+  const nowLocal = dayjs();
+  const todayLocal = nowLocal.startOf("day");
+
+  const [, end] = timeSlot.split("-");
+  const [endHour, endMinute] = end.split(":").map(Number);
+
+  const slotDateLocal = dayjs.utc(selectedDateUtc).local().startOf("day");
+
+  const slotEndLocal = slotDateLocal
+    .hour(endHour)
+    .minute(endMinute)
+    .second(0);
+
+  return (
+    slotDateLocal.isBefore(todayLocal) ||
+    (slotDateLocal.isSame(todayLocal) && slotEndLocal.isBefore(nowLocal))
+  );
 };

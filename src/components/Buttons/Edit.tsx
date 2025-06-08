@@ -11,6 +11,7 @@ export function EditBtn({
     <GenericButton
       className={!disabledBtnIfNoBookings ? "disabledBtn" : "enabledBtn"}
       disabled={!disabledBtnIfNoBookings}
+      testid="edit-btn"
       onClick={() => {
         return dispatch({ type: "SET_DISABLED_BTN", payload: !disabledBtn });
       }}

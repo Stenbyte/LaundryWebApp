@@ -40,6 +40,7 @@ export function CancelBtn({
       className={!disabledBtnIfNoBookings ? "disabledBtn" : "enabledCancelBtn"}
       disabled={!disabledBtnIfNoBookings}
       onClick={() => cancelBookings()}
+      testid="cancel-btn"
     >
       Cancel
     </GenericButton>

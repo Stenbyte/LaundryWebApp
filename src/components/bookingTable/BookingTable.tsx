@@ -16,6 +16,7 @@ import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import {
   editSlot,
+  isTimeSlotInPast,
   reserveSlot,
   useFetchBookings,
 } from "../../services/BookingService";
@@ -53,25 +54,6 @@ export function BookingTable() {
     today.add(i, "day").toISOString()
   );
 
-  const isTimeSlotInPast = (selectedDateUtc: string, timeSlot: string) => {
-    const nowLocal = dayjs();
-    const todayLocal = nowLocal.startOf("day");
-
-    const [, end] = timeSlot.split("-");
-    const [endHour, endMinute] = end.split(":").map(Number);
-
-    const slotDateLocal = dayjs.utc(selectedDateUtc).local().startOf("day");
-
-    const slotEndLocal = slotDateLocal
-      .hour(endHour)
-      .minute(endMinute)
-      .second(0);
-
-    return (
-      slotDateLocal.isBefore(todayLocal) ||
-      (slotDateLocal.isSame(todayLocal) && slotEndLocal.isBefore(nowLocal))
-    );
-  };
 
   const queryClient = useQueryClient();
 
