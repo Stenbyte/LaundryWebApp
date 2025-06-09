@@ -7,67 +7,19 @@ import {
 } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { object, string, InferType } from "yup";
-import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
-import { toast } from "react-toastify";
-import { Config } from "../../../config";
+
 import { GenericButton } from "../Buttons/GenericButton";
 import { useUIContext } from "../../context/UseUIContext";
 import { useState } from "react";
-
-const SubmitSchema = object().shape({
-  firstName: string().required("First name is required"),
-  lastName: string().required("Last name is required"),
-  email: string()
-    .matches(
-      /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-      "Invalid email format"
-    )
-    .required("Email is required"),
-  // password: string()
-  //   .matches(
-  //     /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-  //     "Password must be at least 8 characters long, include one uppercase letter, one lowercase letter, one number, and one special character"
-  //   )
-  //   .required("Password is required"),
-  // phoneNumber: object({
-  //   number: string()
-  //     .matches(/^\d{8,15}$/, "Invalid phone number")
-  //     .required("Phone is required"),
-  //   countryCode: string()
-  //     .matches(/^\+\d{1,4}$/, "Invalid country code")
-  //     .required("Country Code is required"),
-  // }),
-  adress: object({
-    streetName: string()
-      .min(5, "Address must be at least 5 characters")
-      .required("Street name is required"),
-    houseNumber: string()
-      .matches(
-        /^[1-9]\d*$/,
-        "House number must be a positive number greater than zero"
-      )
-      .required("House number is required"),
-  }),
-});
-
-const defaultSignUpValues: SignUpType = {
-  firstName: "",
-  lastName: "",
-  email: "",
-  adress: {
-    streetName: "",
-    houseNumber: "",
-  },
-  // phoneNumber: {
-  //   number: "",
-  //   countryCode: "",
-  // },
-  // password: "",
-};
-
-type SignUpType = InferType<typeof SubmitSchema>;
+import { useMutation } from "@tanstack/react-query";
+import { Config } from "../../../config";
+import {
+  defaultSignUpValues,
+  SignUpType,
+  SubmitSchema,
+} from "../../services/SignUpService";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 export function SignUp() {
   const { isSignUpOpen, dispatch } = useUIContext();
@@ -96,10 +48,10 @@ export function SignUp() {
     },
   });
 
-  const mutation = useMutation({
-    mutationFn: async (formData: SignUpType) => {
+  const mutate = useMutation({
+    mutationFn: async (data: SignUpType) => {
       setLoading(true);
-      return axios.post(`${Config.API_BASE_URL}/api/signup`, formData);
+      return axios.post(`${Config.API_BASE_URL}/api/signup`, data);
     },
     onSuccess: () => {
       toast("Sign-up successful!");
@@ -112,9 +64,8 @@ export function SignUp() {
       toast(`Something went wrong during sign-up`);
     },
   });
-
-  const onSubmit = (data: SignUpType) => {
-    mutation.mutate(data);
+  const useSubmit = (data: SignUpType) => {
+    mutate.mutateAsync(data);
   };
 
   return (
@@ -129,7 +80,7 @@ export function SignUp() {
       >
         <DialogTitle>Sign Up</DialogTitle>
         <DialogContent>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(useSubmit)}>
             <Controller
               name="firstName"
               control={control}
@@ -139,6 +90,7 @@ export function SignUp() {
                   label="First Name"
                   fullWidth
                   margin="normal"
+                  data-testid="first-name"
                   error={!!errors.firstName}
                   helperText={errors.firstName?.message}
                 />
@@ -152,6 +104,7 @@ export function SignUp() {
                   {...field}
                   label="Last Name"
                   fullWidth
+                  data-testid="last-name"
                   margin="normal"
                   error={!!errors.lastName}
                   helperText={errors.lastName?.message}
@@ -166,6 +119,7 @@ export function SignUp() {
                   {...field}
                   label="Email"
                   fullWidth
+                  data-testid="signup-email"
                   margin="normal"
                   error={!!errors.email}
                   helperText={errors.email?.message}
@@ -223,6 +177,7 @@ export function SignUp() {
                   {...field}
                   label="Street Name"
                   fullWidth
+                  data-testid="street-name"
                   margin="normal"
                   error={!!errors.adress?.streetName}
                   helperText={errors.adress?.streetName?.message}
@@ -237,6 +192,7 @@ export function SignUp() {
                   {...field}
                   label="House Number"
                   fullWidth
+                  data-testid="house-number"
                   margin="normal"
                   error={!!errors.adress?.houseNumber}
                   helperText={errors.adress?.houseNumber?.message}
@@ -250,11 +206,13 @@ export function SignUp() {
                   dispatch({ type: "SET_SIGNUP", payload: false });
                 }}
                 children="Cancel"
+                testid="signup-cancel-btn"
                 className="cancelBtn"
               />
               <GenericButton
                 type="submit"
                 className="signUpSubmit"
+                data-testid="signup-submit"
                 disabled={isLoading}
                 children={isLoading ? "Signing Up..." : "Sign Up"}
               />
