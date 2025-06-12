@@ -1,11 +1,23 @@
-import { describe, it, expect, vi } from "vitest";
-import { createMockUseQueryResult, render, screen } from "./test-util";
+import {
+  createMockUseQueryResult,
+  render,
+  screen,
+  describe,
+  it,
+  expect,
+  vi,
+  afterEach,
+} from "./test-util";
 import * as auth from "../hooks/useAuth";
 import * as bookingService from "../services/BookingService";
 import { App } from "../App";
 
 describe("LogOut", () => {
-  it("log out from platform", async () => {
+  afterEach(() => {
+    vi.clearAllMocks();
+    vi.resetAllMocks();
+  });
+  it("log out from platform", () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     vi.spyOn(auth, "useAuth").mockImplementation((): any => {
       return createMockUseQueryResult({

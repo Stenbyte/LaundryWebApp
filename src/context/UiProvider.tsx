@@ -15,7 +15,8 @@ type Action =
   | { type: "SET_LOADING"; payload: boolean }
   | { type: "SET_DISABLED_BTN"; payload: boolean };
 
-function reducer(state: UiStateType, action: Action): UiStateType {
+// eslint-disable-next-line react-refresh/only-export-components
+export function reducer(state: UiStateType, action: Action): UiStateType {
   switch (action.type) {
     case "SET_SIDEBAR":
       return { ...state, isSidebarOpen: action.payload };

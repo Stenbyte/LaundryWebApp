@@ -212,7 +212,7 @@ export function SignUp() {
               <GenericButton
                 type="submit"
                 className="signUpSubmit"
-                data-testid="signup-submit"
+                testid="signup-submit"
                 disabled={isLoading}
                 children={isLoading ? "Signing Up..." : "Sign Up"}
               />

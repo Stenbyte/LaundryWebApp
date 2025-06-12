@@ -1,15 +1,29 @@
 /* @vitest-environment jsdom */
-import { describe, it, expect, vi, afterEach } from "vitest";
-import { render, screen } from "./test-util";
+import {
+  render,
+  screen,
+  describe,
+  it,
+  expect,
+  afterEach,
+  vi,
+} from "./test-util";
 import { App } from "../App";
-
-afterEach(() => {
-  vi.resetModules();
-  vi.clearAllMocks();
-});
+import axios from "axios";
 
 describe("App", () => {
+  afterEach(() => {
+    vi.clearAllMocks();
+    vi.resetAllMocks();
+    vi.restoreAllMocks();
+  });
+
   it("renders the app component", () => {
+    vi.spyOn(axios, "request").mockResolvedValue({ data: {} });
+    vi.spyOn(axios, "post").mockResolvedValue({
+      data: {},
+    });
+
     render(<App />);
     expect(screen.getByText("LB")).toBeDefined();
     expect(screen.getByTestId("logo")).toBeDefined();
