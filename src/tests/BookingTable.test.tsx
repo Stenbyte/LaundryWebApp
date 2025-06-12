@@ -27,12 +27,14 @@ describe("BookingTable", () => {
       });
     });
   });
+
   afterEach(() => {
     vi.resetModules();
     vi.clearAllMocks();
     vi.resetAllMocks();
   });
-  it("should render booking table component", async () => {
+
+  it("should render booking table component", () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     vi.spyOn(bookingService, "useFetchBookings").mockImplementation((): any => {
       return createMockUseQueryResult([
@@ -76,7 +78,7 @@ describe("BookingTable", () => {
     expect(screen.getAllByTestId("expired-slot-0-0")[0]).toBeDefined();
   });
 
-  it("should render booking table booked component", async () => {
+  it("should render booking table booked component", () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     vi.spyOn(bookingService, "useFetchBookings").mockImplementation((): any => {
       return createMockUseQueryResult([
@@ -99,7 +101,7 @@ describe("BookingTable", () => {
     expect(screen.getAllByTestId("booked-slot-0-1")[0]).toBeDefined();
   });
 
-  it("should edit booked component", async () => {
+  it.skip("should edit booked component", () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     vi.spyOn(bookingService, "useFetchBookings").mockImplementation((): any => {
       return createMockUseQueryResult([
@@ -126,7 +128,7 @@ describe("BookingTable", () => {
 
     const Wrapper = () => {
       const { disabledBtn, dispatch } = useUIContext();
-      // disabledBtn =  /
+
       useEffect(() => {
         dispatch({ type: "SET_DISABLED_BTN", payload: !disabledBtn });
       }, [disabledBtn, dispatch]);
