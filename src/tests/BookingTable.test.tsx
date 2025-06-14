@@ -1,7 +1,6 @@
 /* @vitest-environment jsdom */
 import {
   createMockUseQueryResult,
-  render,
   screen,
   describe,
   it,
@@ -10,12 +9,16 @@ import {
   afterEach,
   beforeEach,
 } from "./test-util";
+import { cleanup, render as defaultRender } from "@testing-library/react";
 import { BookingTable } from "../components/bookingTable/BookingTable";
 import * as auth from "../hooks/useAuth";
 import * as bookingService from "../services/BookingService";
 import dayjs from "dayjs";
-import { useEffect } from "react";
-import { useUIContext } from "../context/UseUIContext";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { initialState } from "../context/UiProvider";
+import { UiContext } from "../context/UiContext";
+import { ThemeProvider } from "@mui/material";
+import { theme } from "../theme";
 
 describe("BookingTable", () => {
   beforeEach(() => {
@@ -32,9 +35,17 @@ describe("BookingTable", () => {
     vi.resetModules();
     vi.clearAllMocks();
     vi.resetAllMocks();
+    cleanup();
   });
 
   it("should render booking table component", () => {
+    const queryClient = new QueryClient({
+      defaultOptions: {
+        queries: {
+          retry: false,
+        },
+      },
+    });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     vi.spyOn(bookingService, "useFetchBookings").mockImplementation((): any => {
       return createMockUseQueryResult([
@@ -52,7 +63,16 @@ describe("BookingTable", () => {
         },
       ]);
     });
-    render(<BookingTable />);
+
+    defaultRender(
+      <QueryClientProvider client={queryClient}>
+        <UiContext.Provider value={initialState}>
+          <ThemeProvider theme={theme}>
+            <BookingTable />
+          </ThemeProvider>
+        </UiContext.Provider>
+      </QueryClientProvider>
+    );
     expect(screen.getByTestId("booking-skeleton")).toBeDefined();
     expect(screen.getByTestId("time-slot")).toBeDefined();
     expect(screen.getAllByTestId("day-time")).to.have.length(7);
@@ -64,6 +84,13 @@ describe("BookingTable", () => {
   });
 
   it("should render expired components", () => {
+    const queryClient = new QueryClient({
+      defaultOptions: {
+        queries: {
+          retry: false,
+        },
+      },
+    });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     vi.spyOn(bookingService, "isTimeSlotInPast").mockImplementation((): any => {
       return true;
@@ -73,12 +100,28 @@ describe("BookingTable", () => {
     vi.spyOn(bookingService, "useFetchBookings").mockImplementation((): any => {
       return createMockUseQueryResult([]);
     });
-    render(<BookingTable />);
+
+    defaultRender(
+      <QueryClientProvider client={queryClient}>
+        <UiContext.Provider value={initialState}>
+          <ThemeProvider theme={theme}>
+            <BookingTable />
+          </ThemeProvider>
+        </UiContext.Provider>
+      </QueryClientProvider>
+    );
 
     expect(screen.getAllByTestId("expired-slot-0-0")[0]).toBeDefined();
   });
 
   it("should render booking table booked component", () => {
+    const queryClient = new QueryClient({
+      defaultOptions: {
+        queries: {
+          retry: false,
+        },
+      },
+    });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     vi.spyOn(bookingService, "useFetchBookings").mockImplementation((): any => {
       return createMockUseQueryResult([
@@ -96,12 +139,28 @@ describe("BookingTable", () => {
         },
       ]);
     });
-    render(<BookingTable />);
+
+    defaultRender(
+      <QueryClientProvider client={queryClient}>
+        <UiContext.Provider value={initialState}>
+          <ThemeProvider theme={theme}>
+            <BookingTable />
+          </ThemeProvider>
+        </UiContext.Provider>
+      </QueryClientProvider>
+    );
 
     expect(screen.getAllByTestId("booked-slot-0-1")[0]).toBeDefined();
   });
 
-  it.skip("should edit booked component", () => {
+  it("should edit booked component", () => {
+    const queryClient = new QueryClient({
+      defaultOptions: {
+        queries: {
+          retry: false,
+        },
+      },
+    });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     vi.spyOn(bookingService, "useFetchBookings").mockImplementation((): any => {
       return createMockUseQueryResult([
@@ -125,22 +184,26 @@ describe("BookingTable", () => {
         },
       ]);
     });
-
-    const Wrapper = () => {
-      const { disabledBtn, dispatch } = useUIContext();
-
-      useEffect(() => {
-        dispatch({ type: "SET_DISABLED_BTN", payload: !disabledBtn });
-      }, [disabledBtn, dispatch]);
-
-      return <BookingTable />;
+    const state = {
+      ...initialState,
+      disabledBtn: false,
     };
-    render(<Wrapper />);
+
+    defaultRender(
+      <QueryClientProvider client={queryClient}>
+        <UiContext.Provider value={state}>
+          <ThemeProvider theme={theme}>
+            <BookingTable />
+          </ThemeProvider>
+        </UiContext.Provider>
+      </QueryClientProvider>
+    );
+
     expect(screen.getAllByTestId("edit-btn")[0]).to.have.toHaveClass(
       "enabledBtn"
     );
     expect(screen.getAllByTestId("booked-slot-0-1")[0]).to.have.toHaveClass(
-      "bookedUserSlot"
+      "bookedEditSlot"
     );
 
     expect(screen.getAllByTestId("booked-slot-0-1")[0]).toBeDefined();
