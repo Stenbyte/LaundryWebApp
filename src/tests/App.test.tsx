@@ -1,13 +1,21 @@
 /* @vitest-environment jsdom */
-import { screen, describe, it, expect, afterEach, vi } from "./test-util";
+import {
+  screen,
+  describe,
+  it,
+  expect,
+  afterEach,
+  vi,
+  createMockUseQueryResult,
+} from "./test-util";
 import { App } from "../App";
-import axios from "axios";
 import { cleanup, render as defaultRender } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { initialState } from "../context/UiProvider";
 import { UiContext } from "../context/UiContext";
 import { ThemeProvider } from "@mui/material";
 import { theme } from "../theme";
+import * as auth from "../hooks/useAuth";
 
 describe("App", () => {
   afterEach(() => {
@@ -25,12 +33,11 @@ describe("App", () => {
         },
       },
     });
-    vi.spyOn(axios, "request").mockResolvedValue({ data: {} });
-    vi.spyOn(axios, "post").mockResolvedValue({
-      data: {},
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    vi.spyOn(auth, "useAuth").mockImplementation((): any => {
+      return createMockUseQueryResult(null);
     });
 
-    // render(<App />);
     defaultRender(
       <QueryClientProvider client={queryClient}>
         <UiContext.Provider value={initialState}>
