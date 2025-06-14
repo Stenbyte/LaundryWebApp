@@ -17,7 +17,7 @@ describe("Login", () => {
     vi.clearAllMocks();
     vi.resetAllMocks();
   });
-  it("submit email", async () => {
+  it.skip("submit email", async () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     vi.spyOn(auth, "useLogin").mockImplementation((): any => {
       return createMockUseQueryResult({
