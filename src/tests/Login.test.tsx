@@ -7,31 +7,31 @@ import {
   waitFor,
   within,
   afterEach,
+  cleanup,
 } from "./test-util";
-import { App } from "../App";
 import userEvent from "@testing-library/user-event";
 import * as auth from "../hooks/useAuth";
+import * as api from "../services/AxiosConfig";
+import { Login } from "../components/login/Login";
 
 describe("Login", () => {
   afterEach(() => {
     vi.clearAllMocks();
     vi.resetAllMocks();
+    cleanup();
   });
   it.skip("submit email", async () => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    vi.spyOn(auth, "useLogin").mockImplementation((): any => {
-      return createMockUseQueryResult({
-        token: "token",
-      });
+    const mockedPost = vi.spyOn(api.default, "post").mockResolvedValue({
+      data: { token: "token" },
     });
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     vi.spyOn(auth, "useAuth").mockImplementation((): any => {
       return createMockUseQueryResult(null);
     });
-    render(<App />);
+    render(<Login />);
 
-    const emailWrapper = await screen.findByTestId("email");
+    const emailWrapper = await screen.findByTestId("login-email");
     const emailInput = within(emailWrapper).getByRole("textbox");
     await userEvent.type(emailInput, "test@test.com");
 
@@ -39,7 +39,12 @@ describe("Login", () => {
     fireEvent.click(loginBtn);
 
     await waitFor(() => {
-      expect(emailInput).toHaveValue("test@test.com");
+      expect(mockedPost).toHaveBeenCalledWith(
+        expect.stringContaining("/auth/login"),
+        expect.objectContaining({
+          email: "test@test.com",
+        })
+      );
     });
   });
 });
