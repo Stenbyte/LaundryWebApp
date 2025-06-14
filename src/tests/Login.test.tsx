@@ -24,6 +24,11 @@ describe("Login", () => {
         token: "token",
       });
     });
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    vi.spyOn(auth, "useAuth").mockImplementation((): any => {
+      return createMockUseQueryResult(null);
+    });
     render(<App />);
 
     const emailWrapper = await screen.findByTestId("email");
