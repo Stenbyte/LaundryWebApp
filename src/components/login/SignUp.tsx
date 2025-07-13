@@ -38,7 +38,7 @@ export function SignUp() {
       // password: "",
       adress: {
         streetName: "",
-        houseNumber: "",
+        buildingNumber: "",
       },
       // phoneNumber: {
       //   countryCode: "",
@@ -185,7 +185,7 @@ export function SignUp() {
               )}
             />
             <Controller
-              name="adress.houseNumber"
+              name="adress.buildingNumber"
               control={control}
               render={({ field }) => (
                 <TextField
@@ -194,8 +194,8 @@ export function SignUp() {
                   fullWidth
                   data-testid="house-number"
                   margin="normal"
-                  error={!!errors.adress?.houseNumber}
-                  helperText={errors.adress?.houseNumber?.message}
+                  error={!!errors.adress?.buildingNumber}
+                  helperText={errors.adress?.buildingNumber?.message}
                 />
               )}
             />

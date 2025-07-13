@@ -41,19 +41,21 @@ describe("Signup", () => {
     const lastNameWrapper = await screen.findByTestId("last-name");
     const emailWrapper = await screen.findByTestId("signup-email");
     const streetNameWrapper = await screen.findByTestId("street-name");
-    const houseNumberWrapper = await screen.findByTestId("house-number");
+    const buildingNumberWrapper = await screen.findByTestId("house-number");
 
     const firstNameInput = within(firstNameWrapper).getByRole("textbox");
     const lastNameInput = within(lastNameWrapper).getByRole("textbox");
     const emailInput = within(emailWrapper).getByRole("textbox");
     const streetNameInput = within(streetNameWrapper).getByRole("textbox");
-    const houseNumberInput = within(houseNumberWrapper).getByRole("textbox");
+    const buildingNumberInput = within(buildingNumberWrapper).getByRole(
+      "textbox"
+    );
 
     await userEvent.type(firstNameInput, "test");
     await userEvent.type(lastNameInput, "testersen");
     await userEvent.type(emailInput, "test@test.com");
     await userEvent.type(streetNameInput, "engahevevej");
-    await userEvent.type(houseNumberInput, "55");
+    await userEvent.type(buildingNumberInput, "55");
 
     const signUpBtn = await screen.findByTestId("signup-submit");
     fireEvent.click(signUpBtn);
@@ -67,7 +69,7 @@ describe("Signup", () => {
           email: "test@test.com",
           adress: {
             streetName: "engahevevej",
-            houseNumber: "55",
+            buildingNumber: "55",
           },
         })
       );

@@ -28,7 +28,7 @@ export const SubmitSchema = object().shape({
         streetName: string()
             .min(5, "Address must be at least 5 characters")
             .required("Street name is required"),
-        houseNumber: string()
+        buildingNumber: string()
             .matches(
                 /^[1-9]\d*$/,
                 "House number must be a positive number greater than zero"
@@ -43,7 +43,7 @@ export const defaultSignUpValues: SignUpType = {
     email: "",
     adress: {
         streetName: "",
-        houseNumber: "",
+        buildingNumber: "",
     },
     // phoneNumber: {
     //   number: "",
