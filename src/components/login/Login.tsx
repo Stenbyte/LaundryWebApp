@@ -71,7 +71,7 @@ export function Login() {
 
   return (
     <div>
-      <Dialog open={!user?.userId} hideBackdrop={false}>
+      <Dialog open={user ? !user?.userId : false} hideBackdrop={false}>
         <DialogTitle data-testid="login-title">Login</DialogTitle>
         <DialogContent>
           <form onSubmit={handleSubmit(onSubmit)}>
