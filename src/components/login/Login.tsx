@@ -69,9 +69,10 @@ export function Login() {
     setLoading(false);
   };
 
+  // fix this with session storage ?
   return (
     <div>
-      <Dialog open={user ? !user?.userId : false} hideBackdrop={false}>
+      <Dialog open={!user?.userId} hideBackdrop={false}>
         <DialogTitle data-testid="login-title">Login</DialogTitle>
         <DialogContent>
           <form onSubmit={handleSubmit(onSubmit)}>
