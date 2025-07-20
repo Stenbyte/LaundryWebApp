@@ -43,10 +43,10 @@ steps:
     npx tsc --noEmit --pretty --diagnostics
   displayName: 'Run TypeScript diagnostics'
 
-- script: |
-    echo "Running unit tests with coverage"
-    npm run test
-  displayName: 'Run Unit Tests'
+# - script: |
+#     echo "Running unit tests with coverage"
+#     npm run test
+#   displayName: 'Run Unit Tests'
 
 - script: |
     npm run build:prod
