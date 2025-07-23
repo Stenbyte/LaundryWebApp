@@ -54,6 +54,7 @@ export const useLogOut = () => {
     mutationFn: logOutUser,
     onSuccess: () => {
       sessionStorage.clear()
+      localStorage.clear();
       queryClient.setQueryData(["auth"], null);
     },
   });
@@ -65,6 +66,7 @@ export const useAuth = () => {
     queryFn: async (): Promise<UserData> => {
       try {
         const response = await api.get("/auth/userInfo");
+        localStorage.setItem('userId', response.data.userId);
         return response.data;
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (err) {

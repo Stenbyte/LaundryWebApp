@@ -42,7 +42,7 @@ export function Login() {
 
   const login = useLogin();
 
-  const { data: user } = useAuth();
+  useAuth();
   const { dispatch } = useUIContext();
 
   const {
@@ -69,10 +69,14 @@ export function Login() {
     setLoading(false);
   };
 
-  // fix this with session storage ?
+  const userId = localStorage.getItem("userId");
+  let loggedIn = false;
+  if (userId) {
+    loggedIn = true;
+  }
   return (
     <div>
-      <Dialog open={!user?.userId} hideBackdrop={false}>
+      <Dialog open={!loggedIn} hideBackdrop={false}>
         <DialogTitle data-testid="login-title">Login</DialogTitle>
         <DialogContent>
           <form onSubmit={handleSubmit(onSubmit)}>
