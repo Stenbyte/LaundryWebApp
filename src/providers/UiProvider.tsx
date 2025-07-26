@@ -1,5 +1,6 @@
 import { ReactNode, useMemo, useReducer } from "react";
-import { UiContext } from "./UiContext";
+import { UiContext } from "../context/UiContext";
+
 
 export type UiStateType = {
   isSidebarOpen: boolean;
