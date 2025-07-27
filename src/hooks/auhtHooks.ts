@@ -1,23 +1,8 @@
 import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import api from "../services/AxiosConfig";
+import { LoginPayload, LoginResponse, LogOutPayload, LogOutResponse, RefreshTokenResponse, UserData } from "../constants";
 
-interface LoginPayload {
-  email: string;
-  // password: string;
-}
-export interface UserData {
-  email: string,
-  userId: string
-}
-type LogOutPayload = LoginPayload & {
-  userId: string
-};
-interface LogOutResponse {
-  message: string;
-}
-interface LoginResponse {
-  token: string;
-}
+
 
 const loginUser = async (payload: LoginPayload): Promise<LoginResponse> => {
   const response = await api.post<LoginResponse>("/auth/login", payload);
@@ -72,15 +57,10 @@ export const useAuth = () => {
       }
     },
     retry: 0,
-    staleTime: 1000 * 60 * 5,
-    enabled: !!sessionStorage.getItem("access_token")
+    staleTime: 1000 * 60 * 5
   });
 };
 
-
-interface RefreshTokenResponse {
-  accessToken: string;
-}
 
 export const useRefreshToken = () => {
   const queryClient = useQueryClient();

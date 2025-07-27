@@ -23,41 +23,28 @@ import {
 import { BookingHeader } from "./BookingHeader";
 import { toast } from "react-toastify";
 import { useUIContext } from "../../context/UseUIContext";
-import { useAuth } from "../../hooks/useAuth";
+import { useAuthContext } from "../../context/UseAuthContext";
+import { BookingSlot, EditSlotId, TIME_SLOTS } from "../../constants";
 
-const TIME_SLOTS = ["08:00-11:00", "11:00-14:00", "14:00-17:00", "17:00-20:00"];
 dayjs.extend(utc);
 dayjs.extend(timezone);
-export interface BookingSlot {
-  day: string;
-  timeSlots: string[];
-  booked?: boolean;
-  id?: string;
-}
-export interface Booking {
-  userId: string;
-  machineId: string;
-  slots: BookingSlot[];
-  reservationsLeft: number;
-  id?: string;
-}
-export interface EditSlotId {
-  id: string | undefined;
-}
 
 export function BookingTable() {
   const { disabledBtn, dispatch } = useUIContext();
-  const { data: user } = useAuth();
+  const userData = useAuthContext();
 
   const today = dayjs();
   const weekDays = Array.from({ length: 7 }, (_, i) =>
     today.add(i, "day").toISOString()
   );
 
-
   const queryClient = useQueryClient();
 
-  const { data: bookings, isLoading, isError } = useFetchBookings(user?.userId);
+  const {
+    data: bookings,
+    isLoading,
+    isError,
+  } = useFetchBookings(userData?.userId);
 
   if (isError) {
     toast(`Failed to fetch reservations`);
@@ -132,7 +119,7 @@ export function BookingTable() {
     }
     return { isBooked: false, slotId: undefined, bookingUserId: undefined };
   };
-  if (!user?.userId) {
+  if (!userData?.userId) {
     return null;
   }
 
@@ -192,7 +179,8 @@ export function BookingTable() {
                       ) : isBooked ? (
                         <Button
                           className={`${
-                            bookingUserId?.toString() !== user.userId.toString()
+                            bookingUserId?.toString() !==
+                            userData.userId.toString()
                               ? "bookedSlot"
                               : !disabledBtn
                               ? "bookedEditSlot"
@@ -200,7 +188,8 @@ export function BookingTable() {
                           }`}
                           data-testid={`booked-slot-${slotIndex}-${dayIndex}`}
                           disabled={
-                            bookingUserId?.toString() === user.userId.toString()
+                            bookingUserId?.toString() ===
+                            userData.userId.toString()
                               ? disabledBtn
                               : true
                           }

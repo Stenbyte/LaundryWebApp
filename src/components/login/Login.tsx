@@ -8,14 +8,16 @@ import {
 } from "@mui/material";
 import { GenericButton } from "../Buttons/GenericButton";
 import { useState } from "react";
-import { useAuth, useLogin } from "../../hooks/auhtHooks";
+import { useLogin } from "../../hooks/auhtHooks";
 import { toast } from "react-toastify";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { InferType, object, string } from "yup";
+import { object, string } from "yup";
 import { useUIContext } from "../../context/UseUIContext";
+import { useAuthContext } from "../../context/UseAuthContext";
+import { LoginType } from "../../constants";
 
-const LoginSchema = object().shape({
+export const LoginSchema = object().shape({
   email: string()
     .matches(
       /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
@@ -30,8 +32,6 @@ const LoginSchema = object().shape({
   //   .required("Password is required"),
 });
 
-type LoginType = InferType<typeof LoginSchema>;
-
 const defaultLoginValues: LoginType = {
   email: "",
   // password: "",
@@ -42,8 +42,8 @@ export function Login() {
 
   const login = useLogin();
 
-  useAuth();
   const { dispatch } = useUIContext();
+  const userData = useAuthContext();
 
   const {
     control,
@@ -69,9 +69,13 @@ export function Login() {
     setLoading(false);
   };
 
+  let showLogin = true;
+  if (userData?.userId) {
+    showLogin = false;
+  }
   return (
     <div>
-      <Dialog open={true} hideBackdrop={false}>
+      <Dialog open={showLogin} hideBackdrop={false}>
         <DialogTitle data-testid="login-title">Login</DialogTitle>
         <DialogContent>
           <form onSubmit={handleSubmit(onSubmit)}>

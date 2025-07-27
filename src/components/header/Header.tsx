@@ -5,9 +5,7 @@ import { Login } from "../login/Login";
 import { SignUp } from "../login/SignUp";
 import { ToastContainer } from "react-toastify";
 
-export type MetaDataType = {
-  notifications: string[];
-};
+
 
 export function Header() {
   const notifications = [

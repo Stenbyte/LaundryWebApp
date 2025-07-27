@@ -1,9 +1,9 @@
 import { Toolbar, Typography, IconButton, Badge } from "@mui/material";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import { MetaDataType } from "./Header";
 import { UserMenu } from "../user/UserMenu";
 import { useUIContext } from "../../context/UseUIContext";
-import { useAuth } from "../../hooks/auhtHooks";
+import { useAuthContext } from "../../context/UseAuthContext";
+import { MetaDataType } from "../../constants";
 
 export function HeaderBar({
   data,
@@ -12,13 +12,13 @@ export function HeaderBar({
 }) {
   const { notifications } = data;
   const { dispatch } = useUIContext();
-  const { data: user } = useAuth();
+  const userData = useAuthContext();
   return (
     <Toolbar style={{ background: "#5E503F" }}>
       <Typography variant="h6" sx={{ flexGrow: 1 }} data-testid="logo">
         LB
       </Typography>
-      {user?.userId && (
+      {userData?.userId && (
         <>
           <IconButton
             color="inherit"

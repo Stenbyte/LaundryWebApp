@@ -7,7 +7,7 @@ import { CancelBtn } from "../Buttons/Cancel";
 import { ReportBtn } from "../Buttons/Report";
 import "../../App.css";
 import { Booking } from "./BookingTable";
-import { useAuth } from "../../hooks/useAuth";
+import { useAuthContext } from "../../context/UseAuthContext";
 
 export function BookingHeader({
   data,
@@ -16,15 +16,15 @@ export function BookingHeader({
     bookings: Booking[] | undefined;
   };
 }) {
-  const { data: user } = useAuth();
+  const userData = useAuthContext();
   const reservationCount = data.bookings?.find(
-    (booking) => booking.userId === user?.userId
+    (booking) => booking.userId === userData?.userId
   )?.reservationsLeft;
 
   const disabledBtnIfNoBookings =
     data.bookings?.some(
       (booking) =>
-        booking.userId.toString() === user?.userId.toString() &&
+        booking.userId.toString() === userData?.userId.toString() &&
         booking.slots.some((slot) => slot.booked === true)
     ) ?? false;
 
