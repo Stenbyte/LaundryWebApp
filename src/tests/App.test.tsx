@@ -11,11 +11,11 @@ import {
 import { App } from "../App";
 import { cleanup, render as defaultRender } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { initialState } from "../context/UiProvider";
 import { UiContext } from "../context/UiContext";
 import { ThemeProvider } from "@mui/material";
 import { theme } from "../theme";
 import * as auth from "../hooks/auhtHooks";
+import { initialState } from "../providers/UiProvider";
 
 describe("App", () => {
   afterEach(() => {
