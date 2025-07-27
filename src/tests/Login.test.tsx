@@ -10,7 +10,7 @@ import {
   cleanup,
 } from "./test-util";
 import userEvent from "@testing-library/user-event";
-import * as auth from "../hooks/useAuth";
+import * as auth from "../hooks/auhtHooks";
 import * as api from "../services/AxiosConfig";
 import { Login } from "../components/login/Login";
 

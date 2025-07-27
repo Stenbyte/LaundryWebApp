@@ -15,7 +15,7 @@ import { initialState } from "../context/UiProvider";
 import { UiContext } from "../context/UiContext";
 import { ThemeProvider } from "@mui/material";
 import { theme } from "../theme";
-import * as auth from "../hooks/useAuth";
+import * as auth from "../hooks/auhtHooks";
 
 describe("App", () => {
   afterEach(() => {

@@ -11,7 +11,7 @@ import {
 } from "./test-util";
 import { cleanup, render as defaultRender } from "@testing-library/react";
 import { BookingTable } from "../components/bookingTable/BookingTable";
-import * as auth from "../hooks/useAuth";
+import * as auth from "../hooks/auhtHooks";
 import * as bookingService from "../services/BookingService";
 import dayjs from "dayjs";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";

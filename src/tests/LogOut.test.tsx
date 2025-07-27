@@ -8,7 +8,7 @@ import {
   vi,
   afterEach,
 } from "./test-util";
-import * as auth from "../hooks/useAuth";
+import * as auth from "../hooks/auhtHooks";
 import * as bookingService from "../services/BookingService";
 import { App } from "../App";
 
