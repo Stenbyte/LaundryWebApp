@@ -3,7 +3,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import { MetaDataType } from "./Header";
 import { UserMenu } from "../user/UserMenu";
 import { useUIContext } from "../../context/UseUIContext";
-import { useAuth } from "../../hooks/useAuth";
+import { useAuth } from "../../hooks/auhtHooks";
 
 export function HeaderBar({
   data,

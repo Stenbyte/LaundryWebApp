@@ -64,7 +64,7 @@ export const setupAxiosInterceptors = (
           return api(originalRequest);
         } catch (refreshError) {
           queryClient.setQueryData(["auth"], null);
-          localStorage.clear();
+          sessionStorage.clear();
           isRefreshing = false;
           return Promise.reject(refreshError);
         }

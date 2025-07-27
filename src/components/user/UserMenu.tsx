@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Menu, MenuItem, IconButton, Box } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { useAuth, useLogOut } from "../../hooks/useAuth";
+import { useAuth, useLogOut } from "../../hooks/auhtHooks";
 
 export function UserMenu() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);

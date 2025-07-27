@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import { GenericButton } from "../Buttons/GenericButton";
 import { useState } from "react";
-import { useAuth, useLogin } from "../../hooks/useAuth";
+import { useAuth, useLogin } from "../../hooks/auhtHooks";
 import { toast } from "react-toastify";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -69,14 +69,9 @@ export function Login() {
     setLoading(false);
   };
 
-  const userId = localStorage.getItem("userId");
-  let loggedIn = false;
-  if (userId) {
-    loggedIn = true;
-  }
   return (
     <div>
-      <Dialog open={!loggedIn} hideBackdrop={false}>
+      <Dialog open={true} hideBackdrop={false}>
         <DialogTitle data-testid="login-title">Login</DialogTitle>
         <DialogContent>
           <form onSubmit={handleSubmit(onSubmit)}>

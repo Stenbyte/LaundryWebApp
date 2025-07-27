@@ -1,5 +1,5 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { useRefreshToken } from "../hooks/useAuth";
+import { useRefreshToken } from "../hooks/auhtHooks";
 import { useEffect } from "react";
 import { setupAxiosInterceptors } from "../services/AxiosConfig";
 
