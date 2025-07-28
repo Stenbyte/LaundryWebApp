@@ -1,10 +1,10 @@
 
 import { AxiosError } from "axios";
 import { Config } from "../../config";
-import { Booking, BookingSlot, EditSlotId } from "../components/bookingTable/BookingTable";
 import api from '../services/AxiosConfig';
 import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
+import { Booking, BookingSlot, EditSlotId } from "../constants";
 
 
 export const useFetchBookings = (userId?: string) => {

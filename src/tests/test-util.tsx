@@ -6,10 +6,10 @@ import {
   QueryClientProvider,
   UseQueryResult,
 } from "@tanstack/react-query";
-import { initialState, reducer } from "../context/UiProvider";
 import { UiContext } from "../context/UiContext";
 import { ThemeProvider } from "@mui/material";
 import { theme } from "../theme";
+import { reducer, initialState } from "../providers/UiProvider";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export function createMockUseQueryResult<T>(

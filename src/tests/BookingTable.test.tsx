@@ -15,10 +15,10 @@ import * as auth from "../hooks/auhtHooks";
 import * as bookingService from "../services/BookingService";
 import dayjs from "dayjs";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { initialState } from "../context/UiProvider";
 import { UiContext } from "../context/UiContext";
 import { ThemeProvider } from "@mui/material";
 import { theme } from "../theme";
+import { initialState } from "../providers/UiProvider";
 
 describe("BookingTable", () => {
   beforeEach(() => {

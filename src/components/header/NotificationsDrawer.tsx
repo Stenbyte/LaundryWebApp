@@ -7,8 +7,8 @@ import {
   ListItemText,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { MetaDataType } from "./Header";
 import { useUIContext } from "../../context/UseUIContext";
+import { MetaDataType } from "../../constants";
 
 export function NotificationsDrawer({
   data,

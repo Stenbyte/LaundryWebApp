@@ -6,8 +6,8 @@ import { EditBtn } from "../Buttons/Edit";
 import { CancelBtn } from "../Buttons/Cancel";
 import { ReportBtn } from "../Buttons/Report";
 import "../../App.css";
-import { Booking } from "./BookingTable";
 import { useAuthContext } from "../../context/UseAuthContext";
+import { Booking } from "../../constants";
 
 export function BookingHeader({
   data,
