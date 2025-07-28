@@ -4,8 +4,7 @@ import { NotificationsDrawer } from "./NotificationsDrawer";
 import { Login } from "../login/Login";
 import { SignUp } from "../login/SignUp";
 import { ToastContainer } from "react-toastify";
-
-
+import { ReleaseNotesDialog } from "../releaseNotes/ReleaseNotesDialog";
 
 export function Header() {
   const notifications = [
@@ -22,8 +21,9 @@ export function Header() {
       <ToastContainer autoClose={2000} closeOnClick={true} />
       <HeaderBar data={metaData} />
       <NotificationsDrawer data={metaData} />
-      <Login />
       <SignUp />
+      <ReleaseNotesDialog />
+      <Login />
     </AppBar>
   );
 }

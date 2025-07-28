@@ -75,7 +75,7 @@ export function Login() {
   }
   return (
     <div>
-      <Dialog open={showLogin} hideBackdrop={false}>
+      <Dialog open={showLogin} hideBackdrop={true}>
         <DialogTitle data-testid="login-title">Login</DialogTitle>
         <DialogContent>
           <form onSubmit={handleSubmit(onSubmit)}>
