@@ -35,7 +35,7 @@ export function SignUp() {
     defaultValues: {
       firstName: "",
       lastName: "",
-      // password: "",
+      password: "",
       adress: {
         streetName: "",
         buildingNumber: "",
@@ -126,7 +126,7 @@ export function SignUp() {
                 />
               )}
             />
-            {/* <Controller
+            <Controller
               name="password"
               control={control}
               render={({ field }) => (
@@ -140,7 +140,7 @@ export function SignUp() {
                   helperText={errors.password?.message}
                 />
               )}
-            /> */}
+            />
             {/* <Controller
               name="phoneNumber.number"
               control={control}

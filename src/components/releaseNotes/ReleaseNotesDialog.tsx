@@ -35,7 +35,7 @@ export function ReleaseNotesDialog() {
       style={{ marginRight: "-70vw" }}
       hideBackdrop={false}
     >
-      <DialogTitle sx={{ m: 0, p: 2 }}>📝 Release Notes</DialogTitle>
+      <DialogTitle sx={{ m: 0, p: 2 }}>📝 News</DialogTitle>
       <DialogContent dividers sx={{ maxHeight: "60vh", overflowY: "auto" }}>
         <Typography component="div" sx={{ "& p": { margin: 0 } }}>
           <ReactMarkdown>{notes}</ReactMarkdown>

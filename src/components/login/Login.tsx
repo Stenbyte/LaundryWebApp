@@ -24,17 +24,17 @@ export const LoginSchema = object().shape({
       "Invalid email format"
     )
     .required("Email is required"),
-  // password: string()
-  //   .matches(
-  //     /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-  //     "Password must be at least 8 characters long, include one uppercase letter, one lowercase letter, one number, and one special character"
-  //   )
-  //   .required("Password is required"),
+  password: string()
+    .matches(
+      /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+      "Password must be at least 8 characters long, include one uppercase letter, one lowercase letter, one number, and one special character"
+    )
+    .required("Password is required"),
 });
 
 const defaultLoginValues: LoginType = {
   email: "",
-  // password: "",
+  password: "",
 };
 
 export function Login() {
@@ -53,7 +53,7 @@ export function Login() {
   } = useForm({
     resolver: yupResolver(LoginSchema),
     defaultValues: {
-      // password: "",
+      password: "",
       email: "",
     },
   });
@@ -96,7 +96,7 @@ export function Login() {
                 );
               }}
             />
-            {/* <Controller
+            <Controller
               name="password"
               control={control}
               render={({ field }) => (
@@ -108,7 +108,7 @@ export function Login() {
                   margin="dense"
                 />
               )}
-            /> */}
+            />
             <DialogActions>
               <GenericButton
                 className="loginBtn"

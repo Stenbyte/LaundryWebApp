@@ -10,12 +10,12 @@ export const SubmitSchema = object().shape({
             "Invalid email format"
         )
         .required("Email is required"),
-    // password: string()
-    //   .matches(
-    //     /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-    //     "Password must be at least 8 characters long, include one uppercase letter, one lowercase letter, one number, and one special character"
-    //   )
-    //   .required("Password is required"),
+    password: string()
+        .matches(
+            /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+            "Password must be at least 8 characters long, include one uppercase letter, one lowercase letter, one number, and one special character"
+        )
+        .required("Password is required"),
     // phoneNumber: object({
     //   number: string()
     //     .matches(/^\d{8,15}$/, "Invalid phone number")
@@ -49,7 +49,7 @@ export const defaultSignUpValues: SignUpType = {
     //   number: "",
     //   countryCode: "",
     // },
-    // password: "",
+    password: ""
 };
 
 export type SignUpType = InferType<typeof SubmitSchema>;
