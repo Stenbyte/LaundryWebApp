@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import api from "../services/AxiosConfig";
-import { LoginPayload, LoginResponse, LogOutPayload, LogOutResponse, RefreshTokenResponse, UserData } from "../constants";
+import { LoginPayload, LoginResponse, LogOutResponse, RefreshTokenResponse, UserData } from "../constants";
 
 
 
@@ -9,7 +9,7 @@ const loginUser = async (payload: LoginPayload): Promise<LoginResponse> => {
   return response.data;
 };
 
-const logOutUser = async (data: LogOutPayload): Promise<LogOutResponse> => {
+const logOutUser = async (data: UserData): Promise<LogOutResponse> => {
   const email = data.email;
   const response = await api.post<LogOutResponse>("/auth/logout", {
     email
@@ -35,7 +35,7 @@ export const useLogin = () => {
 export const useLogOut = () => {
   const queryClient = useQueryClient();
 
-  return useMutation<LogOutResponse, Error, LogOutPayload>({
+  return useMutation<LogOutResponse, Error, UserData>({
     mutationFn: logOutUser,
     onSuccess: () => {
       sessionStorage.clear()
