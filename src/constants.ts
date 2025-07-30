@@ -44,3 +44,21 @@ export interface EditSlotId {
 }
 
 export const TIME_SLOTS = ["08:00-11:00", "11:00-14:00", "14:00-17:00", "17:00-20:00"];
+
+export interface Machine {
+    id: string;
+    name: MachineNameEnum;
+    status: MachineStatusEnum;
+    buildingId: string;
+}
+
+
+export enum MachineNameEnum {
+    washingMachine = 0,
+    dryerMachine = 1
+}
+
+export enum MachineStatusEnum {
+    available = 0,
+    maintenance = 1
+}
