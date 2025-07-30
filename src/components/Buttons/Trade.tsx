@@ -12,7 +12,9 @@ export function TradeBtn() {
       >
         <InfoIcon />
       </Tooltip>
-      <GenericButton className="tradeBtn">Trade</GenericButton>
+      <GenericButton className="tradeBtn" disabled>
+        Trade
+      </GenericButton>
     </Box>
   );
 }
