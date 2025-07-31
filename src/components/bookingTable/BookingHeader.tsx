@@ -7,7 +7,7 @@ import { CancelBtn } from "../Buttons/Cancel";
 import { ReportBtn } from "../Buttons/Report";
 import "../../App.css";
 import { useAuthContext } from "../../context/UseAuthContext";
-import { Booking } from "../../constants";
+import { Booking, Machine } from "../../constants";
 
 export function BookingHeader({
   data,
@@ -28,24 +28,45 @@ export function BookingHeader({
         booking.slots.some((slot) => slot.booked === true)
     ) ?? false;
 
+  const dummyData: Machine[] = [
+    { id: "123", name: 0, status: 0, buildingId: "123" },
+  ];
+
   return (
-    <Box className="booking-counter-mainBox">
-      <Box className="booking-counter-resesrvation">
-        <Tooltip
-          title="Number of reservations that can be used per week"
-          className="infoIcon"
-          placement="top-start"
-        >
+    <>
+      <Box>
+        <Tooltip title="Available Machines" className="infoIcon">
           <InfoIcon />
         </Tooltip>
-        <Typography>Reservations left: {reservationCount}</Typography>
+        {dummyData.map((d) => {
+          return (
+            <>
+              <Typography>
+                Machines: {d.name == 0 ? "Washing" : "Dryer"}
+              </Typography>
+              <Typography>Status{d.status}</Typography>
+            </>
+          );
+        })}
       </Box>
-      <Box className="booking-counter-edit-cancel-btn">
-        <EditBtn disabledBtnIfNoBookings={disabledBtnIfNoBookings} />
-        <CancelBtn disabledBtnIfNoBookings={disabledBtnIfNoBookings} />
-        <ReportBtn />
+      <Box className="booking-counter-mainBox" style={{ background: "red" }}>
+        <Box className="booking-counter-resesrvation">
+          <Tooltip
+            title="Number of reservations that can be used per week"
+            className="infoIcon"
+            placement="top-start"
+          >
+            <InfoIcon />
+          </Tooltip>
+          <Typography>Reservations left: {reservationCount}</Typography>
+        </Box>
+        <Box className="booking-counter-edit-cancel-btn">
+          <EditBtn disabledBtnIfNoBookings={disabledBtnIfNoBookings} />
+          <CancelBtn disabledBtnIfNoBookings={disabledBtnIfNoBookings} />
+          <ReportBtn />
+        </Box>
+        <TradeBtn />
       </Box>
-      <TradeBtn />
-    </Box>
+    </>
   );
 }
