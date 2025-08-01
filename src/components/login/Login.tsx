@@ -75,7 +75,16 @@ export function Login() {
   }
   return (
     <div>
-      <Dialog open={showLogin} hideBackdrop={true}>
+      <Dialog
+        open={showLogin}
+        hideBackdrop={true}
+        style={{
+          background: "red",
+          width: "30vw",
+          height: "50vh",
+          margin: "auto",
+        }}
+      >
         <DialogTitle data-testid="login-title">Login</DialogTitle>
         <DialogContent>
           <form onSubmit={handleSubmit(onSubmit)}>

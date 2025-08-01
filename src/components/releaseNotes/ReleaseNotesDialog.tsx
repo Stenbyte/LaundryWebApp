@@ -1,46 +1,62 @@
-import { Dialog, DialogTitle, DialogContent, Typography } from "@mui/material";
-import { useState } from "react";
-import ReactMarkdown from "react-markdown";
+import { Typography, Chip, Divider, Modal, Box } from "@mui/material";
+import { useEffect, useRef } from "react";
 import { useAuthContext } from "../../context/UseAuthContext";
+import { news } from "./releaseNotes";
 
 export function ReleaseNotesDialog() {
-  const [notes, setNotes] = useState("");
   const userData = useAuthContext();
-
-  const handleReleaseNotes = async () => {
-    try {
-      fetch("/releaseNotes.md")
-        .then((res) => res.text())
-        .then(setNotes)
-        .catch((err) => {
-          console.error("Failed to load release notes:", err);
-          setNotes("Failed to load release notes.");
-        });
-    } catch (err) {
-      console.error(`Failed to fetch release notes: ${err}`);
-    }
-  };
-
-  handleReleaseNotes();
   let showLogin = true;
   if (userData?.userId) {
     showLogin = false;
   }
+
+  const newsRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (showLogin) {
+      const { current: news } = newsRef;
+      news?.focus();
+    }
+  }, [showLogin]);
+
   if (!open) return null;
 
   return (
-    <Dialog
-      open={showLogin}
-      maxWidth="md"
-      style={{ marginRight: "-70vw" }}
-      hideBackdrop={false}
-    >
-      <DialogTitle sx={{ m: 0, p: 2 }}>📝 News</DialogTitle>
-      <DialogContent dividers sx={{ maxHeight: "60vh", overflowY: "auto" }}>
-        <Typography component="div" sx={{ "& p": { margin: 0 } }}>
-          <ReactMarkdown>{notes}</ReactMarkdown>
-        </Typography>
-      </DialogContent>
-    </Dialog>
+    <>
+      <Modal
+        open={showLogin}
+        style={{ marginRight: "-70vw", background: "red", width: "30vw" }}
+        hideBackdrop={true}
+        disableEnforceFocus
+        disableAutoFocus
+        disableRestoreFocus
+      >
+        <Box
+          sx={{
+            maxHeight: "30vh",
+            overflowY: "auto",
+            width: "250px",
+            bgcolor: "background.paper",
+            borderRadius: 1,
+            boxShadow: 24,
+            p: 2,
+          }}
+        >
+          <Typography sx={{ m: 0, p: 2 }}>📝 News</Typography>
+          {news.map((n) => {
+            return (
+              <>
+                <Chip
+                  label={n.date}
+                  ref={newsRef}
+                  id="news-dialog-description"
+                  tabIndex={-1}
+                />
+                <Divider />
+              </>
+            );
+          })}
+        </Box>
+      </Modal>
+    </>
   );
 }

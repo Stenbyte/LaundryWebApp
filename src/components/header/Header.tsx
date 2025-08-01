@@ -17,13 +17,15 @@ export function Header() {
   };
 
   return (
-    <AppBar position="static" color="primary">
-      <ToastContainer autoClose={2000} closeOnClick={true} />
-      <HeaderBar data={metaData} />
-      <NotificationsDrawer data={metaData} />
+    <>
+      <AppBar color="primary">
+        <ToastContainer autoClose={2000} closeOnClick={true} />
+        <HeaderBar data={metaData} />
+        <NotificationsDrawer data={metaData} />
+      </AppBar>
+      <Login />
       <SignUp />
       <ReleaseNotesDialog />
-      <Login />
-    </AppBar>
+    </>
   );
 }
