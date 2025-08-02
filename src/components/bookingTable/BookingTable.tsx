@@ -31,7 +31,7 @@ dayjs.extend(timezone);
 
 export function BookingTable() {
   const { disabledBtn, dispatch } = useUIContext();
-  const userData = useAuthContext();
+  const { data: userData } = useAuthContext();
 
   const today = dayjs();
   const weekDays = Array.from({ length: 7 }, (_, i) =>

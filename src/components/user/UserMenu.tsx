@@ -6,7 +6,7 @@ import { useAuthContext } from "../../context/UseAuthContext";
 
 export function UserMenu() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const userData = useAuthContext();
+  const { data: userData } = useAuthContext();
   const open = Boolean(anchorEl);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {

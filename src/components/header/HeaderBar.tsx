@@ -12,9 +12,9 @@ export function HeaderBar({
 }) {
   const { notifications } = data;
   const { dispatch } = useUIContext();
-  const userData = useAuthContext();
+  const { data: userData } = useAuthContext();
   return (
-    <Toolbar style={{ background: "#5E503F" }}>
+    <Toolbar style={{ background: "#5E506F" }}>
       <Typography variant="h6" sx={{ flexGrow: 1 }} data-testid="logo">
         LB
       </Typography>

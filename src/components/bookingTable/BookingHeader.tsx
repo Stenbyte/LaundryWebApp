@@ -16,7 +16,7 @@ export function BookingHeader({
     bookings: Booking[] | undefined;
   };
 }) {
-  const userData = useAuthContext();
+  const { data: userData } = useAuthContext();
   const reservationCount = data.bookings?.find(
     (booking) => booking.userId === userData?.userId
   )?.reservationsLeft;
@@ -49,7 +49,7 @@ export function BookingHeader({
           );
         })}
       </Box>
-      <Box className="booking-counter-mainBox" style={{ background: "red" }}>
+      <Box className="booking-counter-mainBox">
         <Box className="booking-counter-resesrvation">
           <Tooltip
             title="Number of reservations that can be used per week"
