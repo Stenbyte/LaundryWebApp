@@ -14,7 +14,6 @@ import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { object, string } from "yup";
 import { useUIContext } from "../../context/UseUIContext";
-import { useAuthContext } from "../../context/UseAuthContext";
 import { LoginType } from "../../constants";
 
 export const LoginSchema = object().shape({
@@ -43,7 +42,6 @@ export function Login() {
   const login = useLogin();
 
   const { dispatch } = useUIContext();
-  const userData = useAuthContext();
 
   const {
     control,
@@ -69,19 +67,16 @@ export function Login() {
     setLoading(false);
   };
 
-  let showLogin = true;
-  if (userData?.userId) {
-    showLogin = false;
-  }
   return (
     <div>
       <Dialog
-        open={showLogin}
-        hideBackdrop={true}
+        open={true}
+        hideBackdrop={false}
         style={{
-          background: "red",
+          backgroundColor: "#5E506F",
+          borderRadius: "5px",
           width: "30vw",
-          height: "50vh",
+          height: "51vh",
           margin: "auto",
         }}
       >
