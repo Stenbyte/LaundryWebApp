@@ -1,4 +1,4 @@
-import { AppBar, Box, CircularProgress, LinearProgress } from "@mui/material";
+import { AppBar, LinearProgress } from "@mui/material";
 import { HeaderBar } from "./HeaderBar";
 import { NotificationsDrawer } from "./NotificationsDrawer";
 import { Login } from "../login/Login";
@@ -6,6 +6,7 @@ import { SignUp } from "../login/SignUp";
 import { ToastContainer } from "react-toastify";
 import { ReleaseNotesDialog } from "../releaseNotes/ReleaseNotesDialog";
 import { useAuthContext } from "../../context/UseAuthContext";
+import LoadingCircle from "../loadingCircle/LoadingCircle";
 
 export function Header() {
   const notifications = [
@@ -32,18 +33,7 @@ export function Header() {
           sx={{ position: "absolute", top: 0, left: 0, right: 0 }}
         />
       )}
-      {isLoading && (
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "60vh",
-          }}
-        >
-          <CircularProgress />
-        </Box>
-      )}
+      {isLoading && <LoadingCircle />}
       {showLogin && (
         <>
           <Login />
