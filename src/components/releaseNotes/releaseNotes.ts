@@ -5,16 +5,12 @@ export const news =
             change: "Enabled Password validation"
         },
         {
-            date: 'June 21, 2025',
-            change: "Added Unit Tests Set up on Api"
+            date: 'July 27, 2025',
+            change: "First preparation for WebApp to handle multiple machines"
         },
         {
-            date: 'June 21, 2025',
-            change: "Added Unit Tests Set up on Api"
-        },
-        {
-            date: 'June 21, 2025',
-            change: "Added Unit Tests Set up on Api"
+            date: 'July 20, 2025',
+            change: "First preparation to scale up. Handling multiple machines for same building"
         },
         {
             date: 'July 13, 2025',
