@@ -9,7 +9,7 @@ export type UiStateType = {
   disabledBtn: boolean;
 };
 
-type Action =
+export type Action =
   | { type: "SET_LOGIN"; payload: boolean }
   | { type: "SET_SIDEBAR"; payload: boolean }
   | { type: "SET_SIGNUP"; payload: boolean }

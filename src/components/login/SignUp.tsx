@@ -10,7 +10,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 import { GenericButton } from "../Buttons/GenericButton";
 import { useUIContext } from "../../context/UseUIContext";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { Config } from "../../../config";
 import {
@@ -20,6 +20,7 @@ import {
 } from "../../services/SignUpService";
 import axios from "axios";
 import { toast } from "react-toastify";
+import React from "react";
 
 export function SignUp() {
   const { isSignUpOpen, dispatch } = useUIContext();
@@ -67,6 +68,10 @@ export function SignUp() {
   const useSubmit = (data: SignUpType) => {
     mutate.mutateAsync(data);
   };
+  const handleCancelClick = useCallback(() => {
+    reset(defaultSignUpValues);
+    dispatch({ type: "SET_SIGNUP", payload: false });
+  }, [reset, dispatch]);
 
   return (
     <>
@@ -200,22 +205,8 @@ export function SignUp() {
               )}
             />
             <DialogActions>
-              <GenericButton
-                onClick={() => {
-                  reset(defaultSignUpValues);
-                  dispatch({ type: "SET_SIGNUP", payload: false });
-                }}
-                children="Cancel"
-                testid="signup-cancel-btn"
-                className="cancelBtn"
-              />
-              <GenericButton
-                type="submit"
-                className="signUpSubmit"
-                testid="signup-submit"
-                disabled={isLoading}
-                children={isLoading ? "Signing Up..." : "Sign Up"}
-              />
+              <CancelBtn onClick={handleCancelClick} />
+              <SubmitBtn isLoading={isLoading} />
             </DialogActions>
           </form>
         </DialogContent>
@@ -223,3 +214,34 @@ export function SignUp() {
     </>
   );
 }
+
+const SubmitBtn = React.memo(function SubmitBtn({
+  isLoading,
+}: {
+  isLoading: boolean;
+}) {
+  return (
+    <GenericButton
+      type="submit"
+      className="signUpSubmit"
+      testid="signup-submit"
+      disabled={isLoading}
+      children={isLoading ? "Signing Up..." : "Sign Up"}
+    />
+  );
+});
+
+const CancelBtn = React.memo(function CancelBtn({
+  onClick,
+}: {
+  onClick: () => void;
+}) {
+  return (
+    <GenericButton
+      onClick={onClick}
+      children="Cancel"
+      testid="signup-cancel-btn"
+      className="cancelBtn"
+    />
+  );
+});
