@@ -1,10 +1,8 @@
-import { AppBar, LinearProgress } from "@mui/material";
+import { AppBar } from "@mui/material";
 import { HeaderBar } from "./HeaderBar";
 import { NotificationsDrawer } from "./NotificationsDrawer";
 import { Login } from "../login/Login";
-import { SignUp } from "../login/SignUp";
 import { ToastContainer } from "react-toastify";
-import { ReleaseNotesDialog } from "../releaseNotes/ReleaseNotesDialog";
 import { useAuthContext } from "../../context/UseAuthContext";
 import LoadingCircle from "../loadingCircle/LoadingCircle";
 
@@ -28,19 +26,8 @@ export function Header() {
         <HeaderBar data={metaData} />
         <NotificationsDrawer data={metaData} />
       </AppBar>
-      {isLoading && (
-        <LinearProgress
-          sx={{ position: "absolute", top: 0, left: 0, right: 0 }}
-        />
-      )}
       {isLoading && <LoadingCircle />}
-      {showLogin && (
-        <>
-          <Login />
-          <SignUp />
-          <ReleaseNotesDialog />
-        </>
-      )}
+      {showLogin && <Login />}
     </>
   );
 }

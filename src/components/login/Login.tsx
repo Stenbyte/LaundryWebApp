@@ -15,6 +15,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { object, string } from "yup";
 import { useUIContext } from "../../context/UseUIContext";
 import { LoginType } from "../../constants";
+import { SignUp } from "./SignUp";
+import { ReleaseNotesDialog } from "../releaseNotes/ReleaseNotesDialog";
 
 export const LoginSchema = object().shape({
   email: string()
@@ -135,6 +137,8 @@ export function Login() {
           </form>
         </DialogContent>
       </Dialog>
+      <SignUp />
+      <ReleaseNotesDialog />
     </div>
   );
 }
