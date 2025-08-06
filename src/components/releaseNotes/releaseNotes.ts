@@ -1,6 +1,10 @@
 export const news =
     [
         {
+            date: 'Aug 6, 2025',
+            change: "Optimized re-render for Login and SignUp Dialogs"
+        },
+        {
             date: 'July 29, 2025',
             change: "Enabled Password validation"
         },
