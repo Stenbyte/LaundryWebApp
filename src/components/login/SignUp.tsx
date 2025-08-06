@@ -22,7 +22,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import React from "react";
 
-export function SignUp() {
+export function SignUpDialog() {
   const { isSignUpOpen, dispatch } = useUIContext();
   const [isLoading, setLoading] = useState(false);
 
@@ -72,7 +72,6 @@ export function SignUp() {
     reset(defaultSignUpValues);
     dispatch({ type: "SET_SIGNUP", payload: false });
   }, [reset, dispatch]);
-
   return (
     <>
       <Dialog
@@ -205,8 +204,19 @@ export function SignUp() {
               )}
             />
             <DialogActions>
-              <CancelBtn onClick={handleCancelClick} />
-              <SubmitBtn isLoading={isLoading} />
+              <GenericButton
+                onClick={handleCancelClick}
+                children="Cancel"
+                testid="signup-cancel-btn"
+                className="cancelBtn"
+              />
+              <GenericButton
+                type="submit"
+                className="signUpSubmit"
+                testid="signup-submit"
+                disabled={isLoading}
+                children={isLoading ? "Signing Up..." : "Sign Up"}
+              />
             </DialogActions>
           </form>
         </DialogContent>
@@ -215,33 +225,6 @@ export function SignUp() {
   );
 }
 
-const SubmitBtn = React.memo(function SubmitBtn({
-  isLoading,
-}: {
-  isLoading: boolean;
-}) {
-  return (
-    <GenericButton
-      type="submit"
-      className="signUpSubmit"
-      testid="signup-submit"
-      disabled={isLoading}
-      children={isLoading ? "Signing Up..." : "Sign Up"}
-    />
-  );
-});
 
-const CancelBtn = React.memo(function CancelBtn({
-  onClick,
-}: {
-  onClick: () => void;
-}) {
-  return (
-    <GenericButton
-      onClick={onClick}
-      children="Cancel"
-      testid="signup-cancel-btn"
-      className="cancelBtn"
-    />
-  );
-});
+
+
