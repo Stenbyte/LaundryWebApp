@@ -11,7 +11,7 @@ import {
   afterEach
 } from "./test-util";
 import userEvent from "@testing-library/user-event";
-import { SignUp } from "../components/login/SignUp";
+import { SignUpDialog } from "../components/login/SignUp";
 import axios from "axios";
 import { useUIContext } from "../context/UseUIContext";
 import { useEffect } from "react";
@@ -33,7 +33,7 @@ describe("Signup", () => {
         dispatch({ type: "SET_SIGNUP", payload: true });
       }, [isSignUpOpen, dispatch]);
 
-      return <SignUp />;
+      return <SignUpDialog />;
     };
     render(<Wrapper />);
 
