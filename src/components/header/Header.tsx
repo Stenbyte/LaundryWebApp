@@ -1,10 +1,7 @@
 import { AppBar } from "@mui/material";
 import { HeaderBar } from "./HeaderBar";
 import { NotificationsDrawer } from "./NotificationsDrawer";
-import { Login } from "../login/Login";
 import { ToastContainer } from "react-toastify";
-import { useAuthContext } from "../../context/UseAuthContext";
-import LoadingCircle from "../loadingCircle/LoadingCircle";
 
 export function Header() {
   const notifications = [
@@ -15,9 +12,6 @@ export function Header() {
   const metaData = {
     notifications,
   };
-  const { data: user, isLoading } = useAuthContext();
-
-  const showLogin = !isLoading && !user?.userId;
 
   return (
     <>
@@ -26,8 +20,6 @@ export function Header() {
         <HeaderBar data={metaData} />
         <NotificationsDrawer data={metaData} />
       </AppBar>
-      {isLoading && <LoadingCircle />}
-      {showLogin && <Login />}
     </>
   );
 }
