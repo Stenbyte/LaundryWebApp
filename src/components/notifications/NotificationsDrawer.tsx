@@ -8,14 +8,12 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useUIContext } from "../../context/UseUIContext";
-import { MetaDataType } from "../../constants";
 
 export function NotificationsDrawer({
-  data,
+  notifications,
 }: {
-  data: Pick<MetaDataType, "notifications">;
+  notifications: string[];
 }) {
-  const { notifications } = data;
   const { dispatch, isSidebarOpen } = useUIContext();
   return (
     <Drawer

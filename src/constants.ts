@@ -20,10 +20,6 @@ export interface RefreshTokenResponse {
     accessToken: string;
 }
 
-export type MetaDataType = {
-    notifications: string[];
-};
-
 export type LoginType = InferType<typeof LoginSchema>;
 
 export interface BookingSlot {
