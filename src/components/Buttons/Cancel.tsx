@@ -2,11 +2,12 @@ import { toast } from "react-toastify";
 import { GenericButton } from "./GenericButton";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { cancelAllBookings } from "../../services/BookingService";
+import { useCallback } from "react";
 
 export function CancelBtn({
   disabledBtnIfNoBookings,
 }: {
-  disabledBtnIfNoBookings: boolean;
+  disabledBtnIfNoBookings: () => boolean;
 }) {
   const queryClient = useQueryClient();
 
@@ -27,14 +28,14 @@ export function CancelBtn({
       }
     },
   });
-  const cancelBookings = async () => {
+  const cancelBookings = useCallback(async () => {
     try {
       await cancelMutation.mutateAsync();
       toast.success("Canceled bookings successfully!");
     } catch (error) {
       toast.error(`${error}`);
     }
-  };
+  }, [cancelMutation]);
   return (
     <GenericButton
       className={!disabledBtnIfNoBookings ? "disabledBtn" : "enabledCancelBtn"}

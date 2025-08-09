@@ -8,6 +8,7 @@ import { ReportBtn } from "../Buttons/Report";
 import "../../App.css";
 import { useAuthContext } from "../../context/UseAuthContext";
 import { Booking, Machine } from "../../constants";
+import { useCallback } from "react";
 
 export function BookingHeader({
   data,
@@ -21,12 +22,15 @@ export function BookingHeader({
     (booking) => booking.userId === userData?.userId
   )?.reservationsLeft;
 
-  const disabledBtnIfNoBookings =
-    data.bookings?.some(
-      (booking) =>
-        booking.userId.toString() === userData?.userId.toString() &&
-        booking.slots.some((slot) => slot.booked === true)
-    ) ?? false;
+  const disabledBtnIfNoBookings = useCallback(() => {
+    return (
+      data.bookings?.some(
+        (booking) =>
+          booking.userId.toString() === userData?.userId.toString() &&
+          booking.slots.some((slot) => slot.booked === true)
+      ) ?? false
+    );
+  }, [data.bookings, userData?.userId]);
 
   const dummyData: Machine[] = [
     { id: "123", name: 0, status: 0, buildingId: "123" },
