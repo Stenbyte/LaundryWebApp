@@ -1,5 +1,9 @@
 import { GenericButton } from "./GenericButton";
 
 export function ReportBtn() {
-  return <GenericButton className="report-btn">Report</GenericButton>;
+  return (
+    <GenericButton className="report-btn" disabled>
+      Report
+    </GenericButton>
+  );
 }

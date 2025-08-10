@@ -22,6 +22,11 @@ export function BookingHeader({
     (booking) => booking.userId === userData?.userId
   )?.reservationsLeft;
 
+  console.log(
+    "Production console, reservation count check on first load",
+    reservationCount
+  );
+
   const disabledBtnIfNoBookings = useCallback(() => {
     return (
       data.bookings?.some(
