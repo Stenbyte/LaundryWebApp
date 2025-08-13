@@ -1,5 +1,12 @@
 // / <reference types="react" />
-import { Box, Tooltip, Typography } from "@mui/material";
+import {
+  Box,
+  FormControlLabel,
+  FormGroup,
+  Switch,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import InfoIcon from "@mui/icons-material/Info";
 import { TradeBtn } from "../Buttons/Trade";
 import { EditBtn } from "../Buttons/Edit";
@@ -7,7 +14,7 @@ import { CancelBtn } from "../Buttons/Cancel";
 import { ReportBtn } from "../Buttons/Report";
 import "../../App.css";
 import { useAuthContext } from "../../context/UseAuthContext";
-import { Booking, Machine } from "../../constants";
+import { Booking, constants, Machine } from "../../constants";
 import { useCallback } from "react";
 
 export function BookingHeader({
@@ -22,11 +29,6 @@ export function BookingHeader({
     (booking) => booking.userId === userData?.userId
   )?.reservationsLeft;
 
-  console.log(
-    "Production console, reservation count check on first load",
-    reservationCount
-  );
-
   const disabledBtnIfNoBookings = useCallback(() => {
     return (
       data.bookings?.some(
@@ -39,6 +41,8 @@ export function BookingHeader({
 
   const dummyData: Machine[] = [
     { id: "123", name: 0, status: 0, buildingId: "123" },
+    { id: "124", name: 0, status: 0, buildingId: "123" },
+    { id: "125", name: 1, status: 0, buildingId: "123" },
   ];
 
   return (
@@ -49,12 +53,21 @@ export function BookingHeader({
         </Tooltip>
         {dummyData.map((d) => {
           return (
-            <>
-              <Typography>
-                Machines: {d.name == 0 ? "Washing" : "Dryer"}
-              </Typography>
-              <Typography>Status{d.status}</Typography>
-            </>
+            <FormGroup>
+              <FormControlLabel
+                control={<Switch defaultChecked />}
+                label={constants.washingMachine}
+              />
+              <Box>
+                <Typography>
+                  Machines:{" "}
+                  {d.name == 0
+                    ? constants.washingMachine
+                    : constants.dryerMachine}
+                </Typography>
+                <Typography>Status{d.status}</Typography>
+              </Box>
+            </FormGroup>
           );
         })}
       </Box>

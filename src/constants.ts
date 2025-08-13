@@ -58,3 +58,8 @@ export enum MachineStatusEnum {
     available = 0,
     maintenance = 1
 }
+
+export const constants = {
+    washingMachine: 'Washing',
+    dryerMachine: 'Dryer'
+}
