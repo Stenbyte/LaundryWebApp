@@ -3,6 +3,7 @@ import {
   Box,
   FormControlLabel,
   FormGroup,
+  Paper,
   Switch,
   Tooltip,
   Typography,
@@ -15,7 +16,7 @@ import { ReportBtn } from "../Buttons/Report";
 import "../../App.css";
 import { useAuthContext } from "../../context/UseAuthContext";
 import { Booking, constants, Machine } from "../../constants";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 
 export function BookingHeader({
   data,
@@ -24,6 +25,7 @@ export function BookingHeader({
     bookings: Booking[] | undefined;
   };
 }) {
+  const [machineLabel, setMachineLabel] = useState(constants.washingMachine);
   const { data: userData } = useAuthContext();
   const reservationCount = data.bookings?.find(
     (booking) => booking.userId === userData?.userId
@@ -47,30 +49,38 @@ export function BookingHeader({
 
   return (
     <>
-      <Box>
-        <Tooltip title="Available Machines" className="infoIcon">
-          <InfoIcon />
-        </Tooltip>
-        {dummyData.map((d) => {
-          return (
-            <FormGroup>
-              <FormControlLabel
-                control={<Switch defaultChecked />}
-                label={constants.washingMachine}
-              />
+      <Paper sx={{ display: "flex" }}>
+        <Box>
+          <Tooltip title="Available Machines" className="infoIcon">
+            <InfoIcon />
+          </Tooltip>
+          <FormGroup>
+            <Typography>Machines:</Typography>
+            <FormControlLabel
+              control={
+                <Switch
+                  defaultChecked
+                  onChange={() => {
+                    if (machineLabel === constants.washingMachine) {
+                      setMachineLabel(constants.dryerMachine);
+                    } else {
+                      setMachineLabel(constants.washingMachine);
+                    }
+                  }}
+                />
+              }
+              label={machineLabel}
+            />
+          </FormGroup>
+          {dummyData.map((d) => {
+            return (
               <Box>
-                <Typography>
-                  Machines:{" "}
-                  {d.name == 0
-                    ? constants.washingMachine
-                    : constants.dryerMachine}
-                </Typography>
                 <Typography>Status{d.status}</Typography>
               </Box>
-            </FormGroup>
-          );
-        })}
-      </Box>
+            );
+          })}
+        </Box>
+      </Paper>
       <Box className="booking-counter-mainBox">
         <Box className="booking-counter-resesrvation">
           <Tooltip
