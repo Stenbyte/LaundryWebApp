@@ -9,7 +9,7 @@ import {
   afterEach,
 } from "./test-util";
 import * as auth from "../hooks/auhtHooks";
-import * as bookingService from "../services/BookingService";
+import * as bookingsHooks from "../hooks/bookingsHooks";
 import { App } from "../App";
 
 describe("LogOut", () => {
@@ -27,7 +27,7 @@ describe("LogOut", () => {
     });
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    vi.spyOn(bookingService, "useFetchBookings").mockImplementation((): any => {
+    vi.spyOn(bookingsHooks, "useFetchBookings").mockImplementation((): any => {
       return createMockUseQueryResult([]);
     });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

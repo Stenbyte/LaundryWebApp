@@ -1,46 +1,29 @@
 import { toast } from "react-toastify";
 import { GenericButton } from "./GenericButton";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { cancelAllBookings } from "../../services/BookingService";
+
 import { useCallback } from "react";
+import { useCancel } from "../../hooks/bookingsHooks";
 
 export function CancelBtn({
   disabledBtnIfNoBookings,
 }: {
-  disabledBtnIfNoBookings: () => boolean;
+  disabledBtnIfNoBookings: boolean;
 }) {
-  const queryClient = useQueryClient();
-
-  const cancelMutationFunction = () => {
-    return cancelAllBookings();
-  };
-
-  const cancelMutation = useMutation({
-    mutationFn: cancelMutationFunction,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["bookings"] });
-    },
-    onError: (error) => {
-      if (error.message === "You can not add new reservation") {
-        toast.error(error.message);
-      } else {
-        toast.error(error.message);
-      }
-    },
-  });
+  const cancelAction = useCancel();
   const cancelBookings = useCallback(async () => {
     try {
-      await cancelMutation.mutateAsync();
+      await cancelAction.mutateAsync();
       toast.success("Canceled bookings successfully!");
     } catch (error) {
       toast.error(`${error}`);
     }
-  }, [cancelMutation]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cancelAction.mutateAsync]);
   return (
     <GenericButton
       className={!disabledBtnIfNoBookings ? "disabledBtn" : "enabledCancelBtn"}
       disabled={!disabledBtnIfNoBookings}
-      onClick={() => cancelBookings()}
+      onClick={cancelBookings}
       testid="cancel-btn"
     >
       Cancel

@@ -2,28 +2,11 @@
 import { AxiosError } from "axios";
 import { Config } from "../../config";
 import api from '../services/AxiosConfig';
-import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
-import { Booking, BookingSlot, EditSlotId } from "../constants";
+import { BookingSlot, EditSlotId } from "../constants";
 
 
-export const useFetchBookings = (userId?: string) => {
-  return useQuery({
-    queryKey: ["bookings"],
-    queryFn: async (): Promise<Booking[]> => {
-      try {
-        const { data } = await api.get(`${Config.API_BASE_URL}/api/booking/getAll`);
-        return data;
 
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      } catch (err) {
-        throw new Error("Failed to fetch bookings data");
-      }
-    },
-    retry: 0,
-    enabled: !!userId,
-  });
-};
 
 export const reserveSlot = async (args: BookingSlot | EditSlotId) => {
   try {
@@ -114,3 +97,4 @@ export const isTimeSlotInPast = (selectedDateUtc: string, timeSlot: string) => {
     (slotDateLocal.isSame(todayLocal) && slotEndLocal.isBefore(nowLocal))
   );
 };
+

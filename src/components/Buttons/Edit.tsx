@@ -5,7 +5,7 @@ import { GenericButton } from "./GenericButton";
 export function EditBtn({
   disabledBtnIfNoBookings,
 }: {
-  disabledBtnIfNoBookings: () => boolean;
+  disabledBtnIfNoBookings: boolean;
 }) {
   const { dispatch, disabledBtn } = useUIContext();
 

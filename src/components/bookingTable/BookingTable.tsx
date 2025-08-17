@@ -18,13 +18,13 @@ import {
   editSlot,
   isTimeSlotInPast,
   reserveSlot,
-  useFetchBookings,
 } from "../../services/BookingService";
 import { BookingHeader } from "./BookingHeader";
 import { toast } from "react-toastify";
 import { useUIContext } from "../../context/UseUIContext";
 import { useAuthContext } from "../../context/UseAuthContext";
 import { BookingSlot, EditSlotId, TIME_SLOTS } from "../../constants";
+import { useFetchBookings } from "../../hooks/bookingsHooks";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);

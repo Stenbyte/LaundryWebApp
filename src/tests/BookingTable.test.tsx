@@ -13,6 +13,7 @@ import { cleanup, render as defaultRender } from "@testing-library/react";
 import { BookingTable } from "../components/bookingTable/BookingTable";
 import * as auth from "../hooks/auhtHooks";
 import * as bookingService from "../services/BookingService";
+import * as bookingsHooks from "../hooks/bookingsHooks";
 import dayjs from "dayjs";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { UiContext } from "../context/UiContext";
@@ -47,7 +48,7 @@ describe("BookingTable", () => {
       },
     });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    vi.spyOn(bookingService, "useFetchBookings").mockImplementation((): any => {
+    vi.spyOn(bookingsHooks, "useFetchBookings").mockImplementation((): any => {
       return createMockUseQueryResult([
         {
           userId: "user",
@@ -97,7 +98,7 @@ describe("BookingTable", () => {
     });
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    vi.spyOn(bookingService, "useFetchBookings").mockImplementation((): any => {
+    vi.spyOn(bookingsHooks, "useFetchBookings").mockImplementation((): any => {
       return createMockUseQueryResult([]);
     });
 
@@ -123,7 +124,7 @@ describe("BookingTable", () => {
       },
     });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    vi.spyOn(bookingService, "useFetchBookings").mockImplementation((): any => {
+    vi.spyOn(bookingsHooks, "useFetchBookings").mockImplementation((): any => {
       return createMockUseQueryResult([
         {
           userId: "user",
@@ -162,7 +163,7 @@ describe("BookingTable", () => {
       },
     });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    vi.spyOn(bookingService, "useFetchBookings").mockImplementation((): any => {
+    vi.spyOn(bookingsHooks, "useFetchBookings").mockImplementation((): any => {
       return createMockUseQueryResult([
         {
           userId: "user",
