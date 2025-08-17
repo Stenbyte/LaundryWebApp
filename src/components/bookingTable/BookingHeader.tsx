@@ -16,7 +16,7 @@ import { ReportBtn } from "../Buttons/Report";
 import "../../App.css";
 import { useAuthContext } from "../../context/UseAuthContext";
 import { Booking, constants, Machine } from "../../constants";
-import { useCallback, useState } from "react";
+import { useMemo, useState } from "react";
 
 export function BookingHeader({
   data,
@@ -31,7 +31,7 @@ export function BookingHeader({
     (booking) => booking.userId === userData?.userId
   )?.reservationsLeft;
 
-  const disabledBtnIfNoBookings = useCallback(() => {
+  const disabledBtnIfNoBookings = useMemo(() => {
     return (
       data.bookings?.some(
         (booking) =>
@@ -47,37 +47,48 @@ export function BookingHeader({
     { id: "125", name: 1, status: 0, buildingId: "123" },
   ];
 
+  function ShowMachinesNameAndCounts() {
+    const getMachinesCount = dummyData.filter((machine) => {
+      if (machineLabel === constants.washingMachine) {
+        return machine.name === 0;
+      } else {
+        return machine.name === 1;
+      }
+    }).length;
+    return machineLabel + getMachinesCount;
+  }
+
   return (
     <>
-      <Paper sx={{ display: "flex" }}>
-        <Box>
+      <Paper elevation={20} className="booking-header-paper">
+        <Box className="booking-header-box">
           <Tooltip title="Available Machines" className="infoIcon">
             <InfoIcon />
           </Tooltip>
-          <FormGroup>
+          <Box className="booking-header-box-1">
             <Typography>Machines:</Typography>
-            <FormControlLabel
-              control={
-                <Switch
-                  defaultChecked
-                  onChange={() => {
-                    if (machineLabel === constants.washingMachine) {
-                      setMachineLabel(constants.dryerMachine);
-                    } else {
-                      setMachineLabel(constants.washingMachine);
-                    }
-                  }}
-                />
-              }
-              label={machineLabel}
-            />
-          </FormGroup>
+            <FormGroup>
+              <FormControlLabel
+                className="form-control-label"
+                control={
+                  <Switch
+                    className="machines-switch "
+                    onChange={() => {
+                      if (machineLabel === constants.washingMachine) {
+                        setMachineLabel(constants.dryerMachine);
+                      } else {
+                        setMachineLabel(constants.washingMachine);
+                      }
+                    }}
+                  />
+                }
+                label={ShowMachinesNameAndCounts()}
+              />
+            </FormGroup>
+          </Box>
+          <Typography>Status:</Typography>
           {dummyData.map((d) => {
-            return (
-              <Box>
-                <Typography>Status{d.status}</Typography>
-              </Box>
-            );
+            return <Typography>{d.status}</Typography>;
           })}
         </Box>
       </Paper>

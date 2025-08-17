@@ -7,6 +7,27 @@ body {
   margin: 0px;
   padding: 0px;
 }
+.booking-header-paper {
+  margin: 10px; 
+  height: 70px;
+}
+.booking-header-box {
+  display: flex;
+  padding: 10px;
+}
+.booking-header-box-1 {
+  display: flex;
+  width: 250px
+}
+.form-control-label {
+  margin: 0 auto;
+}
+.machines-switch {
+  margin: -7px 7px;
+}
+.Mui-disabled{
+  color: red;
+}
 .booking-counter-mainBox {
   display: flex;
   align-items: center;
