@@ -1,6 +1,14 @@
 export const news =
     [
         {
+            date: 'Aug 17, 2025',
+            change: "Fixed issue related to extra re-render for Cancel Button when toggling Switch for machines"
+        },
+        {
+            date: 'Aug 11, 2025',
+            change: "(Design only) New copmonent added, extra header to select machines, handles cases with multiple machines in the building"
+        },
+        {
             date: 'Aug 6, 2025',
             change: "Optimized re-render for Login and SignUp Dialogs"
         },
