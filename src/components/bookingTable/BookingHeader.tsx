@@ -86,10 +86,31 @@ export function BookingHeader({
               />
             </FormGroup>
           </Box>
-          <Typography>Status:</Typography>
-          {dummyData.map((d) => {
-            return <Typography>{d.status}</Typography>;
-          })}
+          <Box
+            sx={{
+              backgroundColor: "red",
+              width: "200px",
+              display: "flex",
+              flexWrap: "wrap",
+            }}
+          >
+            <Typography sx={{ width: "200px" }}>Status:</Typography>
+            {dummyData.map((d) => {
+              return (
+                <Box
+                  sx={{
+                    // display: "flex",
+                    backgroundColor: "green",
+                    width: "60px",
+                  }}
+                >
+                  <Typography sx={{ backgroundColor: "blue" }}>
+                    {d.status}
+                  </Typography>
+                </Box>
+              );
+            })}
+          </Box>
         </Box>
       </Paper>
       <Box className="booking-counter-mainBox">
