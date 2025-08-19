@@ -25,9 +25,13 @@ body {
 .machines-switch {
   margin: -7px 7px;
 }
-.Mui-disabled{
-  color: red;
+
+.booking-machines-status-box {
+width: 200px;
+display: flex;
+flex-wrap: wrap
 }
+
 .booking-counter-mainBox {
   display: flex;
   align-items: center;

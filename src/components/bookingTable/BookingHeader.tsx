@@ -86,21 +86,12 @@ export function BookingHeader({
               />
             </FormGroup>
           </Box>
-          <Box
-            sx={{
-              backgroundColor: "red",
-              width: "200px",
-              display: "flex",
-              flexWrap: "wrap",
-            }}
-          >
+          <Box className="booking-machines-status-box">
             <Typography sx={{ width: "200px" }}>Status:</Typography>
             {dummyData.map((d) => {
               return (
                 <Box
                   sx={{
-                    // display: "flex",
-                    backgroundColor: "green",
                     width: "60px",
                   }}
                 >
