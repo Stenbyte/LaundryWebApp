@@ -85,7 +85,11 @@ export function BookingHeader({
     <>
       <Paper elevation={20} className="booking-header-paper">
         <Box className="booking-header-box">
-          <Tooltip title="Available Machines" className="infoIcon">
+          <Tooltip
+            title="Select machines type"
+            className="infoIcon"
+            placement="top"
+          >
             <InfoIcon />
           </Tooltip>
           <Box className="booking-header-box-1">
@@ -110,7 +114,16 @@ export function BookingHeader({
             </FormGroup>
           </Box>
           <Box className="booking-machines-status-box">
-            <Typography sx={{ width: "400px" }}>Status:</Typography>
+            <Box sx={{ display: "flex" }}>
+              <Tooltip
+                title="Status for each machine."
+                className="infoIcon"
+                placement="top"
+              >
+                <InfoIcon />
+              </Tooltip>
+              <Typography sx={{ width: "400px" }}>Status:</Typography>
+            </Box>
             {dummyData
               .filter((m) => m.name === machineLabel)
               .map((d) => {
