@@ -50,16 +50,11 @@ export interface Machine {
 
 
 export enum MachineNameEnum {
-    washingMachine = 0,
-    dryerMachine = 1
+    washing = 'washing',
+    dryer = 'dryer'
 }
 
 export enum MachineStatusEnum {
-    available = 0,
-    maintenance = 1
-}
-
-export const constants = {
-    washingMachine: 'Washing',
-    dryerMachine: 'Dryer'
+    available = 'available',
+    maintenance = 'maintenance'
 }

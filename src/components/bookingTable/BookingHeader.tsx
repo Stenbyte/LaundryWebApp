@@ -15,8 +15,14 @@ import { CancelBtn } from "../Buttons/Cancel";
 import { ReportBtn } from "../Buttons/Report";
 import "../../App.css";
 import { useAuthContext } from "../../context/UseAuthContext";
-import { Booking, constants, Machine } from "../../constants";
+import {
+  Booking,
+  Machine,
+  MachineNameEnum,
+  MachineStatusEnum,
+} from "../../constants";
 import { useMemo, useState } from "react";
+import { MachineSelectBtn } from "../Buttons/MachineSelectBtn";
 
 export function BookingHeader({
   data,
@@ -25,7 +31,9 @@ export function BookingHeader({
     bookings: Booking[] | undefined;
   };
 }) {
-  const [machineLabel, setMachineLabel] = useState(constants.washingMachine);
+  const [machineLabel, setMachineLabel] = useState<MachineNameEnum>(
+    MachineNameEnum.washing
+  );
   const { data: userData } = useAuthContext();
   const reservationCount = data.bookings?.find(
     (booking) => booking.userId === userData?.userId
@@ -42,17 +50,32 @@ export function BookingHeader({
   }, [data.bookings, userData?.userId]);
 
   const dummyData: Machine[] = [
-    { id: "123", name: 0, status: 0, buildingId: "123" },
-    { id: "124", name: 0, status: 0, buildingId: "123" },
-    { id: "125", name: 1, status: 0, buildingId: "123" },
+    {
+      id: "123",
+      name: MachineNameEnum.washing,
+      status: MachineStatusEnum.available,
+      buildingId: "123",
+    },
+    {
+      id: "124",
+      name: MachineNameEnum.washing,
+      status: MachineStatusEnum.available,
+      buildingId: "123",
+    },
+    {
+      id: "125",
+      name: MachineNameEnum.dryer,
+      status: MachineStatusEnum.maintenance,
+      buildingId: "123",
+    },
   ];
 
   function ShowMachinesNameAndCounts() {
     const getMachinesCount = dummyData.filter((machine) => {
-      if (machineLabel === constants.washingMachine) {
-        return machine.name === 0;
+      if (machineLabel === MachineNameEnum.washing) {
+        return machine.name === MachineNameEnum.washing;
       } else {
-        return machine.name === 1;
+        return machine.name === MachineNameEnum.dryer;
       }
     }).length;
     return machineLabel + getMachinesCount;
@@ -74,10 +97,10 @@ export function BookingHeader({
                   <Switch
                     className="machines-switch "
                     onChange={() => {
-                      if (machineLabel === constants.washingMachine) {
-                        setMachineLabel(constants.dryerMachine);
+                      if (machineLabel === MachineNameEnum.washing) {
+                        setMachineLabel(MachineNameEnum.dryer);
                       } else {
-                        setMachineLabel(constants.washingMachine);
+                        setMachineLabel(MachineNameEnum.washing);
                       }
                     }}
                   />
@@ -87,20 +110,23 @@ export function BookingHeader({
             </FormGroup>
           </Box>
           <Box className="booking-machines-status-box">
-            <Typography sx={{ width: "200px" }}>Status:</Typography>
-            {dummyData.map((d) => {
-              return (
-                <Box
-                  sx={{
-                    width: "60px",
-                  }}
-                >
-                  <Typography sx={{ backgroundColor: "blue" }}>
-                    {d.status}
-                  </Typography>
-                </Box>
-              );
-            })}
+            <Typography sx={{ width: "400px" }}>Status:</Typography>
+            {dummyData
+              .filter((m) => m.name === machineLabel)
+              .map((d) => {
+                return (
+                  <Box
+                    sx={{
+                      width: "100px",
+                    }}
+                  >
+                    <MachineSelectBtn
+                      disabledBtnIfNoBookings={true}
+                      status={d.status}
+                    />
+                  </Box>
+                );
+              })}
           </Box>
         </Box>
       </Paper>
