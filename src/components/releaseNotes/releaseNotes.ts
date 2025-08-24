@@ -1,6 +1,10 @@
 export const news =
     [
         {
+            date: 'Aug 24, 2025',
+            change: "Added Redux for selecting machine functionality, will be used to render available bookings based on selected machine"
+        },
+        {
             date: 'Aug 17, 2025',
             change: "Fixed issue related to extra re-render for Cancel Button when toggling Switch for machines"
         },
