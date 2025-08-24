@@ -42,7 +42,7 @@ export interface EditSlotId {
 export const TIME_SLOTS = ["08:00-11:00", "11:00-14:00", "14:00-17:00", "17:00-20:00"];
 
 export interface Machine {
-    id: string;
+    _id: string;
     name: MachineNameEnum;
     status: MachineStatusEnum;
     buildingId: string;

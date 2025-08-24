@@ -5,6 +5,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { UIProvider } from "./providers/UiProvider";
 import { AxiosInterceptorProvider } from "./providers/AxiosInterceptorProvider";
 import { AuthProvider } from "./providers/AuthProvider";
+import { Provider } from "react-redux";
+import { store } from "./reduxState/store";
 
 const queryClient = new QueryClient();
 createRoot(document.getElementById("root")!).render(
@@ -13,7 +15,9 @@ createRoot(document.getElementById("root")!).render(
       <AxiosInterceptorProvider>
         <AuthProvider>
           <UIProvider>
-            <App />
+            <Provider store={store}>
+              <App />
+            </Provider>
           </UIProvider>
         </AuthProvider>
       </AxiosInterceptorProvider>

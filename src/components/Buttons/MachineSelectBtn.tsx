@@ -1,28 +1,33 @@
 import { useCallback } from "react";
-import { useUIContext } from "../../context/UseUIContext";
 import { GenericButton } from "./GenericButton";
-import { MachineStatusEnum } from "../../constants";
+
+import { setMachine } from "../../reduxState/selectMachineSlice";
+import { useAppDispatch } from "../../reduxState/store";
+import { Machine } from "../../constants";
 
 export function MachineSelectBtn({
   disabledBtnIfNoBookings,
-  status,
+  machine,
 }: {
   disabledBtnIfNoBookings: boolean;
-  status: MachineStatusEnum;
+  machine: Partial<Machine>;
 }) {
-  const { dispatch, disabledBtn } = useUIContext();
+  const dispatch = useAppDispatch();
 
-  const enabledBtn = useCallback(() => {
-    dispatch({ type: "SET_DISABLED_BTN", payload: !disabledBtn });
-  }, [disabledBtn, dispatch]);
+  const selectMachine = useCallback(() => {
+    if (typeof machine._id === "string") {
+      dispatch(setMachine({ _id: machine._id! }));
+    }
+  }, [dispatch, machine._id]);
+
   return (
     <GenericButton
       className={!disabledBtnIfNoBookings ? "disabledBtn" : "enabledBtn"}
       disabled={!disabledBtnIfNoBookings}
-      testid="edit-btn"
-      onClick={enabledBtn}
+      testid="select-machine-btn"
+      onClick={selectMachine}
     >
-      {status}
+      {machine.status}
     </GenericButton>
   );
 }
