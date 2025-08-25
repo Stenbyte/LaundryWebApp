@@ -23,7 +23,6 @@ import {
 } from "../../constants";
 import { useMemo, useState } from "react";
 import { MachineSelectBtn } from "../Buttons/MachineSelectBtn";
-import { useAppSelector } from "../../reduxState/store";
 
 export function BookingHeader({
   data,
@@ -52,26 +51,24 @@ export function BookingHeader({
 
   const dummyData: Machine[] = [
     {
-      _id: "123",
+      _id: "68891e26cf6f624d975a3bf1",
       name: MachineNameEnum.washing,
       status: MachineStatusEnum.available,
       buildingId: "123",
     },
     {
-      _id: "124",
+      _id: "68891e26cf6f624d975a3bf3",
       name: MachineNameEnum.washing,
       status: MachineStatusEnum.available,
       buildingId: "123",
     },
     {
-      _id: "125",
+      _id: "68891e26cf6f624d975a3bf4",
       name: MachineNameEnum.dryer,
       status: MachineStatusEnum.maintenance,
       buildingId: "123",
     },
   ];
-
-  const selectedM = useAppSelector((state) => state.selectMachine._id);
 
   function ShowMachinesNameAndCounts() {
     const getMachinesCount = dummyData.filter((machine) => {
@@ -138,7 +135,7 @@ export function BookingHeader({
                     key={machine._id}
                   >
                     <MachineSelectBtn
-                      disabledBtnIfNoBookings={true}
+                      disabledBtnIfNoBookings={machine.status}
                       machine={machine}
                     />
                   </Box>

@@ -25,6 +25,7 @@ import { useUIContext } from "../../context/UseUIContext";
 import { useAuthContext } from "../../context/UseAuthContext";
 import { BookingSlot, EditSlotId, TIME_SLOTS } from "../../constants";
 import { useFetchBookings } from "../../hooks/bookingsHooks";
+import { useAppSelector } from "../../reduxState/store";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -100,20 +101,25 @@ export function BookingTable() {
     }
   };
 
+  const selectedMachineId = useAppSelector((state) => state.selectMachine._id);
+  console.log(selectedMachineId);
+
   const getReservedSlotData = (day: string, time: string) => {
     for (const booking of bookings || []) {
-      for (const slot of booking.slots) {
-        if (
-          dayjs(slot.day).format("YYYY-MM-DD") ===
-            dayjs(day).format("YYYY-MM-DD") &&
-          slot.timeSlots.includes(time) &&
-          slot.booked
-        ) {
-          return {
-            isBooked: slot.booked,
-            slotId: slot.id,
-            bookingUserId: booking.userId,
-          };
+      if (selectedMachineId === booking.machineId.toString()) {
+        for (const slot of booking.slots) {
+          if (
+            dayjs(slot.day).format("YYYY-MM-DD") ===
+              dayjs(day).format("YYYY-MM-DD") &&
+            slot.timeSlots.includes(time) &&
+            slot.booked
+          ) {
+            return {
+              isBooked: slot.booked,
+              slotId: slot.id,
+              bookingUserId: booking.userId,
+            };
+          }
         }
       }
     }
