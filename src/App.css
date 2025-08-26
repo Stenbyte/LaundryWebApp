@@ -10,10 +10,14 @@ body {
 .booking-header-paper {
   margin: 10px; 
   height: 70px;
+  padding: 10px;
+  width: 300px;
 }
 .booking-header-box {
   display: flex;
   padding: 10px;
+  flex-wrap: wrap;
+  width: 300px;
 }
 .booking-header-box-1 {
   display: flex;
@@ -29,7 +33,8 @@ body {
 .booking-machines-status-box {
 width: 200px;
 display: flex;
-flex-wrap: wrap
+flex-wrap: wrap;
+margin-top: 10px
 }
 
 .booking-counter-mainBox {
@@ -142,4 +147,13 @@ flex-wrap: wrap
   font-weight: 350 !important;
   border-top: 1px solid green !important;
   border-bottom: 1px solid green !important;
+}
+
+.disabledMachineBtn {
+  background-color: lightgray !important;
+  color: grey !important;
+  font-size: 11px !important;
+  font-weight: 350 !important;
+   border-top: 1px solid red !important;
+  border-bottom: 1px solid red !important;
 }
