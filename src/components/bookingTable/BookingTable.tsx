@@ -58,6 +58,7 @@ export function BookingTable() {
     return editSlot(args);
   };
 
+  // move them to booking hooks
   const mutation = useMutation({
     mutationFn: mutationFunction,
     onSuccess: () => {
