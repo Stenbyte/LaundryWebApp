@@ -23,6 +23,7 @@ import {
 } from "../../constants";
 import { useMemo, useState } from "react";
 import { MachineSelectBtn } from "../Buttons/MachineSelectBtn";
+import { useFetchMachines } from "../../hooks/ machineHooks";
 
 export function BookingHeader({
   data,
@@ -35,6 +36,9 @@ export function BookingHeader({
     MachineNameEnum.washing
   );
   const { data: userData } = useAuthContext();
+  const { data: machines } = useFetchMachines();
+
+
   const reservationCount = data.bookings?.find(
     (booking) => booking.userId === userData?.userId
   )?.reservationsLeft;
