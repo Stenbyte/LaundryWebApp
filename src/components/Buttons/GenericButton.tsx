@@ -1,4 +1,5 @@
 import { Button } from "@mui/material";
+import React from "react";
 
 interface GenericButtonProps {
   onClick?: () => void;
@@ -9,7 +10,7 @@ interface GenericButtonProps {
   testid?: string;
 }
 
-export function GenericButton({
+export const GenericButton = React.memo(function GenericButton({
   onClick,
   children,
   className,
@@ -28,4 +29,4 @@ export function GenericButton({
       {children}
     </Button>
   );
-}
+});

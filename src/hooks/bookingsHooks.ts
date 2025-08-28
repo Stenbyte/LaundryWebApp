@@ -4,6 +4,7 @@ import { cancelAllBookings } from "../services/BookingService";
 import { Booking } from "../constants";
 import api from "../services/AxiosConfig";
 import { Config } from "../../config";
+import { AxiosError } from "axios";
 
 export const useCancel = () => {
   const queryClient = useQueryClient();
@@ -28,11 +29,14 @@ export const useFetchBookings = (userId?: string) => {
     queryKey: ["bookings"],
     queryFn: async (): Promise<Booking[]> => {
       try {
-        const { data } = await api.get(`${Config.API_BASE_URL}/api/booking/getAll`);
-        return data;
+        const data = await api.get(`${Config.API_BASE_URL}/api/booking/getAll`);
+        return data.data as Booking[];
 
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      } catch (err) {
+
+      } catch (error: unknown) {
+        if (error instanceof AxiosError) {
+          throw new Error(`Failed to fetch: ${error.message}`)
+        }
         throw new Error("Failed to fetch bookings data");
       }
     },
