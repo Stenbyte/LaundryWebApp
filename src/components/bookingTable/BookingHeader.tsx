@@ -15,12 +15,7 @@ import { CancelBtn } from "../Buttons/Cancel";
 import { ReportBtn } from "../Buttons/Report";
 import "../../App.css";
 import { useAuthContext } from "../../context/UseAuthContext";
-import {
-  Booking,
-  Machine,
-  MachineNameEnum,
-  MachineStatusEnum,
-} from "../../constants";
+import { Booking, MachineNameEnum } from "../../constants";
 import { useMemo, useState } from "react";
 import { MachineSelectBtn } from "../Buttons/MachineSelectBtn";
 import { useFetchMachines } from "../../hooks/ machineHooks";
@@ -53,29 +48,9 @@ export function BookingHeader({
     );
   }, [data.bookings, userData?.userId]);
 
-  const dummyData: Machine[] = [
-    {
-      _id: "68891e26cf6f624d975a3bf1",
-      name: MachineNameEnum.washing,
-      status: MachineStatusEnum.available,
-      buildingId: "123",
-    },
-    {
-      _id: "68891e26cf6f624d975a3bf3",
-      name: MachineNameEnum.washing,
-      status: MachineStatusEnum.available,
-      buildingId: "123",
-    },
-    {
-      _id: "68891e26cf6f624d975a3bf4",
-      name: MachineNameEnum.dryer,
-      status: MachineStatusEnum.maintenance,
-      buildingId: "123",
-    },
-  ];
 
   function ShowMachinesNameAndCounts() {
-    const getMachinesCount = dummyData.filter((machine) => {
+    const getMachinesCount = machines?.filter((machine) => {
       if (machineLabel === MachineNameEnum.washing) {
         return machine.name === MachineNameEnum.washing;
       } else {
@@ -118,8 +93,8 @@ export function BookingHeader({
             </FormGroup>
           </Box>
           <Box className="booking-machines-status-box">
-            {dummyData
-              .filter((m) => m.name === machineLabel)
+            {machines
+              ?.filter((m) => m.name === machineLabel)
               .map((machine) => {
                 return (
                   <Box
