@@ -95,13 +95,13 @@ export function BookingHeader({
           <Box className="booking-machines-status-box">
             {machines
               ?.filter((m) => m.name === machineLabel)
-              .map((machine) => {
+              .map((machine, index) => {
                 return (
                   <Box
                     sx={{
                       width: "100px",
                     }}
-                    key={machine._id}
+                    key={machine._id ?? index}
                   >
                     <MachineSelectBtn
                       disabledBtnIfNoBookings={machine.status}

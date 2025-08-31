@@ -103,24 +103,23 @@ export function BookingTable() {
   };
 
   const selectedMachineId = useAppSelector((state) => state.selectMachine._id);
-  console.log(selectedMachineId);
+  console.log(selectedMachineId, "selectedMachineId");
+  // TODO Add message to tooltip about machines selectivity that it will be automatic for both machines and that they are reserved in groups like machine plus dryer.
 
   const getReservedSlotData = (day: string, time: string) => {
     for (const booking of bookings || []) {
-      if (selectedMachineId === booking.machineId.toString()) {
-        for (const slot of booking.slots) {
-          if (
-            dayjs(slot.day).format("YYYY-MM-DD") ===
-              dayjs(day).format("YYYY-MM-DD") &&
-            slot.timeSlots.includes(time) &&
-            slot.booked
-          ) {
-            return {
-              isBooked: slot.booked,
-              slotId: slot.id,
-              bookingUserId: booking.userId,
-            };
-          }
+      for (const slot of booking.slots) {
+        if (
+          dayjs(slot.day).format("YYYY-MM-DD") ===
+            dayjs(day).format("YYYY-MM-DD") &&
+          slot.timeSlots.includes(time) &&
+          slot.booked
+        ) {
+          return {
+            isBooked: slot.booked,
+            slotId: slot._id,
+            bookingUserId: booking.userId,
+          };
         }
       }
     }
@@ -202,7 +201,7 @@ export function BookingTable() {
                           }
                           key={slotId}
                           onClick={() => {
-                            edit({ id: slotId });
+                            edit({ _id: slotId });
                           }}
                         >
                           Booked

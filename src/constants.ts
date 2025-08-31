@@ -26,17 +26,17 @@ export interface BookingSlot {
     day: string;
     timeSlots: string[];
     booked?: boolean;
-    id?: string;
+    _id?: string;
 }
 export interface Booking {
     userId: string;
     machineId: string;
     slots: BookingSlot[];
     reservationsLeft: number;
-    id?: string;
+    _id?: string;
 }
 export interface EditSlotId {
-    id: string | undefined;
+    _id: string | undefined;
 }
 
 export const TIME_SLOTS = ["08:00-11:00", "11:00-14:00", "14:00-17:00", "17:00-20:00"];
