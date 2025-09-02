@@ -57,7 +57,7 @@ export function BookingHeader({
         return machine.name === MachineNameEnum.dryer;
       }
     }).length;
-    return machineLabel + getMachinesCount;
+    return machineLabel + (getMachinesCount ? getMachinesCount : "");
   }
 
   return (
