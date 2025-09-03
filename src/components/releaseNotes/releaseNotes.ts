@@ -1,6 +1,10 @@
 export const news =
     [
         {
+            date: 'Sep 1, 2025',
+            change: "Fetching machines from db, able to select machines. Preparing machines selector to be automatic and manual at the same time"
+        },
+        {
             date: 'Aug 24, 2025',
             change: "Added Redux for selecting machine functionality, will be used to render available bookings based on selected machine"
         },
