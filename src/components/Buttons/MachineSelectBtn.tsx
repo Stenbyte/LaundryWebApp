@@ -3,7 +3,7 @@ import { GenericButton } from "./GenericButton";
 
 import { setMachine } from "../../reduxState/selectMachineSlice";
 import { useAppDispatch, useAppSelector } from "../../reduxState/store";
-import { Machine, MachineStatusEnum } from "../../constants";
+import { Machine, MachineNameEnum, MachineStatusEnum } from "../../constants";
 import { Badge } from "@mui/material";
 
 export function MachineSelectBtn({
@@ -11,19 +11,32 @@ export function MachineSelectBtn({
   machine,
 }: {
   disabledBtnIfNoBookings: MachineStatusEnum;
-  machine: Partial<Machine>;
+  machine: Machine;
 }) {
   const dispatch = useAppDispatch();
 
   const selectMachine = useCallback(() => {
-    if (typeof machine._id === "string") {
-      dispatch(setMachine({ _id: machine._id! }));
+    if (
+      typeof machine._id === "string" &&
+      Object.values(MachineStatusEnum).includes(machine.status) &&
+      Object.values(MachineNameEnum).includes(machine.name) &&
+      typeof machine.buildingId === "string"
+    ) {
+      dispatch(
+        setMachine({
+          _id: machine._id!,
+          name: machine.name,
+          buildingId: machine.buildingId,
+          status: machine.status,
+        })
+      );
     }
-  }, [dispatch, machine._id]);
-  const selectedMachineId = useAppSelector((state) => state.selectMachine._id);
+  }, [dispatch, machine]);
+  const selectedMachineId = useAppSelector((state) => state.selectMachine);
+  console.log(selectedMachineId, "ooooopppps");
   return (
     <>
-      {selectedMachineId === machine._id && (
+      {selectedMachineId.some((m) => m?._id === machine._id) && (
         <Badge
           badgeContent=""
           variant="dot"
