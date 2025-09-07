@@ -1,6 +1,10 @@
 export const news =
     [
         {
+            date: 'Sep 7, 2025',
+            change: "Added automatic machine selector"
+        },
+        {
             date: 'Sep 1, 2025',
             change: "Fetching machines from db, able to select machines. Preparing machines selector to be automatic and manual at the same time"
         },
