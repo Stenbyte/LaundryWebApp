@@ -65,7 +65,7 @@ export function BookingHeader({
       <Paper elevation={20} className="booking-header-paper">
         <Box className="booking-header-box">
           <Tooltip
-            title="Select machine, bookings will be displayed based on selected machine"
+            title="Bookings will be displayed based on selected machine. By default washing and dryer will be selecte automatically"
             className="infoIcon"
             placement="top"
           >
@@ -106,6 +106,7 @@ export function BookingHeader({
                     <MachineSelectBtn
                       disabledBtnIfNoBookings={machine.status}
                       machine={machine}
+                      allMachines={machines}
                     />
                   </Box>
                 );

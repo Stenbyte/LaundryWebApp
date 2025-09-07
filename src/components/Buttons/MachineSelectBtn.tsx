@@ -1,7 +1,10 @@
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { GenericButton } from "./GenericButton";
 
-import { setMachine } from "../../reduxState/selectMachineSlice";
+import {
+  autoSelectMachines,
+  setMachine,
+} from "../../reduxState/selectMachineSlice";
 import { useAppDispatch, useAppSelector } from "../../reduxState/store";
 import { Machine, MachineNameEnum, MachineStatusEnum } from "../../constants";
 import { Badge } from "@mui/material";
@@ -9,11 +12,44 @@ import { Badge } from "@mui/material";
 export function MachineSelectBtn({
   disabledBtnIfNoBookings,
   machine,
+  allMachines,
 }: {
   disabledBtnIfNoBookings: MachineStatusEnum;
   machine: Machine;
+  allMachines: Machine[];
 }) {
   const dispatch = useAppDispatch();
+  const selectedMachines = useAppSelector((state) => state.selectMachine);
+  useEffect(() => {
+    const getWashingForAutoSelect = allMachines.find(
+      (m) =>
+        m.name === MachineNameEnum.washing &&
+        m.status === MachineStatusEnum.available
+    );
+    const getDryerForAutoSelect = allMachines.find(
+      (m) =>
+        m.name === MachineNameEnum.dryer &&
+        m.status === MachineStatusEnum.available
+    );
+
+    const alreadyHasWashing = selectedMachines.some(
+      (m) => m?.name === MachineNameEnum.washing
+    );
+    const alreadyHasDryer = selectedMachines.some(
+      (m) => m?.name === MachineNameEnum.dryer
+    );
+
+    if (
+      getDryerForAutoSelect &&
+      getWashingForAutoSelect &&
+      !alreadyHasWashing &&
+      !alreadyHasDryer
+    ) {
+      dispatch(
+        autoSelectMachines([getWashingForAutoSelect, getDryerForAutoSelect])
+      );
+    }
+  }, [allMachines, dispatch, selectedMachines]);
 
   const selectMachine = useCallback(() => {
     if (
@@ -32,11 +68,10 @@ export function MachineSelectBtn({
       );
     }
   }, [dispatch, machine]);
-  const selectedMachineId = useAppSelector((state) => state.selectMachine);
-  console.log(selectedMachineId, "ooooopppps");
+
   return (
     <>
-      {selectedMachineId.some((m) => m?._id === machine._id) && (
+      {selectedMachines.some((m) => m?._id === machine._id) && (
         <Badge
           badgeContent=""
           variant="dot"
