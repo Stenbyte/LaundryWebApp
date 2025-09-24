@@ -23,10 +23,11 @@ export interface RefreshTokenResponse {
 export type LoginType = InferType<typeof LoginSchema>;
 
 export interface BookingSlot {
+    _id?: string;
     day: string;
     timeSlots: string[];
     booked?: boolean;
-    _id?: string;
+    selectedMachinesIds: Pick<Machine, "_id">[]
 }
 export interface Booking {
     userId: string;

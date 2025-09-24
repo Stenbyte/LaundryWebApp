@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
-import selectMachineReducer from './selectMachineSlice';
+import selectMachinesReducer from './selectMachineSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 
 export const store = configureStore({
     reducer: {
-        selectMachine: selectMachineReducer
+        selectMachines: selectMachinesReducer
     },
 })
 

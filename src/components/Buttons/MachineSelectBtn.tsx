@@ -19,7 +19,7 @@ export function MachineSelectBtn({
   allMachines: Machine[];
 }) {
   const dispatch = useAppDispatch();
-  const selectedMachines = useAppSelector((state) => state.selectMachine);
+  const selectedMachines = useAppSelector((state) => state.selectMachines);
   useEffect(() => {
     const getWashingForAutoSelect = allMachines.find(
       (m) =>

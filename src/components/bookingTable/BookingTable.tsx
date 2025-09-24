@@ -23,7 +23,7 @@ import { BookingHeader } from "./BookingHeader";
 import { toast } from "react-toastify";
 import { useUIContext } from "../../context/UseUIContext";
 import { useAuthContext } from "../../context/UseAuthContext";
-import { BookingSlot, EditSlotId, TIME_SLOTS } from "../../constants";
+import { BookingSlot, EditSlotId, Machine, TIME_SLOTS } from "../../constants";
 import { useFetchBookings } from "../../hooks/bookingsHooks";
 import { useAppSelector } from "../../reduxState/store";
 
@@ -46,6 +46,8 @@ export function BookingTable() {
     isLoading,
     isError,
   } = useFetchBookings(userData?.userId);
+
+  const selectedMachines = useAppSelector((state) => state.selectMachines);
 
   if (isError) {
     toast(`Failed to fetch reservations`);
@@ -102,8 +104,6 @@ export function BookingTable() {
     }
   };
 
-  const selectedMachineId = useAppSelector((state) => state.selectMachine._id);
-  console.log(selectedMachineId, "selectedMachineId");
   // TODO Add message to tooltip about machines selectivity that it will be automatic for both machines and that they are reserved in groups like machine plus dryer.
 
   const getReservedSlotData = (day: string, time: string) => {
@@ -212,7 +212,14 @@ export function BookingTable() {
                           size="small"
                           data-testid={`reserve-slot-${slotIndex}-${dayIndex}`}
                           onClick={() => {
-                            reserve({ day, timeSlots: [timeSlots] });
+                            const machinesIds = selectedMachines.map(
+                              (m) => m?._id
+                            ) as unknown as Pick<Machine, "_id">[];
+                            reserve({
+                              day,
+                              timeSlots: [timeSlots],
+                              selectedMachinesIds: machinesIds,
+                            });
                           }}
                         >
                           Reserve

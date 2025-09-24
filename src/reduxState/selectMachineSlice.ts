@@ -4,7 +4,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 const initialState: Partial<Machine[]> = []
 
 const machineSelectSlice = createSlice({
-    name: 'selectMachine',
+    name: 'selectMachines',
     initialState,
     reducers: {
         setMachine: (state, action: PayloadAction<Machine>) => {
@@ -15,12 +15,14 @@ const machineSelectSlice = createSlice({
                 state.push(incomingMachine)
             }
         },
-        autoSelectMachines: (state, action: PayloadAction<Machine[]>) => {
+        autoSelectMachines: (state, action: PayloadAction<Partial<Machine>[]>) => {
             action.payload.forEach((newMachine) => {
+
                 const alreadyExists = state.some((m) => m?._id === newMachine._id);
                 if (!alreadyExists) {
-                    state.push(newMachine);
+                    state.push(newMachine as Machine);
                 }
+
             });
         }
     }
