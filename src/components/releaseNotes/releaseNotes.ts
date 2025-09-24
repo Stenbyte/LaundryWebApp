@@ -1,6 +1,10 @@
 export const news =
     [
         {
+            date: 'Sep 23, 2025',
+            change: "Added Postgres and checking connection, moving from MongoDb"
+        },
+        {
             date: 'Sep 7, 2025',
             change: "Added automatic machine selector"
         },
