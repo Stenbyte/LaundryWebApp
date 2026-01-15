@@ -1,7 +1,7 @@
 
 import { AxiosError } from "axios";
 import { Config } from "../../config";
-import api from '../services/AxiosConfig';
+import { api } from '../services/AxiosConfig';
 import dayjs from "dayjs";
 import { BookingSlot, EditSlotId } from "../constants";
 

@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { cancelAllBookings } from "../services/BookingService";
 import { Booking } from "../constants";
-import api from "../services/AxiosConfig";
+import { api } from "../services/AxiosConfig";
 import { Config } from "../../config";
 import { AxiosError } from "axios";
 

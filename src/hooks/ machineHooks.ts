@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
 import { Machine } from "../constants"
-import api from '../services/AxiosConfig';
+import { api } from '../services/AxiosConfig';
 import { Config } from "../../config";
 import { AxiosError } from "axios";
 
