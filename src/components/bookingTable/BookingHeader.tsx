@@ -30,23 +30,22 @@ export function BookingHeader({
   const [machineLabel, setMachineLabel] = useState<MachineNameEnum>(
     MachineNameEnum.washing
   );
-  const { data: userData } = useAuthContext();
+  const { user } = useAuthContext();
   const { data: machines } = useFetchMachines();
 
-
   const reservationCount = data.bookings?.find(
-    (booking) => booking.userId === userData?.userId
+    (booking) => booking.userId === user?.userId
   )?.reservationsLeft;
 
   const disabledBtnIfNoBookings = useMemo(() => {
     return (
       data.bookings?.some(
         (booking) =>
-          booking.userId.toString() === userData?.userId.toString() &&
+          booking.userId.toString() === user?.userId.toString() &&
           booking.slots.some((slot) => slot.booked === true)
       ) ?? false
     );
-  }, [data.bookings, userData?.userId]);
+  }, [data.bookings, user?.userId]);
 
 
   function ShowMachinesNameAndCounts() {

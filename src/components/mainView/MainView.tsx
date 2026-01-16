@@ -6,13 +6,13 @@ import { Login } from "../login/Login";
 export default function MainView() {
   const { user, isLoading } = useAuthContext();
 
-  const isLoggedIn = !isLoading && !user?.userId;
+  const isLoggedIn = !!user?.userId;
 
   return (
     <>
       {isLoading && <LoadingCircle />}
-      {isLoggedIn && <Login />}
-      {!isLoggedIn && <BookingTable />}
+      {!isLoggedIn && <Login />}
+      {isLoggedIn && <BookingTable />}
     </>
   );
 }

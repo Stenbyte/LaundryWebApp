@@ -12,15 +12,15 @@ const queryClient = new QueryClient();
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <AxiosInterceptorProvider>
-        <AuthProvider>
+      <AuthProvider>
+        <AxiosInterceptorProvider>
           <UIProvider>
             <Provider store={store}>
               <App />
             </Provider>
           </UIProvider>
-        </AuthProvider>
-      </AxiosInterceptorProvider>
+        </AxiosInterceptorProvider>
+      </AuthProvider>
     </QueryClientProvider>
   </StrictMode>
 );

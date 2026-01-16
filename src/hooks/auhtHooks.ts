@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
-import api from "../services/AxiosConfig";
+import { api } from "../services/AxiosConfig";
 import { LoginPayload, LoginResponse, LogOutResponse, RefreshTokenResponse, UserData } from "../constants";
+import { useAuthContext } from "../context/UseAuthContext";
 
 
 
@@ -22,12 +23,14 @@ const logOutUser = async (data: UserData): Promise<LogOutResponse> => {
 }
 export const useLogin = () => {
   const queryClient = useQueryClient();
+  const { setAccessToken } = useAuthContext();
+
 
   return useMutation<LoginResponse, Error, LoginPayload>({
     mutationFn: loginUser,
     onSuccess: (data) => {
+      setAccessToken(data.token)
       queryClient.invalidateQueries({ queryKey: ["auth"] });
-      sessionStorage.setItem("access_token", data.token);
     }
   });
 };
@@ -44,7 +47,7 @@ export const useLogOut = () => {
   });
 }
 
-export const useAuth = () => {
+export const useAuth = (enabled: boolean) => {
   return useQuery({
     queryKey: ["auth"],
     queryFn: async (): Promise<UserData> => {
@@ -57,26 +60,7 @@ export const useAuth = () => {
       }
     },
     retry: 0,
+    enabled: enabled,
     staleTime: 1000 * 60 * 5
-  });
-};
-
-
-export const useRefreshToken = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation<RefreshTokenResponse, Error>({
-    mutationFn: async (): Promise<RefreshTokenResponse> => {
-      const response = await api.post<RefreshTokenResponse>("/auth/refresh");
-      return response.data;
-    },
-
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["auth"] });
-    },
-    onError: (err) => {
-      queryClient.setQueryData(["auth"], null);
-      return Promise.reject(err);
-    },
   });
 };

@@ -1,9 +1,7 @@
 import { useContext } from "react";
-import { AuthContext } from "./AuthContext";
-import { UserData } from "../constants";
-import { UseQueryResult } from "@tanstack/react-query";
+import { AuthContext, AuthContextType } from "./AuthContext";
 
-export const useAuthContext = (): UseQueryResult<UserData | null> => {
+export const useAuthContext = (): AuthContextType => {
   const context = useContext(AuthContext);
 
   return context;

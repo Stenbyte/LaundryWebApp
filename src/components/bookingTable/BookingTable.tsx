@@ -32,7 +32,7 @@ dayjs.extend(timezone);
 
 export function BookingTable() {
   const { disabledBtn, dispatch } = useUIContext();
-  const { data: userData } = useAuthContext();
+  const { user } = useAuthContext();
 
   const today = dayjs();
   const weekDays = Array.from({ length: 7 }, (_, i) =>
@@ -41,11 +41,7 @@ export function BookingTable() {
 
   const queryClient = useQueryClient();
 
-  const {
-    data: bookings,
-    isLoading,
-    isError,
-  } = useFetchBookings(userData?.userId);
+  const { data: bookings, isLoading, isError } = useFetchBookings(user?.userId);
 
   const selectedMachines = useAppSelector((state) => state.selectMachines);
 
@@ -125,7 +121,7 @@ export function BookingTable() {
     }
     return { isBooked: false, slotId: undefined, bookingUserId: undefined };
   };
-  if (!userData?.userId) {
+  if (!user?.userId) {
     return null;
   }
 
@@ -185,8 +181,7 @@ export function BookingTable() {
                       ) : isBooked ? (
                         <Button
                           className={`${
-                            bookingUserId?.toString() !==
-                            userData.userId.toString()
+                            bookingUserId?.toString() !== user.userId.toString()
                               ? "bookedSlot"
                               : !disabledBtn
                               ? "bookedEditSlot"
@@ -194,8 +189,7 @@ export function BookingTable() {
                           }`}
                           data-testid={`booked-slot-${slotIndex}-${dayIndex}`}
                           disabled={
-                            bookingUserId?.toString() ===
-                            userData.userId.toString()
+                            bookingUserId?.toString() === user.userId.toString()
                               ? disabledBtn
                               : true
                           }

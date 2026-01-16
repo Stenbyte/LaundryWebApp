@@ -6,7 +6,7 @@ import { useAuthContext } from "../../context/UseAuthContext";
 
 export function UserMenu() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const { data: userData } = useAuthContext();
+  const { user } = useAuthContext();
   const open = Boolean(anchorEl);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -37,7 +37,7 @@ export function UserMenu() {
         <MenuItem onClick={handleClose}>Profile</MenuItem>
         <MenuItem
           onClick={async () => {
-            await logOut.mutateAsync(userData!);
+            await logOut.mutateAsync(user!);
             handleClose();
           }}
         >
