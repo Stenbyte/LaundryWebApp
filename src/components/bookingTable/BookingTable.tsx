@@ -41,7 +41,7 @@ export function BookingTable() {
 
   const queryClient = useQueryClient();
 
-  const { data: bookings, isLoading, isError } = useFetchBookings(user?.userId);
+  const { data: bookings, isError } = useFetchBookings();
 
   const selectedMachines = useAppSelector((state) => state.selectMachines);
 
@@ -121,13 +121,7 @@ export function BookingTable() {
     }
     return { isBooked: false, slotId: undefined, bookingUserId: undefined };
   };
-  if (!user?.userId) {
-    return null;
-  }
 
-  if (isLoading) {
-    return <>Loading....</>;
-  }
   return (
     <div className="bookingTable" data-testid="booking-skeleton">
       <BookingHeader
@@ -181,7 +175,8 @@ export function BookingTable() {
                       ) : isBooked ? (
                         <Button
                           className={`${
-                            bookingUserId?.toString() !== user.userId.toString()
+                            bookingUserId?.toString() !==
+                            user?.userId.toString()
                               ? "bookedSlot"
                               : !disabledBtn
                               ? "bookedEditSlot"
@@ -189,7 +184,8 @@ export function BookingTable() {
                           }`}
                           data-testid={`booked-slot-${slotIndex}-${dayIndex}`}
                           disabled={
-                            bookingUserId?.toString() === user.userId.toString()
+                            bookingUserId?.toString() ===
+                            user?.userId.toString()
                               ? disabledBtn
                               : true
                           }

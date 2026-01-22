@@ -2,17 +2,32 @@ import { BookingTable } from "../bookingTable/BookingTable";
 import LoadingCircle from "../loadingCircle/LoadingCircle";
 import { useAuthContext } from "../../context/UseAuthContext";
 import { Login } from "../login/Login";
+import { Suspense } from "react";
 
 export default function MainView() {
-  const { user, isLoading } = useAuthContext();
+  const { user, isLoading: authLoading } = useAuthContext();
 
-  const isLoggedIn = !!user?.userId;
+  if (authLoading) return <LoadingCircle />;
 
   return (
     <>
-      {isLoading && <LoadingCircle />}
-      {!isLoggedIn && <Login />}
-      {isLoggedIn && <BookingTable />}
+      <>
+        {!user?.userId ? (
+          <Login />
+        ) : (
+          <Suspense fallback={<Loading />}>
+            <BookingTable />
+          </Suspense>
+        )}
+      </>
+    </>
+  );
+}
+
+function Loading() {
+  return (
+    <>
+      <h1>🌀 Loading...</h1>
     </>
   );
 }

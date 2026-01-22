@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { cancelAllBookings } from "../services/BookingService";
 import { Booking } from "../constants";
@@ -24,8 +24,8 @@ export const useCancel = () => {
   })
 };
 
-export const useFetchBookings = (userId?: string) => {
-  return useQuery({
+export const useFetchBookings = () => {
+  return useSuspenseQuery({
     queryKey: ["bookings"],
     queryFn: async (): Promise<Booking[]> => {
       try {
@@ -41,6 +41,6 @@ export const useFetchBookings = (userId?: string) => {
       }
     },
     retry: 0,
-    enabled: !!userId,
+    // enabled: !!userId,
   });
 };
