@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import { api } from "../services/AxiosConfig";
-import { LoginPayload, LoginResponse, LogOutResponse, RefreshTokenResponse, UserData } from "../constants";
+import { LoginPayload, LoginResponse, LogOutResponse, UserData } from "../constants";
 import { useAuthContext } from "../context/UseAuthContext";
 
 
@@ -37,12 +37,15 @@ export const useLogin = () => {
 
 export const useLogOut = () => {
   const queryClient = useQueryClient();
+  const { setAccessToken } = useAuthContext();
 
   return useMutation<LogOutResponse, Error, UserData>({
     mutationFn: logOutUser,
-    onSuccess: () => {
+    onSettled: () => {
       sessionStorage.clear()
+      setAccessToken(null)
       queryClient.setQueryData(["auth"], null);
+      queryClient.clear();
     },
   });
 }

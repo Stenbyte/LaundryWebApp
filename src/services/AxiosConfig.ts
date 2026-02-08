@@ -7,7 +7,7 @@ import { Config } from "../../config";
 
 export const api = axios.create({
   baseURL: `${Config.API_BASE_URL}/api`,
-  withCredentials: true, // Crucial for your HTTP-only cookies!
+  withCredentials: true,
 });
 
 export const refreshTokenApi = axios.create({

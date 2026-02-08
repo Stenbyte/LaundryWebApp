@@ -37,6 +37,7 @@ export function BookingHeader({
     (booking) => booking.userId === user?.userId
   )?.reservationsLeft;
 
+  // maybe extract fn to separate service, instead calling everywhere useAuthCtx ? just revisit
   const disabledBtnIfNoBookings = useMemo(() => {
     return (
       data.bookings?.some(
@@ -46,7 +47,6 @@ export function BookingHeader({
       ) ?? false
     );
   }, [data.bookings, user?.userId]);
-
 
   function ShowMachinesNameAndCounts() {
     const getMachinesCount = machines?.filter((machine) => {
