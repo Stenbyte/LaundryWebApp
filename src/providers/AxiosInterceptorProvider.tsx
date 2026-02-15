@@ -5,9 +5,9 @@ import { useQueryClient } from "@tanstack/react-query";
 import LoadingCircle from "../components/loadingCircle/LoadingCircle";
 
 let isRefreshing = false;
-let refreshSubscribers: ((token: string) => void)[] = [];
+let refreshSubscribers: ((token: string | null) => void)[] = [];
 
-const onRefreshed = (token: string) => {
+const onRefreshed = (token: string | null) => {
   refreshSubscribers.forEach((cb) => cb(token));
   refreshSubscribers = [];
 };
@@ -20,12 +20,15 @@ export const AxiosInterceptorProvider = ({
   const { accessToken, setAccessToken } = useAuthContext();
   const [isInitialized, setIsInitialized] = useState(false);
   const refreshStarted = useRef(false);
+  const tokenRef = useRef<string | null>(null);
   const queryClient = useQueryClient();
+
+  tokenRef.current = accessToken;
 
   useLayoutEffect(() => {
     const authInterceptor = api.interceptors.request.use((config) => {
-      if (accessToken) {
-        config.headers.Authorization = `Bearer ${accessToken}`;
+      if (tokenRef.current) {
+        config.headers.Authorization = `Bearer ${tokenRef.current}`;
       }
       return config;
     });
@@ -33,13 +36,24 @@ export const AxiosInterceptorProvider = ({
     const refreshInterceptor = api.interceptors.response.use(
       (response) => response,
       async (error) => {
+        if (!error.config) {
+          return Promise.reject(error);
+        }
         const originalRequest = error.config;
-        if (error.response?.status === 401 && !originalRequest._retry) {
+        if (
+          error.response?.status === 401 &&
+          !originalRequest._retry &&
+          !originalRequest.url.includes("/auth/")
+        ) {
           originalRequest._retry = true;
 
           if (isRefreshing) {
-            return new Promise((resolve) => {
+            return new Promise((resolve, reject) => {
               refreshSubscribers.push((token) => {
+                if (!token) {
+                  reject(error);
+                  return;
+                }
                 originalRequest.headers.Authorization = `Bearer ${token}`;
                 resolve(api(originalRequest));
               });
@@ -55,13 +69,16 @@ export const AxiosInterceptorProvider = ({
             const newToken = response.data.accessToken;
 
             setAccessToken(newToken);
-            onRefreshed(newToken);
+            tokenRef.current = newToken;
+            onRefreshed(tokenRef.current);
             isRefreshing = false;
             originalRequest.headers.Authorization = `Bearer ${newToken}`;
             return api(originalRequest);
           } catch (refreshError) {
             setAccessToken(null);
+            tokenRef.current = null;
             isRefreshing = false;
+            refreshSubscribers.forEach((cb) => cb(""));
             refreshSubscribers = [];
             sessionStorage.clear();
             queryClient.setQueryData(["auth"], null);
@@ -76,7 +93,7 @@ export const AxiosInterceptorProvider = ({
       api.interceptors.request.eject(authInterceptor);
       api.interceptors.response.eject(refreshInterceptor);
     };
-  }, [accessToken, setAccessToken]);
+  }, []);
 
   useEffect(() => {
     const initRefresh = async () => {
@@ -85,13 +102,14 @@ export const AxiosInterceptorProvider = ({
       try {
         const response = await refreshTokenApi.post(`/auth/refreshToken`, {});
         setAccessToken(response.data.accessToken);
+        tokenRef.current = response.data.accessToken;
       } catch {
       } finally {
         setIsInitialized(true);
       }
     };
 
-    if (!accessToken) {
+    if (!tokenRef.current) {
       initRefresh();
     } else {
       setIsInitialized(true);
