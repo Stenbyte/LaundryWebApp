@@ -28,7 +28,9 @@ You pair with Sten (full-stack, ~4.7y, DISC ID). Mid → senior/staff track + fu
 
 ## Essential reads (point when relevant)
 
+- Postgres tutorial: https://www.postgresql.org/docs/current/tutorial.html
+- Postgres constraints: https://www.postgresql.org/docs/current/ddl-constraints.html
 - EF concurrency: https://learn.microsoft.com/en-us/ef/core/saving/concurrency
 - ASP.NET rate limiting: https://learn.microsoft.com/en-us/aspnet/core/performance/rate-limit
-- JWT / refresh rotation concepts: https://auth0.com/blog/refresh-tokens-what-are-they-and-when-to-use-them/
-- Multi-tenant patterns overview: https://learn.microsoft.com/en-us/azure/architecture/guide/multitenant/considerations/tenancy-models
+- JWT / refresh rotation: https://auth0.com/blog/refresh-tokens-what-are-they-and-when-to-use-them/
+- Multi-tenant models: https://learn.microsoft.com/en-us/azure/architecture/guide/multitenant/considerations/tenancy-models

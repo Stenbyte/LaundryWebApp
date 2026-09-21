@@ -9,16 +9,17 @@ Product: Denmark tenant/landlord laundry booking. Local-first. No Azure deploy u
 
 ## In scope
 
-1. Finish Mongo → Postgres cutover (auth/bookings/tenants must not depend on Mongo).
-2. Refresh tokens persisted in Postgres; verify cookie auth (HttpOnly/Secure/SameSite) during that work.
-3. Book + cancel laundry slots end-to-end on Postgres.
-4. No double booking: DB uniqueness/concurrency on slot + tests.
-5. Tenant isolation: shared DB + tenant/building key on rows + enforced filters + integration tests. No separate-schema / RLS in V1.
-6. Landlord creates tenant accounts (option A) — allowlist only; no open self-serve signup for booking users.
-7. BuildingSettings foundation: slot length, max bookings/week (even if UI is minimal).
-8. API + Web versioning basics (not Danish i18n yet).
-9. Tests on auth + booking isolation paths.
-10. Landlord panel only as far as: manage tenants + see bookings.
+1. Re-establish local Postgres (runtime, connection string, migrations) — document setup in README if missing.
+2. Finish Mongo → Postgres cutover (auth/bookings/tenants must not depend on Mongo).
+3. Refresh tokens persisted in Postgres; verify cookie auth (HttpOnly/Secure/SameSite) during that work.
+4. Book + cancel laundry slots end-to-end on Postgres.
+5. No double booking: DB uniqueness/concurrency on slot + tests.
+6. Tenant isolation: shared DB + tenant/building key on rows + enforced filters + integration tests. No separate-schema / RLS in V1.
+7. Landlord creates tenant accounts (option A) — allowlist only; no open self-serve signup for booking users.
+8. BuildingSettings foundation: slot length, max bookings/week (even if UI is minimal).
+9. API + Web versioning basics (not Danish i18n yet).
+10. Tests on auth + booking isolation paths.
+11. Landlord panel only as far as: manage tenants + see bookings.
 
 ## Out of scope (V2+)
 
