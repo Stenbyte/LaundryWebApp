@@ -1,0 +1,31 @@
+---
+description: Locked V1 product scope — laundry booking MVP for Denmark landlords/tenants
+alwaysApply: true
+---
+
+# V1 scope (locked)
+
+Product: Denmark tenant/landlord laundry booking. Local-first. No Azure deploy until landlord panel basics exist. Free-tier when deploy later.
+
+## In scope
+
+1. Finish Mongo → Postgres cutover (auth/bookings/tenants must not depend on Mongo).
+2. Refresh tokens persisted in Postgres; verify cookie auth (HttpOnly/Secure/SameSite) during that work.
+3. Book + cancel laundry slots end-to-end on Postgres.
+4. No double booking: DB uniqueness/concurrency on slot + tests.
+5. Tenant isolation: shared DB + tenant/building key on rows + enforced filters + integration tests. No separate-schema / RLS in V1.
+6. Landlord creates tenant accounts (option A) — allowlist only; no open self-serve signup for booking users.
+7. BuildingSettings foundation: slot length, max bookings/week (even if UI is minimal).
+8. API + Web versioning basics (not Danish i18n yet).
+9. Tests on auth + booking isolation paths.
+10. Landlord panel only as far as: manage tenants + see bookings.
+
+## Out of scope (V2+)
+
+Danish i18n, notice board, slot trading, Face ID, photo fault reports, varmemester forward, CSV/PDF regnskab, App Insights/alerts, IP banlists, schema-per-tenant, RLS, cold-start ping cron, payment/Bogføringslov.
+
+## Defaults when unsure
+
+- Ship simplest correct isolation and invite model.
+- Attach learning to a shippable outcome (no orphan “learn YAML” tickets).
+- Update `ROADMAP.md` checkboxes when a milestone lands — do not expand V1 without Sten explicitly unlocking scope.
