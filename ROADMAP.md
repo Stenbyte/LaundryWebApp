@@ -8,7 +8,7 @@ Delivery shape: **one web app** → responsive by screen size → later PWA. No 
 | Stage | Focus |
 |-------|--------|
 | **V1** | Postgres cutover, bookings, tenant allowlist, isolation, versioning. Core flows work on desktop + phone **browser** (basic responsive). |
-| **V2** | Landlord value features + intentional **mobile vs desktop layouts** (breakpoint design). Danish i18n. PWA foundation (manifest / installable). |
+| **V2** | Landlord value features + intentional **mobile vs desktop layouts** (breakpoint design). Danish i18n. PWA foundation (manifest / installable). Secrets hygiene (user secrets + `.cursorignore`). |
 | **V3** | Growth features, ops, stronger isolation if needed, lean Azure deploy. PWA polish (offline shell where useful). |
 
 ## V1 — Booking core + Postgres + tenant allowlist
@@ -41,6 +41,8 @@ Delivery shape: **one web app** → responsive by screen size → later PWA. No 
 - [ ] Forward to varmemester
 - [ ] Maintenance notes
 - [ ] CSV/PDF laundry usage export
+- [ ] Move JWT + DB credentials out of committed `appsettings` into .NET user secrets / env (no secrets in git)
+- [ ] Add `.cursorignore` in API + Web (env, secrets, dumps, certs) so agent/context skips them
 - [ ] Stronger isolation if needed (RLS / schema) — only with a written why
 
 ## V3 — Growth / ops + PWA polish
