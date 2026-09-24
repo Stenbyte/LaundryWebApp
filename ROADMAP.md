@@ -1,6 +1,15 @@
 # Tenant app roadmap
 
 Engineering-first. Local until landlord basics work. Free-tier Azure later.
+Delivery shape: **one web app** → responsive by screen size → later PWA. No native app in near term.
+
+## Stages (overview)
+
+| Stage | Focus |
+|-------|--------|
+| **V1** | Postgres cutover, bookings, tenant allowlist, isolation, versioning. Core flows work on desktop + phone **browser** (basic responsive). |
+| **V2** | Landlord value features + intentional **mobile vs desktop layouts** (breakpoint design). Danish i18n. PWA foundation (manifest / installable). |
+| **V3** | Growth features, ops, stronger isolation if needed, lean Azure deploy. PWA polish (offline shell where useful). |
 
 ## V1 — Booking core + Postgres + tenant allowlist
 
@@ -17,11 +26,14 @@ Engineering-first. Local until landlord basics work. Free-tier Azure later.
 - [ ] Web app versioning basics
 - [ ] Auth + booking isolation tests in CI locally
 - [ ] Landlord panel: manage tenants + view bookings
+- [ ] Core booking/auth usable on phone browser (responsive breakpoints; same app)
 
-**V1 done when:** local Postgres is reproducible, you can run as landlord + tenant with different creds, invite/create a tenant, book without races, and prove isolation with tests — all on Postgres, no Mongo.
+**V1 done when:** local Postgres is reproducible; landlord + tenant creds work; invite/create tenant; book without races; isolation proven with tests; booking works on a phone browser — all on Postgres, no Mongo.
 
-## V2 — Landlord value (unlock after V1)
+## V2 — Landlord value + mobile layout + PWA start
 
+- [ ] Intentional responsive design: different layouts/compositions by screen size (tenant booking mobile-first where it matters; landlord denser on desktop)
+- [ ] PWA foundation: web app manifest + installability (home screen)
 - [ ] Danish i18n (react-i18n)
 - [ ] Fault report (text; photos later)
 - [ ] Upcoming booking notification
@@ -31,8 +43,9 @@ Engineering-first. Local until landlord basics work. Free-tier Azure later.
 - [ ] CSV/PDF laundry usage export
 - [ ] Stronger isolation if needed (RLS / schema) — only with a written why
 
-## V3 — Growth / ops
+## V3 — Growth / ops + PWA polish
 
+- [ ] PWA polish (service worker / light offline shell if it earns its keep)
 - [ ] Notice board (beskedtavle)
 - [ ] Slot trading
 - [ ] Audit log + retention
@@ -42,4 +55,4 @@ Engineering-first. Local until landlord basics work. Free-tier Azure later.
 
 ## Explicit non-goals for now
 
-Face ID, payments / Bogføringslov, permanent IP bans, cold-start ping as a “feature”.
+Separate native iOS/Android apps, Face ID, payments / Bogføringslov, permanent IP bans, cold-start ping as a “feature”.
